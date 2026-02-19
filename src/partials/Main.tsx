@@ -1,18 +1,22 @@
-import { Outlet } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import { useStateObject } from '../utils/useStateObject';
-
-export default function Main() {
-  // a state to use with outlet context
-  const stateAndSetter = useStateObject({
-    categoryChoice: 'All',
-    sortChoice: 'Price (low to high)',
-    bwImages: false
-  });
-
-  return <main className="mt-5">
-    <Container className="mt-5 mb-4">
-      <Outlet context={stateAndSetter} />
-    </Container>
-  </main>;
+export default function main() {
+  return (
+    <div className="homepage-images">
+      <img src="/images/movies/PulpFiction.jpg" alt="Pulp Fiction" />
+      <br />
+      <br />
+      <img
+        src="/images/movies/TheLord_of_the_rings.jpg"
+        alt="The Lord of the Rings"
+      />
+      <br />
+      <br />
+      <img src="/images/movies/TheGodFather.jpeg" alt="The GodFather" />
+      <br />
+      <br />
+      <img src="/images/movies/StarWars.jpg" alt="Star wars" />
+      <br />
+      <br />
+      <img src="/images/movies/TheShining.jpg" alt="The Shining" />
+    </div>
+  );
 }
