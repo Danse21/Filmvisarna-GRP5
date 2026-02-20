@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "title": "Pulp Fiction",
+    "genre": "Crime",
+    "duration_minutes": 154,
+    "description": "Quentin Tarantinos kultklassiker om parallella berättelser i Los Angeles undre värld, fylld av mörk humor, ikoniska dialoger och minnesvärda karaktärer.",
+    "age_limit": 15,
+    "image_url": null,
+    "slug": "pulp-fiction",
+    "imdb_link": "https://www.imdb.com/title/tt0110912/",
+    "rottentomatoes_link": "https://www.rottentomatoes.com/m/pulp_fiction",
+    "trailer_link": "https://www.youtube.com/watch?v=s7EdQ4FqbhY"
+  },
+  {
+    "id": 2,
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "genre": "Fantasy",
+    "duration_minutes": 178,
+    "description": "Första delen i Tolkiens episka saga där Frodo och hans följeslagare ger sig ut på en farlig resa för att förstöra den enda ringen.",
+    "age_limit": 11,
+    "image_url": null,
+    "slug": "lord-of-the-rings-fellowship-of-the-ring",
+    "imdb_link": "https://www.imdb.com/title/tt0120737/",
+    "rottentomatoes_link": "https://www.rottentomatoes.com/m/lord_of_the_rings_the_fellowship_of_the_ring",
+    "trailer_link": "https://www.youtube.com/watch?v=V75dMMIW2B4"
+  },
+  {
+    "id": 3,
+    "title": "The Godfather",
+    "genre": "Crime",
+    "duration_minutes": 175,
+    "description": "Francis Ford Coppolas mästerverk om familjen Corleone och maktspelet inom den italiensk-amerikanska maffian.",
+    "age_limit": 15,
+    "image_url": null,
+    "slug": "the-godfather",
+    "imdb_link": "https://www.imdb.com/title/tt0068646/",
+    "rottentomatoes_link": "https://www.rottentomatoes.com/m/godfather",
+    "trailer_link": "https://www.youtube.com/watch?v=sY1S34973zA"
+  },
+  {
+    "id": 4,
+    "title": "Star Wars: Episode IV - A New Hope",
+    "genre": "Sci-Fi",
+    "duration_minutes": 121,
+    "description": "Den klassiska rymdsagan där Luke Skywalker dras in i kampen mot Imperiet och upptäcker kraften inom sig.",
+    "age_limit": 11,
+    "image_url": null,
+    "slug": "star-wars-a-new-hope",
+    "imdb_link": "https://www.imdb.com/title/tt0076759/",
+    "rottentomatoes_link": "https://www.rottentomatoes.com/m/star_wars_episode_iv_a_new_hope",
+    "trailer_link": "https://www.youtube.com/watch?v=vZ734NWnAHA"
+  },
+  {
+    "id": 5,
+    "title": "The Shining (1980)",
+    "genre": "Horror",
+    "duration_minutes": 146,
+    "description": "Stanley Kubricks psykologiska skräckfilm om en familj isolerad på ett hotell där sakta växande galenskap tar över.",
+    "age_limit": 15,
+    "image_url": null,
+    "slug": "the-shining-1980",
+    "imdb_link": "https://www.imdb.com/title/tt0081505/",
+    "rottentomatoes_link": "https://www.rottentomatoes.com/m/shining",
+    "trailer_link": "https://www.youtube.com/watch?v=S014oGZiSdI"
+  }
+]
