@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
 
+// Header and footer is always visible. And pages render inside "outlet"
 export default function Main() {
-  return <main>
-    <Outlet />
-  </main>;
+  return (
+    <main>
+      <Outlet />
+    </main>
+  );
 }

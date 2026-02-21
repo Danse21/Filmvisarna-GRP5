@@ -1,11 +1,13 @@
-import type {JSX} from 'react';
-import{createElement} from 'react';
+import type { JSX } from "react";
+import { createElement } from "react";
 // page components
-import AboutPage from './pages/AboutPage.tsx';
-import AiChatPage from './pages/AiChatPage.tsx';
-import MovieDetailsPage from './pages/MovieDetailsPage.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
-import StartPage from './pages/StartPage.tsx';
+import AboutPage from "./pages/AboutPage.tsx";
+import AiChatPage from "./pages/AiChatPage.tsx";
+import MovieDetailsPage from "./pages/MovieDetailsPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
+import StartPage from "./pages/StartPage.tsx";
+import MenuPage from "./pages/MenuPage.tsx";
+import SearchPage from "./pages/SearchPage.tsx";
 
 interface Route {
   element: JSX.Element;
@@ -21,9 +23,11 @@ export default [
   AiChatPage,
   MovieDetailsPage,
   NotFoundPage,
-  StartPage
+  StartPage,
+  MenuPage,
+  SearchPage,
 ]
   // map the route property of each page component to a Route
-  .map(x => (({ element: createElement(x), ...x.route }) as Route))
+  .map((x) => ({ element: createElement(x), ...x.route }) as Route)
   // sort by index (and if an item has no index, sort as index 0)
   .sort((a, b) => (a.index || 0) - (b.index || 0));
