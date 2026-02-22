@@ -2,15 +2,38 @@
 // treat images as one column
 .homepage-images {
   display: flex;
-  flex-direction: column; /* 1 column */
-  align-items: center; /* center images horizontally */
-  gap: 1rem; /* space between rows */
+  flex-direction: column; // 1 column
+  align-items: center; // center images horizontally
+  gap: 1rem; // space between rows
   margin-top: 2rem;
 }
 
 .homepage-images img {
   width: 100%;
-  max-width: 400px; /* control image size */
-  height: auto; /* keep aspect ratio */
-  border-radius: 8px; /* optional: nice look */
+  max-width: 400px; // control image size
+  height: auto; // keep aspect ratio
+  border-radius: 8px;
+}
+
+// Container for pulp-fiction image
+.pulp-fiction {
+  position: relative; // allows absolute positioning inside
+}
+
+// Ensure image fills width
+.pulp-fiction img {
+  width: 100%;
+  display: block;
+}
+
+// Buttons overlay
+.pulp-fiction-buttons {
+  position: absolute;
+  top: 75%; // roughly two-thirds down
+  left: 25%;
+  transform: translate(-50%, -50%); // perfect centering
+
+  // spacing between buttons
+  display: flex;
+  gap: 1rem;
 }
