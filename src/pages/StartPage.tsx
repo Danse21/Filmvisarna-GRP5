@@ -1,6 +1,6 @@
 StartPage.route = {
   path: "/",
-  menuLabel: "Start",
+  startLabel: "Start",
   index: 1,
 };
 

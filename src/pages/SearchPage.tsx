@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,7 @@ import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 // Navigation route
 SearchPage.route = {
   path: "/search",
-  menuLabel: "Search",
+  searchLabel: "Search",
   index: 5,
 };
 

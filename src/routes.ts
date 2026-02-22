@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 import StartPage from "./pages/StartPage.tsx";
 import MenuPage from "./pages/MenuPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
 
 interface Route {
   element: JSX.Element;
@@ -26,6 +27,7 @@ export default [
   StartPage,
   MenuPage,
   SearchPage,
+  LoginPage,
 ]
   // map the route property of each page component to a Route,
   // that is converts each element so that each appears as StartPage.route, for example
