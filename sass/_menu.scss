@@ -1,0 +1,11 @@
+// Remove underline from menu items
+.menu-link {
+  text-decoration: none;
+  color: inherit;
+
+  // Create effect when cursor is placed on an item
+  &:hover {
+    text-decoration: none;
+    opacity: 0.5;
+  }
+}

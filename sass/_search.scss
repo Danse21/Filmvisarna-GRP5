@@ -1,0 +1,42 @@
+// this where the layout magic is
+.search-input-manager {
+  position: relative;
+  max-width: 400px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 2.5rem; // space for icons
+  font-size: 1rem;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #999;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.9rem;
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.clear-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.9rem;
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.search-helper-text {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+}

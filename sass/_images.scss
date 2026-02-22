@@ -1,0 +1,16 @@
+// images in the home page
+// treat images as one column
+.homepage-images {
+  display: flex;
+  flex-direction: column; /* 1 column */
+  align-items: center; /* center images horizontally */
+  gap: 1rem; /* space between rows */
+  margin-top: 2rem;
+}
+
+.homepage-images img {
+  width: 100%;
+  max-width: 400px; /* control image size */
+  height: auto; /* keep aspect ratio */
+  border-radius: 8px; /* optional: nice look */
+}
