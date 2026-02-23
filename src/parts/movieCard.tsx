@@ -2,6 +2,7 @@ import { Card, Button } from "react-bootstrap";
 import { useState } from "react";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 import TrailerModal from "../utils/trailerModal";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   movie: MovieCardDto;
@@ -9,6 +10,7 @@ interface Props {
 
 export default function MovieCard({ movie }: Props) {
   const [showTrailer, setShowTrailer] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <Card style={{ width: "18rem" }} className="mb-4">
@@ -30,6 +32,13 @@ export default function MovieCard({ movie }: Props) {
             onClick={() => setShowTrailer(true)}
           >
             Se Trailer
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => navigate(`/booking/${movie.slug}`)}
+            className="flex-fill"
+          >
+            Biljetter
           </Button>
         </Card.Body>
       </Card>
