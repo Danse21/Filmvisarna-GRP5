@@ -1,0 +1,19 @@
+.movie-info-image {
+  max-width: 200px;
+}
+
+.movie-image-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie-text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.movie-facts li {
+  line-height: 1.4;
+}

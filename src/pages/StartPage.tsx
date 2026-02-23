@@ -20,7 +20,7 @@ export default function StartPage() {
 
         {/* Overlay buttons */}
         <div className="pulp-fiction-buttons">
-          <Button variant="primary" onClick={() => navigate("/booking")}>
+          <Button variant="primary" onClick={() => navigate("/movie-Info")}>
             Biljetter
           </Button>
 
