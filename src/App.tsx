@@ -3,7 +3,7 @@ import Header from "./partials/Header";
 import Main from "./partials/Main";
 import Footer from "./partials/Footer";
 // import BootstrapBreakpoints from "./parts/BootstrapBreakpoints";
-
+import { useState } from "react";
 // turn off when not needed for debugging
 // const showBootstrapBreakpoints = true;
 
@@ -12,6 +12,7 @@ export default function App() {
   useLocation();
   window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
+  const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
   // make footer stick to the bottom even when content is short
   // and moves down naturally when content is long. Wrap everything in a flex column layout
   // main content expands (flex-grow-1)
