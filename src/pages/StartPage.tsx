@@ -1,5 +1,9 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import MovieCard from "../parts/movieCard";
+import type { MovieCardDto } from "../interfaces/moviecardDto";
 
 // Navigation route
 StartPage.route = {
@@ -10,34 +14,27 @@ StartPage.route = {
 
 export default function StartPage() {
   const navigate = useNavigate();
+  const [movies, setMovies] = useState<MovieCardDto[]>([]);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const res = await fetch("/api/movie?limit=5");
+      const data = await res.json();
+      setMovies(data);
+    }
+
+    fetchMovies();
+  }, []);
+
+
+
 
   return (
-    <div className="homepage-images">
-      {/* Add overlay buttons on the Pulp Fiction image */}
-      <div className="pulp-fiction">
-        {/* Movie image */}
-        <img src="/images/movies/pulp-fiction.jpg" alt="Pulp Fiction" />
 
-        {/* Overlay buttons */}
-        <div className="pulp-fiction-buttons">
-          <Button variant="primary" onClick={() => navigate("/movie-Info")}>
-            Biljetter
-          </Button>
-
-          <Button variant="secondary" onClick={() => navigate("/trailer")}>
-            Trailer
-          </Button>
-        </div>
-      </div>
-
-      {/* Other movie images */}
-      <img
-        src="/images/movies/lord-of-the-rings-fellowship-of-the-ring.jpg"
-        alt="The Lord of the Rings"
-      />
-      <img src="/images/movies/the-godfather.jpg" alt="The GodFather" />
-      <img src="/images/movies/star-wars-a-new-hope.jpg" alt="Star wars" />
-      <img src="/images/movies/the-shining-1980.jpg" alt="The Shining" />
+    <div className="homepage-cards">
+      {movies.map((movie) => (
+        <MovieCard key={movie.slug} movie={movie} />
+      ))}
     </div>
   );
 }
