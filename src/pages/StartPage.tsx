@@ -1,7 +1,7 @@
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Row, Col } from "react-bootstrap";
+// import { Row, Col } from "react-bootstrap";
 import MovieCard from "../parts/movieCard";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 
@@ -26,11 +26,7 @@ export default function StartPage() {
     fetchMovies();
   }, []);
 
-
-
-
   return (
-
     <div className="homepage-cards">
       {movies.map((movie) => (
         <MovieCard key={movie.slug} movie={movie} />

@@ -1,10 +1,10 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Navigation route
 MovieInfoPage.route = {
-  path: "/movie-Info",
-  movieInfoLabel: "Movie-Info",
+  path: "/movie-info/:slug", // :slug means --> this part of the URL is dynamic
+  movieInfoLabel: "Movie-info",
   index: 7,
 };
 
