@@ -34,7 +34,7 @@ export default function MovieCard({ movie }: Props) {
             </Button>
             <Button
               variant="primary"
-              onClick={() => navigate(`/movie-info/${movie.slug}`)}
+              onClick={() => navigate(`/movie/${movie.slug}`)}
               className="flex-fill"
             >
               Biljetter
