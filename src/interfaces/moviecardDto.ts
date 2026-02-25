@@ -7,8 +7,10 @@ export interface MovieCardDto {
   year: number;
   length: string;
   genre: string;
-  salon_name: string;
-  showtimes: {
+  screen_name: string;
+  showtime: {
     start_time: string;
+    showtime_id: number;
+    screen_id: number;
   }[];
 }

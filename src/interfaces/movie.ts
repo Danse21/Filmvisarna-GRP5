@@ -1,4 +1,5 @@
 export default interface Movie {
+  id: number;
   movie_id: number;
   title: string;
   genre: string;
@@ -10,4 +11,10 @@ export default interface Movie {
   rottentomatoes_link: string;
   slug: string;
   trailer_link: string;
+  screen_name: string;
+  showtime?: {
+    showtime_id: number;
+    start_time: string;
+    screen_id: number;
+  }[];
 }
