@@ -2,6 +2,8 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import type Movie from "../interfaces/movie";
 import movieLoader from "../utils/movieLoader";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import TrailerModal from "../utils/trailerModal";
+import { useState } from "react";
 
 // Route navigation
 MovieDetailsPage.route = {
@@ -12,7 +14,8 @@ MovieDetailsPage.route = {
 
 export default function MovieDetailsPage() {
   // Load movie data using movieLoader
-  const { movie } = useLoaderData() as { movie: Movie };
+  const { movie } = useLoaderData() as { movie: Movie; };
+  const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
 
@@ -40,9 +43,7 @@ export default function MovieDetailsPage() {
             />
             <Button
               className="pt-0 pb-0 mt-none"
-              variant="primary"
-              onClick={() => window.open(movie.trailer_link, "_blank")}
-            >
+              onClick={() => setShowTrailer(true)}>
               Se Trailer
             </Button>
           </div>
@@ -126,7 +127,13 @@ export default function MovieDetailsPage() {
           ))}
         </Row>
       </section>
+      <TrailerModal
+        show={showTrailer}
+        onHide={() => setShowTrailer(false)}
+        trailerUrl={movie.trailer_link}
+      />
     </Container>
+
   );
 }
 
