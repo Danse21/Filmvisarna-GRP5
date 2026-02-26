@@ -12,7 +12,7 @@
   width: 100%;
   max-width: 400px; // control image size
   height: auto; // keep aspect ratio
-  border-radius: 8px;
+  border-radius: 20px;
 }
 
 // Container for pulp-fiction image
@@ -36,4 +36,11 @@
   // spacing between buttons
   display: flex;
   gap: 1rem;
+}
+
+.movie-info-image {
+  width: 100%;
+  max-width: 400px; // control image size
+  height: auto; // keep aspect ratio
+  border-radius: 10px;
 }
