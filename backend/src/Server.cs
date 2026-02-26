@@ -1,4 +1,5 @@
 namespace WebApp;
+
 public static class Server
 {
     public static void Start()
