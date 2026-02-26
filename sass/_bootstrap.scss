@@ -6,6 +6,7 @@ $navbar-dark-color: rgba(white, 0.8) !default;
 $navbar-dark-hover-color: rgba(white, 0.9) !default;
 $primary: rgb(14, 108, 21);
 $enable-negative-margins: true;
+$body-bg: #FAECB6;
 
 // Import bootstrap
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
@@ -18,4 +19,8 @@ $enable-negative-margins: true;
 
 .container {
   max-width: 970px;
+}
+
+body {
+  background-color: #FAECB6;
 }

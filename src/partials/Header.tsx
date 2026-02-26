@@ -62,7 +62,7 @@ export default function Header() {
   const isMenuOpen = location.pathname === "/menu";
 
   return (
-    <Navbar fixed="top" className="bg-warning-subtle px-3">
+    <Navbar fixed="top" className="px-3" style={{ backgroundColor: "rgba(255, 236, 153, 0.75)" }}>
       <Container
         fluid
         className="d-flex align-items-center justify-content-between"

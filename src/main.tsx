@@ -5,7 +5,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"; // Impor
 import routes from "./routes"; // Import App's route definitions
 import App from "./App"; // Import main layout wrapper (Header + Main + Footer)
 import "../sass/index.scss"; // Imports custom SCSS styling
-import "bootstrap/dist/css/bootstrap.min.css"; // Imports Bootstrap CSS
 
 // Create a router using App as the main layout
 const router = createBrowserRouter([
