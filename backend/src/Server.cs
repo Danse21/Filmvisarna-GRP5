@@ -11,6 +11,7 @@ public static class Server
         ErrorHandler.Start();
         FileServer.Start();
         LoginRoutes.Start();
+        MovieShowtimeRoutes.Start();
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();

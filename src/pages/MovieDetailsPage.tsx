@@ -14,7 +14,7 @@ MovieDetailsPage.route = {
 
 export default function MovieDetailsPage() {
   // Load movie data using movieLoader
-  const { movie } = useLoaderData() as { movie: Movie; };
+  const { movie } = useLoaderData() as { movie: Movie };
   const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
@@ -43,7 +43,8 @@ export default function MovieDetailsPage() {
             />
             <Button
               className="pt-0 pb-0 mt-none"
-              onClick={() => setShowTrailer(true)}>
+              onClick={() => setShowTrailer(true)}
+            >
               Se Trailer
             </Button>
           </div>
@@ -133,7 +134,6 @@ export default function MovieDetailsPage() {
         trailerUrl={movie.trailer_link}
       />
     </Container>
-
   );
 }
 
