@@ -1,0 +1,60 @@
+/* Centers everything */
+.seat-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* The grid adapts its column count on each row */
+.seat-grid {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+/* Each seat styling */
+.seat {
+  width: 30px;
+  height: 30px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Highlight selected seats */
+.seat-selected {
+  background-color: #333;
+  color: white;
+}
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legend-seat {
+  width: 30px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* Seat colors */
+.seat-free {
+  background-color: #d0d0d0;
+}
+
+.seat-occupied {
+  background-color: #b00020;
+}
+
+.seat-selected {
+  background-color: #333;
+}

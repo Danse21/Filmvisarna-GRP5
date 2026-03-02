@@ -13,7 +13,7 @@ export default interface Movie {
   trailer_link: string;
   screen_name: string;
   showtime?: {
-    showtime_id: number;
+    id: number;
     start_time: string;
     screen_id: number;
   }[];

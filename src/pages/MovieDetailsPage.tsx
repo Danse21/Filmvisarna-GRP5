@@ -110,19 +110,18 @@ export default function MovieDetailsPage() {
 
         <Row className="g-3">
           {(movie.showtime ?? []).map((show) => (
-            <Col md={3} key={show.showtime_id}>
+            <Col md={3} key={show.id}>
               <Button
                 variant="outline-dark"
                 className="w-100 py-3"
                 onClick={() =>
-                  navigate(
-                    `/booking/${movie.slug}?showtimeId=${show.showtime_id}`,
-                  )
+                  navigate(`/booking/${movie.slug}?showtimeId=${show.id}`)
                 }
               >
-                {/* {show.start_time}
-                <br /> */}
-                {show.start_time}
+                {new Date(show.start_time).toLocaleString("sv-SE", {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                })}
               </Button>
             </Col>
           ))}
