@@ -7,6 +7,7 @@ public static class Server
         App = builder.Build();
         Middleware();
         DebugLog.Start();
+        BookingRoutes.Start();
         Acl.Start();
         ErrorHandler.Start();
         FileServer.Start();
@@ -15,6 +16,8 @@ public static class Server
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();
+        PriceRoutes.Start();
+        PriceCategoryRoutes.Start();
         // Start the server on port 3001
         var runUrl = "http://localhost:" + Globals.port;
         Log("Server running on:", runUrl);
