@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import type Movie from "../interfaces/movie";
-import bookingLoader from "../utils/bookingLoader";
+import bookingLoader from "../loaders/bookingLoader";
 import type {
   PriceCategory,
   PriceRow,

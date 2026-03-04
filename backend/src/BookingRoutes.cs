@@ -35,7 +35,7 @@ public static class BookingRoutes
         new { id = screen.id }
       );
 
-      // ✅ IMPORTANT: use RestResult.Parse so Obj serializes correctly
+      // IMPORTANT: use RestResult.Parse so Obj serializes correctly
       return RestResult.Parse(context, new
       {
         showtime,
