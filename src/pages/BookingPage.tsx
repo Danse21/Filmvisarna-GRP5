@@ -260,34 +260,36 @@ export default function BookingPage() {
             </div>
           </div>
 
-          {/* BARN */}
-          <div className="ticket-col">
-            <div className="ticket-price">Pris {getPrice("Child")} kr</div>
+          {/* BARN Lagt att den inte renderas om age limit är 12 eller mer*/}
+          {movie.age_limit < 12 && (
+            <div className="ticket-col">
+              <div className="ticket-price">Pris {getPrice("Child")} kr</div>
 
-            <div className="ticket-card-only">
-              <div className="ticket-label">Barn &lt; 12 år</div>
+              <div className="ticket-card-only">
+                <div className="ticket-label">Barn &lt; 12 år</div>
+              </div>
+
+              <div className="ticket-controls">
+                <button
+                  type="button"
+                  className="ticket-btn"
+                  onClick={() => changeTicket("child", -1)}
+                >
+                  -
+                </button>
+
+                <span className="ticket-count">{tickets.child}</span>
+
+                <button
+                  type="button"
+                  className="ticket-btn"
+                  onClick={() => changeTicket("child", +1)}
+                >
+                  +
+                </button>
+              </div>
             </div>
-
-            <div className="ticket-controls">
-              <button
-                type="button"
-                className="ticket-btn"
-                onClick={() => changeTicket("child", -1)}
-              >
-                -
-              </button>
-
-              <span className="ticket-count">{tickets.child}</span>
-
-              <button
-                type="button"
-                className="ticket-btn"
-                onClick={() => changeTicket("child", +1)}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          )}
 
           {/* PENSIONÄR */}
           <div className="ticket-col">

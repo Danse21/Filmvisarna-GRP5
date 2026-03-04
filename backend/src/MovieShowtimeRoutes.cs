@@ -1,4 +1,4 @@
-namespace WebApp;
+/*namespace WebApp;
 
 public static class MovieShowtimeRoutes
 {
@@ -30,6 +30,7 @@ public static class MovieShowtimeRoutes
                 FROM showtime s
                 JOIN screen sc ON sc.screen_id = s.screen_id
                 WHERE s.movie_id = @movie_id
+                AND s.start_time >= NOW()
                 ",
                 new { movie_id = movie.movie_id }
             );
@@ -43,3 +44,4 @@ public static class MovieShowtimeRoutes
         });
     }
 }
+*/
