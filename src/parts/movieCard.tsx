@@ -13,11 +13,14 @@ export default function MovieCard({ movie }: Props) {
   const navigate = useNavigate();
   return (
     <>
-      <Card className="rounded-3 overflow-hidden shadow-lg border-0">
+      <Card className="rounded-3 overflow-hidden shadow-lg border-0"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate(`/movie/${movie.slug}`)}>
         <Card.Img
           src={`/images/movies/${movie.slug}.jpg`}
           alt={movie.title}
           style={{ height: "290px", objectFit: "cover" }}
+
         />
         <Card.ImgOverlay className="d-flex flex-column justify-content-between p-2">
           <p className="mb-0 align-self-start px-2 py-1 rounded bg-dark text-white fw-semibold small">

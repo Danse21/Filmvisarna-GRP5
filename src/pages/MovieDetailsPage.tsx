@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import type Movie from "../interfaces/movie";
-import movieLoader from "../utils/movieLoader";
+import movieLoader from "../loaders/movieLoader";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import TrailerModal from "../utils/trailerModal";
 import { useState } from "react";

@@ -41,7 +41,9 @@ export default function StartPage() {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 height: "500px",
+                cursor: "pointer"
               }}
+              onClick={() => navigate(`/movie/${movies[0].slug}`)}
             >
               <p className="position-absolute top-0 start-0 m-2 px-2 py-1 rounded bg-dark text-white fw-semibold small">
                 {movies[0].age_limit}+
