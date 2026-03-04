@@ -1,0 +1,182 @@
+/* Centers everything */
+.seat-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* The grid adapts its column count on each row */
+.seat-grid {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+/* Each seat styling */
+.seat {
+  width: 30px;
+  height: 30px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Highlight selected seats */
+.seat-selected {
+  background-color: #333;
+  color: white;
+}
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legend-seat {
+  width: 30px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* Seat colors */
+.seat-free {
+  background-color: #d0d0d0;
+}
+
+.seat-occupied {
+  background-color: #b00020;
+}
+
+.seat-selected {
+  background-color: #333;
+}
+
+.row-label {
+  width: 60px;
+  text-align: right;
+  font-weight: bold;
+  color: #555;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  font-size: 10px; /* small numbers */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Big rectangle across page */
+.ticket-selector {
+  width: 100%;
+  border: 2px solid #efca34b5;
+  background: #efca34b5;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+/* 3 columns */
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* One ticket column (price + card-only + counter) */
+.ticket-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.ticket-price {
+  font-size: 16px;
+}
+
+/* Card contains ONLY the category label */
+.ticket-card-only {
+  width: 70%;
+  border: 2px solid #111;
+  border-radius: 10px;
+  padding: 14px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 56px;
+}
+
+.ticket-label {
+  font-weight: 700;
+  text-align: center;
+}
+
+.ticket-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ticket-btn {
+  width: 34px;
+  height: 34px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: white;
+  font-weight: 700;
+}
+
+.ticket-count {
+  min-width: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Totalt bigger, Till kassan smaller */
+.checkout-row {
+  display: grid;
+  grid-template-columns: 1fr 160px; /* Totalt big, kassa smaller */
+  gap: 600px;
+  align-items: stretch;
+}
+
+.total-box {
+  border: 2px solid #d7ad07;
+  border-radius: 10px;
+  background: #d7ad07;
+  padding: 12px;
+  text-align: center;
+  min-height: 60px;
+}
+
+.checkout-btn-small {
+  border: 2px solid #9cfac3;
+  border-radius: 10px;
+  background: #9cfac3;
+  color: black;
+  padding: 12px;
+  font-weight: 700;
+  height: 60px;
+}
+
+/* Optional mobile behavior:
+   If you want 3 columns even on mobile, remove this block. */
+@media (max-width: 575px) {
+  .ticket-grid {
+    grid-template-columns: 1fr;
+  }
+  .checkout-row {
+    grid-template-columns: 1fr;
+  }
+}

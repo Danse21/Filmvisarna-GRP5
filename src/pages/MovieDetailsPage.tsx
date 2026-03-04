@@ -14,7 +14,7 @@ MovieDetailsPage.route = {
 
 export default function MovieDetailsPage() {
   // Load movie data using movieLoader
-  const { movie } = useLoaderData() as { movie: Movie; };
+  const { movie } = useLoaderData() as { movie: Movie };
   const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
@@ -43,7 +43,8 @@ export default function MovieDetailsPage() {
             />
             <Button
               className="pt-0 pb-0 mt-none"
-              onClick={() => setShowTrailer(true)}>
+              onClick={() => setShowTrailer(true)}
+            >
               Se Trailer
             </Button>
           </div>
@@ -109,19 +110,18 @@ export default function MovieDetailsPage() {
 
         <Row className="g-3">
           {(movie.showtime ?? []).map((show) => (
-            <Col md={3} key={show.showtime_id}>
+            <Col md={3} key={show.id}>
               <Button
                 variant="outline-dark"
                 className="w-100 py-3"
                 onClick={() =>
-                  navigate(
-                    `/booking/${movie.slug}?showtimeId=${show.showtime_id}`,
-                  )
+                  navigate(`/booking/${movie.slug}?showtimeId=${show.id}`)
                 }
               >
-                {/* {show.start_time}
-                <br /> */}
-                {show.start_time}
+                {new Date(show.start_time).toLocaleString("sv-SE", {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                })}
               </Button>
             </Col>
           ))}
@@ -133,7 +133,6 @@ export default function MovieDetailsPage() {
         trailerUrl={movie.trailer_link}
       />
     </Container>
-
   );
 }
 
