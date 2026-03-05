@@ -20,24 +20,18 @@ export default function StartPage() {
   const [showTrailer, setShowTrailer] = useState(false);
 
 
+
   useEffect(() => {
     async function fetchMovies() {
       const res = await fetch("/api/movies/upcoming");
       const data = await res.json();
+
+      console.log(JSON.stringify(data, null, 2)); // debug
+
       setMovies(data);
     }
 
     fetchMovies();
-  }, []);
-
-  useEffect(() => {
-    async function testRoute() {
-      const res = await fetch("/api/movies/upcoming");
-      const data = await res.json();
-      console.log(JSON.stringify(data, null, 2));
-    }
-
-    testRoute();
   }, []);
 
   return (

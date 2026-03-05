@@ -7,14 +7,18 @@ public static class MovieRoutes
         App.MapGet("/api/movies/upcoming", (HttpContext context) =>
         {
             var rows = SQLQuery(
-                "SELECT m.id, m.title, m.slug, m.age_limit, s.id AS showtime_id, s.start_time " +
+                "SELECT " +
+                "m.id, m.title, m.slug, m.age_limit, " +
+                "s.id AS showtime_id, s.start_time, " +
+                "sc.screen_name " +
                 "FROM movie m " +
                 "JOIN showtime s ON s.movie_id = m.id " +
-                "WHERE s.start_time = ( " +
-                "  SELECT MIN(start_time) " +
-                "  FROM showtime " +
-                "  WHERE movie_id = m.id " +
-                "  AND start_time >= NOW() " +
+                "JOIN screen sc ON sc.id = s.screen_id " +
+                "WHERE s.start_time = (" +
+                "  SELECT MIN(s2.start_time) " +
+                "  FROM showtime s2 " +
+                "  WHERE s2.movie_id = m.id " +
+                "  AND s2.start_time >= NOW()" +
                 ") " +
                 "ORDER BY s.start_time " +
                 "LIMIT 4",

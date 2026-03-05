@@ -89,6 +89,8 @@ export default function MovieCard({ movie }: Props) {
               }}
             >
               {formattedDate} • {formattedTime}
+              <br />
+              {movie.screen_name}
             </div>
 
             {/* Biljetter */}
