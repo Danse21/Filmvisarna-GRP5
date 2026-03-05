@@ -12,12 +12,13 @@ public static class Server
         ErrorHandler.Start();
         FileServer.Start();
         LoginRoutes.Start();
+        MovieRoutes.Start();
         /*MovieShowtimeRoutes.Start();*/
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();
-        PriceRoutes.Start();
-        PriceCategoryRoutes.Start();
+        
+        
         // Start the server on port 3001
         var runUrl = "http://localhost:" + Globals.port;
         Log("Server running on:", runUrl);
