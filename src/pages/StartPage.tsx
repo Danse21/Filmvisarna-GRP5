@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../parts/movieCard";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 import HeroCard from "../parts/heroCard";
+import DateSelector from "../parts/dateSelector";
 import TrailerModal from "../utils/trailerModal";
 import startPageLoader from "../loaders/startPageLoader";
 
@@ -51,6 +52,9 @@ export default function StartPage() {
           </Col>
         </Row>
       )}
+
+      {/* Dag/Datumväljare */}
+      <DateSelector />
 
       {/* Resten av filmerna: 3 per rad */}
       <Row className="g-2">
