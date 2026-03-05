@@ -45,7 +45,7 @@ export default function DateSelector() {
         <Col key={index}>
           {/* h-100 = kortet fyller hela kolumnens höjd */}
           <Card
-            className="text-center h-100 rounded-3 text-black border-dark shadow"
+            className="bg-primary text-center h-100 rounded-3 text-black border-dark shadow"
           >
             {/* Card.Body = innehållet inuti kortet */}
             {/* d-flex flex-column = staplar label och datum vertikalt */}
