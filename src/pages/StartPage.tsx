@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import MovieCard from "../parts/movieCard";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
+import HeroCard from "../parts/heroCard";
 import TrailerModal from "../utils/trailerModal";
+import startPageLoader from "../loaders/startPageLoader";
 
 // Navigation route
 StartPage.route = {
   path: "/",
   startLabel: "Start",
+  loader: startPageLoader,
   index: 1,
 };
 
 export default function StartPage() {
+  // State som håller alla filmer vi hämtar från databasen
   const [movies, setMovies] = useState<MovieCardDto[]>([]);
   const [showTrailer, setShowTrailer] = useState(false);
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     async function fetchMovies() {
@@ -34,35 +37,7 @@ export default function StartPage() {
       {movies.length > 0 && (
         <Row className="mb-2 mx-n2">
           <Col xs={12} className="px-0">
-            <div
-              className="position-relative overflow-hidden shadow-lg"
-              style={{
-                backgroundImage: `url(/images/movies/${movies[0].slug}.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                height: "500px",
-                cursor: "pointer"
-              }}
-              onClick={() => navigate(`/movie/${movies[0].slug}`)}
-            >
-              <p className="position-absolute top-0 start-0 m-2 px-2 py-1 rounded bg-dark text-white fw-semibold small">
-                {movies[0].age_limit}+
-              </p>
-              <div className="position-absolute bottom-0 start-0 w-100 d-flex justify-content-between p-3 mb-3">
-                <button
-                  className="btn fw-semibold text-black btn-trailer"
-                  onClick={() => setShowTrailer(true)}
-                >
-                  Trailer
-                </button>
-                <button
-                  className="btn fw-semibold text-black btn-biljetter"
-                  onClick={() => navigate(`/movie/${movies[0].slug}`)}
-                >
-                  Biljetter
-                </button>
-              </div>
-            </div>
+            <HeroCard />
           </Col>
         </Row>
       )}
