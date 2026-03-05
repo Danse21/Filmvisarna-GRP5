@@ -46,7 +46,7 @@ export default function StartPage() {
         </Row>
       )}
 
-      {/* Resten av filmerna: 3 per rad */}
+      {/* Resten av filmerna: 4 per rad och det är dom första unika kommande visningarna*/}
       <Row className="g-2">
         {movies.map((movie) => (
           <Col xs={4} key={movie.slug}>

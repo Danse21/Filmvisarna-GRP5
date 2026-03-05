@@ -12,9 +12,9 @@ export default function MovieCard({ movie }: Props) {
   const [showTrailer, setShowTrailer] = useState(false);
   const navigate = useNavigate();
 
-  /* ---------------------------------------------------------
+  /* 
      Skapa Date-objekt från start_time
-  --------------------------------------------------------- */
+  */
   const showtimeDate = movie.start_time
     ? new Date(movie.start_time)
     : null;
@@ -55,10 +55,10 @@ export default function MovieCard({ movie }: Props) {
             {movie.age_limit}+
           </p>
 
-          {/* ---------------------------------------------------------
+          {/* 
              Nedersta raden
-             Trailer | Info | Biljetter
-          --------------------------------------------------------- */}
+             Trailer  Info  Biljetter
+     */}
           <div className="d-flex align-items-center justify-content-between">
 
             {/* Trailer */}
@@ -72,10 +72,10 @@ export default function MovieCard({ movie }: Props) {
               Trailer
             </button>
 
-            {/* ---------------------------------------------------------
+            {/* 
                Visningsinformation
                Limegrön ruta så text syns över bilden
-            --------------------------------------------------------- */}
+          */}
             <div
               style={{
                 background: "limegreen",
