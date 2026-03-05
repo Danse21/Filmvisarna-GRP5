@@ -20,24 +20,18 @@ export default function StartPage() {
   const [showTrailer, setShowTrailer] = useState(false);
 
 
+
   useEffect(() => {
     async function fetchMovies() {
       const res = await fetch("/api/movies/upcoming");
       const data = await res.json();
+
+      console.log(JSON.stringify(data, null, 2)); // debug
+
       setMovies(data);
     }
 
     fetchMovies();
-  }, []);
-
-  useEffect(() => {
-    async function testRoute() {
-      const res = await fetch("/api/movies/upcoming");
-      const data = await res.json();
-      console.log(JSON.stringify(data, null, 2));
-    }
-
-    testRoute();
   }, []);
 
   return (
@@ -52,7 +46,7 @@ export default function StartPage() {
         </Row>
       )}
 
-      {/* Resten av filmerna: 3 per rad */}
+      {/* Resten av filmerna: 4 per rad och det är dom första unika kommande visningarna*/}
       <Row className="g-2">
         {movies.map((movie) => (
           <Col xs={4} key={movie.slug}>
