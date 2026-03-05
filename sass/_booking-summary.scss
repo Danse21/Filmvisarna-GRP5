@@ -1,0 +1,51 @@
+/* 1) Push content down so it doesn't hide behind fixed header */
+.pt-header {
+  padding-top: 90px; /* adjust if your header is taller/shorter */
+}
+
+/* 2) More space between the big sections (Top / Middle / Button) */
+.booking-section {
+  margin-top: 28px;
+  margin-bottom: 28px;
+}
+
+/* Boxes */
+.selection-box,
+.email-box {
+  border-radius: 10px;
+  padding: 14px;
+}
+
+/* 3) Less space between text lines */
+.tight {
+  margin: 2px 0;
+  line-height: 1.15;
+}
+
+.ticket-summary p {
+  margin: 2px 0;
+  line-height: 1.15;
+}
+
+/* Make the email box visually shorter */
+.email-input {
+  height: 38px; /* default is ~38-40, keep it clean */
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 2px solid #c6b309fe;
+}
+
+/* Movie info spacing */
+.movie-info-box p {
+  margin-top: 10px;
+  line-height: 1.15;
+}
+
+/* Confirm button */
+.confirm-booking-btn {
+  margin-top: 50px;
+  padding: 12px 40px;
+  font-size: 16px;
+  width: 340px; /* wider button */
+  align-items: center;
+}
