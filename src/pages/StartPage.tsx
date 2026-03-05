@@ -22,12 +22,22 @@ export default function StartPage() {
 
   useEffect(() => {
     async function fetchMovies() {
-      const res = await fetch("/api/movie?limit=5");
+      const res = await fetch("/api/movies/upcoming");
       const data = await res.json();
       setMovies(data);
     }
 
     fetchMovies();
+  }, []);
+
+  useEffect(() => {
+    async function testRoute() {
+      const res = await fetch("/api/movies/upcoming");
+      const data = await res.json();
+      console.log(JSON.stringify(data, null, 2));
+    }
+
+    testRoute();
   }, []);
 
   return (
@@ -44,7 +54,7 @@ export default function StartPage() {
 
       {/* Resten av filmerna: 3 per rad */}
       <Row className="g-2">
-        {movies.slice(1).map((movie) => (
+        {movies.map((movie) => (
           <Col xs={4} key={movie.slug}>
             <MovieCard movie={movie} />
           </Col>
