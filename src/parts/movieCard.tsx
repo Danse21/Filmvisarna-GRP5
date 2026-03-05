@@ -98,7 +98,7 @@ export default function MovieCard({ movie }: Props) {
               className="btn btn-sm fw-semibold text-white btn-biljetter"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/movie/${movie.slug}`);
+                navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`)
               }}
             >
               Biljetter
