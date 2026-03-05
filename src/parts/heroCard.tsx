@@ -20,7 +20,7 @@ export default function HeroCard() {
   // Hämtar alla filmer från databasen när komponenten laddas
   useEffect(() => {
     async function fetchMovies() {
-      const res = await fetch("/api/movie");
+      const res = await fetch("/api/movies/upcoming");
       const data = await res.json();
       setMovies(data);
     }
@@ -100,7 +100,7 @@ export default function HeroCard() {
           {/* Biljetter knapp */}
           <button
             className="btn fw-semibold text-black btn-biljetter"
-            onClick={() => navigate(`/movie/${movie.slug}`)}
+            onClick={() => navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`)}
           >
             Biljetter
           </button>

@@ -8,5 +8,5 @@ export interface MovieCardDto {
   showtime_id: number;
   start_time: string;
 
-  screen_name?: string;
+  screen_name: string;
 }
