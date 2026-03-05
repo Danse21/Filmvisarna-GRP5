@@ -4,9 +4,9 @@ export interface MovieCardDto {
   slug: string;
   age_limit: number;
   trailer_link: string;
-  next_showtime: {
-    start_time: string;
-    showtime_id: number;
-    screen_name: string;
-  };
+
+  showtime_id: number;
+  start_time: string;
+
+  screen_name?: string;
 }
