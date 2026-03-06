@@ -31,7 +31,10 @@ type UiSeat = {
   is_booked?: boolean;
 };
 
-const layout = [8, 9, 10, 10, 10, 10, 12, 12]; // Seat layout
+const screenLayouts: Record<string, number[]> = {
+  "Stora Salongen": [8, 9, 10, 10, 10, 10, 12, 12],
+  "Lilla Salongen": [6, 8, 9, 10, 10, 12],
+}; // Seat layout
 
 function generateSeatsFromLayout(layout: number[]): UiSeat[] {
   const seats: UiSeat[] = [];
@@ -63,6 +66,7 @@ export default function BookingPage() {
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
 
+  const layout = screenLayouts[screen.screen_name] ?? [];
   // console.log("LOADER DATA:", loaderData);
 
   const navigate = useNavigate();
