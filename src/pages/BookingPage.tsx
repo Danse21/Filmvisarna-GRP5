@@ -17,24 +17,27 @@ BookingPage.route = {
 };
 
 type DbSeat = {
-  id: number;
+  seat_id: number;
   seat_row: number;
   seat_number: number;
-  is_booked: boolean;
 };
 
 type UiSeat = {
-  id: string; // "row-seatInRow"
+  id: number;
   row: number;
   seatInRow: number;
-  seatNumber: number; // global seat number
-  is_booked?: boolean;
+  seatNumber: number;
 };
 
+
+const verboseScreenLayout = await (await fetch('/api/screenLayout')).json();
+const getSeatLayout = (screen: number) =>
+  verboseScreenLayout.filter((x: any) => x.id === screen).map((x: any) => x.seatsPerRow);
+
 const screenLayouts: Record<string, number[]> = {
-  "Stora Salongen": [8, 9, 10, 10, 10, 10, 12, 12],
-  "Lilla Salongen": [6, 8, 9, 10, 10, 12],
-}; // Seat layout
+  "Stora Salongen": getSeatLayout(1),
+  "Lilla Salongen": getSeatLayout(2)
+};
 
 function generateSeatsFromLayout(layout: number[]): UiSeat[] {
   const seats: UiSeat[] = [];
@@ -42,13 +45,15 @@ function generateSeatsFromLayout(layout: number[]): UiSeat[] {
 
   layout.forEach((seatsInRow, rowIndex) => {
     const row = rowIndex + 1;
+
     for (let seat = seatsInRow; seat >= 1; seat--) {
-      seats.push({
-        id: `${row}-${seat}`,
+      seats.unshift({
+        id: 0,
         row,
         seatInRow: seat,
         seatNumber,
       });
+
       seatNumber++;
     }
   });
@@ -59,21 +64,20 @@ function generateSeatsFromLayout(layout: number[]): UiSeat[] {
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
     movie: Movie;
-    showtime: { id: number; start_time: string; screen_id: number };
-    screen: { id: number; screen_name: string };
+    showtime: { id: number; start_time: string; screen_id: number; };
+    screen: { id: number; screen_name: string; };
     seats: DbSeat[];
   };
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
 
   const layout = screenLayouts[screen.screen_name] ?? [];
-  // console.log("LOADER DATA:", loaderData);
 
   const navigate = useNavigate();
 
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
-  function toggleSeat(id: string) {
+  function toggleSeat(id: number) {
     setSelectedSeats((prev) =>
       prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
     );
@@ -94,7 +98,6 @@ export default function BookingPage() {
 
   const [priceCategory, setPriceCategory] = useState<PriceCategory[]>([]);
 
-  // Fetch on mount
   useEffect(() => {
     async function loadPrices() {
       const [priceRes, catRes] = await Promise.all([
@@ -105,9 +108,9 @@ export default function BookingPage() {
       const prices: PriceRow[] = await priceRes.json();
       const categories: PriceCategoryRow[] = await catRes.json();
 
-      // Merge: price_category_id -> category name
       const merged: PriceCategory[] = prices.map((p) => {
         const cat = categories.find((c) => c.id === p.price_category_id);
+
         return {
           id: p.id,
           category_name: cat?.name ?? "Unknown",
@@ -115,23 +118,24 @@ export default function BookingPage() {
         };
       });
 
-      console.log("MERGED PRICE OPTIONS:", merged);
       setPriceCategory(merged);
     }
 
     loadPrices();
   }, []);
 
-  // Helper to get price by category name
   function getPrice(name: string) {
     const wanted = name.trim().toLowerCase();
+
     const match = priceCategory.find(
       (x) => x.category_name.trim().toLowerCase() === wanted,
     );
+
     return match?.amount ?? 0;
   }
 
   const totalTickets = tickets.adult + tickets.child + tickets.senior;
+
   const totalPrice =
     tickets.adult * getPrice("Adult") +
     tickets.child * getPrice("Child") +
@@ -147,17 +151,16 @@ export default function BookingPage() {
     });
   }
 
-  // 1) Generate the UI layout seats
   const uiSeats = generateSeatsFromLayout(layout);
 
-  // 2) Overlay DB booked state onto UI layout
   const mergedSeats = uiSeats.map((seat) => {
     const dbSeat = dbSeats.find(
-      (s) => s.seat_row === seat.row && s.seat_number === seat.seatNumber,
+      (s) => s.seat_row === seat.row && s.seat_number === seat.seatNumber
     );
+
     return {
       ...seat,
-      is_booked: dbSeat ? dbSeat.is_booked : false,
+      id: dbSeat!.seat_id,
     };
   });
 
@@ -179,10 +182,16 @@ export default function BookingPage() {
             className="img-fluid rounded"
           />
         </Col>
+
         <Col xs={6}>
           <h4>{movie.title}</h4>
+
           {showtime && <strong>{formatDateTime(showtime.start_time)}</strong>}
-          <p>{screen && <strong>{screen.screen_name}</strong>}</p>
+
+          <p>
+            {screen && <strong>{screen.screen_name}</strong>}
+          </p>
+
           <p>
             <strong>Åldersgräns: {movie.age_limit} år</strong>
           </p>
@@ -199,14 +208,12 @@ export default function BookingPage() {
             <div key={rowIndex} className="d-flex gap-2 justify-content-center">
               {mergedSeats
                 .filter((s) => s.row === rowIndex + 1)
-                .map((s) => (
+                .map((s, i) => (
                   <button
-                    key={s.id}
+                    key={i}
                     className={`seat
-                      ${s.is_booked ? "seat-occupied" : "seat-free"}
-                      ${selectedSeats.includes(s.id) ? "seat-selected" : ""}
+                      ${selectedSeats.includes(s.id) ? "seat-selected" : "seat-free"}
                     `}
-                    disabled={s.is_booked}
                     onClick={() => toggleSeat(s.id)}
                     title={`Rad ${s.row}, Stol ${s.seatNumber}`}
                   />
@@ -220,29 +227,24 @@ export default function BookingPage() {
             <span className="legend-seat seat-free" />
             <span>Ledig stol</span>
           </div>
-          <div className="legend-item">
-            <span className="legend-seat seat-occupied" />
-            <span>Upptagen stol</span>
-          </div>
+
           <div className="legend-item">
             <span className="legend-seat seat-selected" />
             <span>Vald stol</span>
           </div>
         </div>
       </section>
-      {/* Ticket selector wrapper */}
+
       <section className="ticket-selector mt-4">
         <div className="ticket-grid">
-          {/* VUXEN */}
+
           <div className="ticket-col">
             <div className="ticket-price">Pris {getPrice("Adult")} kr</div>
 
-            {/* Card contains ONLY the category label */}
             <div className="ticket-card-only">
               <div className="ticket-label">Vuxen</div>
             </div>
 
-            {/* Counter is BELOW the card */}
             <div className="ticket-controls">
               <button
                 type="button"
@@ -264,7 +266,6 @@ export default function BookingPage() {
             </div>
           </div>
 
-          {/* BARN Lagt att den inte renderas om age limit är 12 eller mer*/}
           {movie.age_limit < 12 && (
             <div className="ticket-col">
               <div className="ticket-price">Pris {getPrice("Child")} kr</div>
@@ -295,7 +296,6 @@ export default function BookingPage() {
             </div>
           )}
 
-          {/* PENSIONÄR */}
           <div className="ticket-col">
             <div className="ticket-price">Pris {getPrice("Pensioner")} kr</div>
 
@@ -323,10 +323,10 @@ export default function BookingPage() {
               </button>
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* Bottom actions: Totalt bigger, Till kassan smaller */}
       <div className="checkout-row mt-4 pb-4">
         <button type="button" className="total-box fw-bold text-black" disabled>
           Totalt
@@ -334,7 +334,6 @@ export default function BookingPage() {
           <strong>{totalPrice} kr</strong>
         </button>
 
-        {/* Navigation button to next page, only enbled when there is seat and ticket selected */}
         <Button
           className="checkout-btn-small mt-4 me-5"
           disabled={selectedSeats.length === 0 || totalTickets === 0}
@@ -353,10 +352,6 @@ export default function BookingPage() {
         >
           Till kassan
         </Button>
-
-        {/* <button type="button" className="checkout-btn-small mt-4 me-5" disabled>
-          Till kassan
-        </button> */}
       </div>
     </Container>
   );
