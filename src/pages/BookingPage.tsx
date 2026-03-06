@@ -1,3 +1,4 @@
+// import type Seat from "../interfaces/seat.ts";
 import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
@@ -17,61 +18,38 @@ BookingPage.route = {
 };
 
 type DbSeat = {
-  seat_id: number;
+  id: number;
+  screen_id: number;
   seat_row: number;
   seat_number: number;
 };
 
-type UiSeat = {
-  id: number;
-  row: number;
-  seatInRow: number;
-  seatNumber: number;
-};
-
-
-const verboseScreenLayout = await (await fetch('/api/screenLayout')).json();
-const getSeatLayout = (screen: number) =>
-  verboseScreenLayout.filter((x: any) => x.id === screen).map((x: any) => x.seatsPerRow);
-
-const screenLayouts: Record<string, number[]> = {
-  "Stora Salongen": getSeatLayout(1),
-  "Lilla Salongen": getSeatLayout(2)
-};
-
-function generateSeatsFromLayout(layout: number[]): UiSeat[] {
-  const seats: UiSeat[] = [];
-  let seatNumber = 1;
-
-  layout.forEach((seatsInRow, rowIndex) => {
-    const row = rowIndex + 1;
-
-    for (let seat = seatsInRow; seat >= 1; seat--) {
-      seats.unshift({
-        id: 0,
-        row,
-        seatInRow: seat,
-        seatNumber,
-      });
-
-      seatNumber++;
-    }
-  });
-
-  return seats;
-}
-
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
     movie: Movie;
-    showtime: { id: number; start_time: string; screen_id: number; };
-    screen: { id: number; screen_name: string; };
+    showtime: { id: number; start_time: string; screen_id: number };
+    screen: { id: number; screen_name: string };
     seats: DbSeat[];
   };
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
 
-  const layout = screenLayouts[screen.screen_name] ?? [];
+  // Take dbSeats (a one-dimensional array from the db)
+  // and convert to a matrix (two-dimensional array) with
+  // each row as a sub-array containing seats
+  const seatRows: DbSeat[][] = [];
+  let prevSeatRow: number = 0;
+  let row: DbSeat[];
+  for (let seat of dbSeats) {
+    if (prevSeatRow !== seat.seat_row) {
+      row = [];
+      seatRows.push(row);
+      prevSeatRow = seat.seat_row;
+    }
+    row!.unshift(seat);
+  }
+
+  console.log(seatRows);
 
   const navigate = useNavigate();
 
@@ -151,19 +129,6 @@ export default function BookingPage() {
     });
   }
 
-  const uiSeats = generateSeatsFromLayout(layout);
-
-  const mergedSeats = uiSeats.map((seat) => {
-    const dbSeat = dbSeats.find(
-      (s) => s.seat_row === seat.row && s.seat_number === seat.seatNumber
-    );
-
-    return {
-      ...seat,
-      id: dbSeat!.seat_id,
-    };
-  });
-
   return (
     <Container className="pt-5">
       <Button
@@ -188,9 +153,7 @@ export default function BookingPage() {
 
           {showtime && <strong>{formatDateTime(showtime.start_time)}</strong>}
 
-          <p>
-            {screen && <strong>{screen.screen_name}</strong>}
-          </p>
+          <p>{screen && <strong>{screen.screen_name}</strong>}</p>
 
           <p>
             <strong>Åldersgräns: {movie.age_limit} år</strong>
@@ -204,20 +167,18 @@ export default function BookingPage() {
         </div>
 
         <div className="d-flex flex-column gap-2 align-items-center">
-          {layout.map((_, rowIndex) => (
+          {seatRows.map((row, rowIndex) => (
             <div key={rowIndex} className="d-flex gap-2 justify-content-center">
-              {mergedSeats
-                .filter((s) => s.row === rowIndex + 1)
-                .map((s, i) => (
-                  <button
-                    key={i}
-                    className={`seat
-                      ${selectedSeats.includes(s.id) ? "seat-selected" : "seat-free"}
+              {row.map(({ id, seat_number, seat_row }, i) => (
+                <button
+                  key={i}
+                  className={`seat
+                      ${selectedSeats.includes(id) ? "seat-selected" : "seat-free"}
                     `}
-                    onClick={() => toggleSeat(s.id)}
-                    title={`Rad ${s.row}, Stol ${s.seatNumber}`}
-                  />
-                ))}
+                  onClick={() => toggleSeat(id)}
+                  title={`Rad ${seat_row}, Stol ${seat_number}`}
+                />
+              ))}
             </div>
           ))}
         </div>
@@ -237,7 +198,6 @@ export default function BookingPage() {
 
       <section className="ticket-selector mt-4">
         <div className="ticket-grid">
-
           <div className="ticket-col">
             <div className="ticket-price">Pris {getPrice("Adult")} kr</div>
 
@@ -323,7 +283,6 @@ export default function BookingPage() {
               </button>
             </div>
           </div>
-
         </div>
       </section>
 
