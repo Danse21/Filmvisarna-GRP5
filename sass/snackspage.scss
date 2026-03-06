@@ -1,0 +1,137 @@
+.snacks-page {
+  padding: 40px;
+  min-height: 100vh;
+  background-color: #efe7cf;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+}
+
+.snacks-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 10px;
+}
+
+.back-btn,
+.close-btn {
+  background: transparent;
+  border: 2px solid #111;
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.back-btn {
+  border: none;
+  font-size: 2.5rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.logo {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0;
+  text-align: center;
+  text-shadow: 3px 3px 0 #00000020;
+}
+
+.snacks-content {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 10px 20px 30px;
+}
+
+.snacks-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  margin: 20px 0 24px;
+  text-align: center;
+}
+
+.snacks-card {
+  background: #cfe8bc;
+  border-radius: 32px;
+  padding: 28px 28px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.snack-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.snack-name,
+.snack-price {
+  font-size: 2rem;
+  font-weight: 400;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.snack-price {
+  white-space: nowrap;
+}
+
+.buy-info-btn {
+  width: 100%;
+  margin-top: 16px;
+  background: #f55d5d;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 18px 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.16);
+}
+
+.snacks-footer {
+  margin-top: auto;
+  background: #c8ddb8;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px 24px;
+  font-size: 1.1rem;
+}
+
+.footer-left p,
+.footer-right p {
+  margin: 8px 0;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 2.2rem;
+  }
+
+  .snacks-title {
+    font-size: 3.2rem;
+  }
+
+  .snack-name,
+  .snack-price {
+    font-size: 1.4rem;
+  }
+
+  .buy-info-btn {
+    font-size: 1.2rem;
+  }
+
+  .snacks-footer {
+    font-size: 1rem;
+  }
+}
