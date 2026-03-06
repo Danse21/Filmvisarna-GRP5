@@ -6,6 +6,7 @@ import HeroCard from "../parts/heroCard";
 import TrailerModal from "../utils/trailerModal";
 import startPageLoader from "../loaders/startPageLoader";
 
+
 // Navigation route
 StartPage.route = {
   path: "/",
