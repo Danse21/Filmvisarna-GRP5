@@ -1,9 +1,12 @@
-// import type Seat from "../interfaces/seat.ts";
 import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import type Movie from "../interfaces/movie";
 import bookingLoader from "../loaders/bookingLoader";
+import { formatDateTime } from "../utils/formatDateTime";
+import { generateSeatsFromLayout } from "../utils/booking/generateSeatsFromLayout";
+import { toggleSeat } from "../utils/booking/toggleSeat";
+import { getPrice } from "../utils/booking/getPrice";
 import type {
   PriceCategory,
   PriceRow,
@@ -19,10 +22,20 @@ BookingPage.route = {
 
 type DbSeat = {
   id: number;
-  screen_id: number;
   seat_row: number;
   seat_number: number;
+  is_booked: boolean;
 };
+
+
+
+const screenLayouts: Record<string, number[]> = {
+  "Stora Salongen": [8, 9, 10, 10, 10, 10, 12, 12],
+  "Lilla Salongen": [6, 8, 9, 10, 10, 12],
+}; // Seat layout
+
+
+
 
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
@@ -34,32 +47,12 @@ export default function BookingPage() {
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
 
-  // Take dbSeats (a one-dimensional array from the db)
-  // and convert to a matrix (two-dimensional array) with
-  // each row as a sub-array containing seats
-  const seatRows: DbSeat[][] = [];
-  let prevSeatRow: number = 0;
-  let row: DbSeat[];
-  for (let seat of dbSeats) {
-    if (prevSeatRow !== seat.seat_row) {
-      row = [];
-      seatRows.push(row);
-      prevSeatRow = seat.seat_row;
-    }
-    row!.unshift(seat);
-  }
-
-  console.log(seatRows);
+  const layout = screenLayouts[screen.screen_name] ?? [];
+  // console.log("LOADER DATA:", loaderData);
 
   const navigate = useNavigate();
 
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
-
-  function toggleSeat(id: number) {
-    setSelectedSeats((prev) =>
-      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
-    );
-  }
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
   const [tickets, setTickets] = useState({
     adult: 0,
@@ -76,6 +69,7 @@ export default function BookingPage() {
 
   const [priceCategory, setPriceCategory] = useState<PriceCategory[]>([]);
 
+  // Fetch on mount
   useEffect(() => {
     async function loadPrices() {
       const [priceRes, catRes] = await Promise.all([
@@ -86,9 +80,9 @@ export default function BookingPage() {
       const prices: PriceRow[] = await priceRes.json();
       const categories: PriceCategoryRow[] = await catRes.json();
 
+      // Merge: price_category_id -> category name
       const merged: PriceCategory[] = prices.map((p) => {
         const cat = categories.find((c) => c.id === p.price_category_id);
-
         return {
           id: p.id,
           category_name: cat?.name ?? "Unknown",
@@ -96,38 +90,37 @@ export default function BookingPage() {
         };
       });
 
+      console.log("MERGED PRICE OPTIONS:", merged);
       setPriceCategory(merged);
     }
 
     loadPrices();
   }, []);
 
-  function getPrice(name: string) {
-    const wanted = name.trim().toLowerCase();
 
-    const match = priceCategory.find(
-      (x) => x.category_name.trim().toLowerCase() === wanted,
-    );
 
-    return match?.amount ?? 0;
-  }
 
   const totalTickets = tickets.adult + tickets.child + tickets.senior;
-
   const totalPrice =
-    tickets.adult * getPrice("Adult") +
-    tickets.child * getPrice("Child") +
-    tickets.senior * getPrice("Pensioner");
+    tickets.adult * getPrice(priceCategory, "Adult") +
+    tickets.child * getPrice(priceCategory, "Child") +
+    tickets.senior * getPrice(priceCategory, "Pensioner");
 
-  function formatDateTime(iso: string) {
-    return new Date(iso).toLocaleString("sv-SE", {
-      weekday: "long",
-      day: "numeric",
-      month: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
+
+
+  // 1) Generate the UI layout seats
+  const uiSeats = generateSeatsFromLayout(layout);
+
+  // 2) Overlay DB booked state onto UI layout
+  const mergedSeats = uiSeats.map((seat) => {
+    const dbSeat = dbSeats.find(
+      (s) => s.seat_row === seat.row && s.seat_number === seat.seatNumber,
+    );
+    return {
+      ...seat,
+      is_booked: dbSeat ? dbSeat.is_booked : false,
+    };
+  });
 
   return (
     <Container className="pt-5">
@@ -147,14 +140,10 @@ export default function BookingPage() {
             className="img-fluid rounded"
           />
         </Col>
-
         <Col xs={6}>
           <h4>{movie.title}</h4>
-
           {showtime && <strong>{formatDateTime(showtime.start_time)}</strong>}
-
           <p>{screen && <strong>{screen.screen_name}</strong>}</p>
-
           <p>
             <strong>Åldersgräns: {movie.age_limit} år</strong>
           </p>
@@ -167,18 +156,22 @@ export default function BookingPage() {
         </div>
 
         <div className="d-flex flex-column gap-2 align-items-center">
-          {seatRows.map((row, rowIndex) => (
+          {layout.map((_, rowIndex) => (
             <div key={rowIndex} className="d-flex gap-2 justify-content-center">
-              {row.map(({ id, seat_number, seat_row }, i) => (
-                <button
-                  key={i}
-                  className={`seat
-                      ${selectedSeats.includes(id) ? "seat-selected" : "seat-free"}
+              {mergedSeats
+                .filter((s) => s.row === rowIndex + 1)
+                .map((s) => (
+                  <button
+                    key={s.id}
+                    className={`seat
+                      ${s.is_booked ? "seat-occupied" : "seat-free"}
+                      ${selectedSeats.includes(s.id) ? "seat-selected" : ""}
                     `}
-                  onClick={() => toggleSeat(id)}
-                  title={`Rad ${seat_row}, Stol ${seat_number}`}
-                />
-              ))}
+                    disabled={s.is_booked}
+                    onClick={() => setSelectedSeats((prev) => toggleSeat(prev, s.id))}
+                    title={`Rad ${s.row}, Stol ${s.seatNumber}`}
+                  />
+                ))}
             </div>
           ))}
         </div>
@@ -188,23 +181,29 @@ export default function BookingPage() {
             <span className="legend-seat seat-free" />
             <span>Ledig stol</span>
           </div>
-
+          <div className="legend-item">
+            <span className="legend-seat seat-occupied" />
+            <span>Upptagen stol</span>
+          </div>
           <div className="legend-item">
             <span className="legend-seat seat-selected" />
             <span>Vald stol</span>
           </div>
         </div>
       </section>
-
+      {/* Ticket selector wrapper */}
       <section className="ticket-selector mt-4">
         <div className="ticket-grid">
+          {/* VUXEN */}
           <div className="ticket-col">
-            <div className="ticket-price">Pris {getPrice("Adult")} kr</div>
+            <div className="ticket-price">Pris {getPrice(priceCategory, "Adult")} kr</div>
 
+            {/* Card contains ONLY the category label */}
             <div className="ticket-card-only">
               <div className="ticket-label">Vuxen</div>
             </div>
 
+            {/* Counter is BELOW the card */}
             <div className="ticket-controls">
               <button
                 type="button"
@@ -226,9 +225,10 @@ export default function BookingPage() {
             </div>
           </div>
 
+          {/* BARN Lagt att den inte renderas om age limit är 12 eller mer*/}
           {movie.age_limit < 12 && (
             <div className="ticket-col">
-              <div className="ticket-price">Pris {getPrice("Child")} kr</div>
+              <div className="ticket-price">Pris {getPrice(priceCategory, "Child")} kr</div>
 
               <div className="ticket-card-only">
                 <div className="ticket-label">Barn &lt; 12 år</div>
@@ -256,8 +256,9 @@ export default function BookingPage() {
             </div>
           )}
 
+          {/* PENSIONÄR */}
           <div className="ticket-col">
-            <div className="ticket-price">Pris {getPrice("Pensioner")} kr</div>
+            <div className="ticket-price">Pris {getPrice(priceCategory, "Pensioner")} kr</div>
 
             <div className="ticket-card-only">
               <div className="ticket-label">Pensionär</div>
@@ -286,6 +287,7 @@ export default function BookingPage() {
         </div>
       </section>
 
+      {/* Bottom actions: Totalt bigger, Till kassan smaller */}
       <div className="checkout-row mt-4 pb-4">
         <button type="button" className="total-box fw-bold text-black" disabled>
           Totalt
@@ -293,6 +295,7 @@ export default function BookingPage() {
           <strong>{totalPrice} kr</strong>
         </button>
 
+        {/* Navigation button to next page, only enbled when there is seat and ticket selected */}
         <Button
           className="checkout-btn-small mt-4 me-5"
           disabled={selectedSeats.length === 0 || totalTickets === 0}
@@ -311,6 +314,10 @@ export default function BookingPage() {
         >
           Till kassan
         </Button>
+
+        {/* <button type="button" className="checkout-btn-small mt-4 me-5" disabled>
+          Till kassan
+        </button> */}
       </div>
     </Container>
   );
