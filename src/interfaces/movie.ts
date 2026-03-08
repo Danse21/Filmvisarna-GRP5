@@ -11,10 +11,12 @@ export default interface Movie {
   rottentomatoes_link: string;
   slug: string;
   trailer_link: string;
-  screen_name: string;
+
   showtime?: {
+    screen_name: string;
     id: number;
     start_time: string;
     screen_id: number;
+
   }[];
 }
