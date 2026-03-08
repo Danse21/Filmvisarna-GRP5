@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
-import type Movie from "../interfaces/movie";
+
 import bookingLoader from "../loaders/bookingLoader";
 import { formatDateTime } from "../utils/formatDateTime";
+
+/*Utils imports saker som gör saker åt den här ska dom flesta samlas här */
+import { updateTicketCount } from "../utils/booking/uppdateTicketCount";
+import { fetchBookingPrices } from "../utils/booking/fetchBookingPrices";
+
+import { calculateBookingTotals } from "../utils/booking/calculateBookingTotals";
+import { screenLayouts } from "../utils/booking/screenLayouts";
+
 import { generateSeatsFromLayout } from "../utils/booking/generateSeatsFromLayout";
 import { toggleSeat } from "../utils/booking/toggleSeat";
 import { getPrice } from "../utils/booking/getPrice";
-import type {
-  PriceCategory,
-  PriceRow,
-  PriceCategoryRow,
-} from "../interfaces/priceCategory";
+import type { PriceCategory } from "../interfaces/priceCategory";
+
+// Interfaces
+import type Movie from "../interfaces/movie";
 
 // Route Navigation
 BookingPage.route = {
@@ -29,14 +36,6 @@ type DbSeat = {
 
 
 
-const screenLayouts: Record<string, number[]> = {
-  "Stora Salongen": [8, 9, 10, 10, 10, 10, 12, 12],
-  "Lilla Salongen": [6, 8, 9, 10, 10, 12],
-}; // Seat layout
-
-
-
-
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
     movie: Movie;
@@ -46,9 +45,10 @@ export default function BookingPage() {
   };
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
-
   const layout = screenLayouts[screen.screen_name] ?? [];
-  // console.log("LOADER DATA:", loaderData);
+
+
+
 
   const navigate = useNavigate();
 
@@ -60,38 +60,27 @@ export default function BookingPage() {
     senior: 0,
   });
 
-  function changeTicket(key: "adult" | "child" | "senior", delta: number) {
-    setTickets((prev) => {
-      const nextValue = Math.max(0, prev[key] + delta);
-      return { ...prev, [key]: nextValue };
-    });
-  }
-
   const [priceCategory, setPriceCategory] = useState<PriceCategory[]>([]);
 
+  const { totalTickets, totalPrice } = calculateBookingTotals(
+    tickets,
+    priceCategory,
+  );
+
+  function changeTicket(key: "adult" | "child" | "senior", plusMinus: number) {
+    setTickets((prev) => updateTicketCount(prev, key, plusMinus));
+  }
+
+
+
+
   // Fetch on mount
+  // Merge: price_category_id -> category name
   useEffect(() => {
     async function loadPrices() {
-      const [priceRes, catRes] = await Promise.all([
-        fetch("/api/price"),
-        fetch("/api/price_category"),
-      ]);
-
-      const prices: PriceRow[] = await priceRes.json();
-      const categories: PriceCategoryRow[] = await catRes.json();
-
-      // Merge: price_category_id -> category name
-      const merged: PriceCategory[] = prices.map((p) => {
-        const cat = categories.find((c) => c.id === p.price_category_id);
-        return {
-          id: p.id,
-          category_name: cat?.name ?? "Unknown",
-          amount: Number(p.amount),
-        };
-      });
-
-      console.log("MERGED PRICE OPTIONS:", merged);
-      setPriceCategory(merged);
+      const mergedPrices = await fetchBookingPrices();
+      console.log("MERGED PRICE OPTIONS:", mergedPrices);
+      setPriceCategory(mergedPrices);
     }
 
     loadPrices();
@@ -100,11 +89,6 @@ export default function BookingPage() {
 
 
 
-  const totalTickets = tickets.adult + tickets.child + tickets.senior;
-  const totalPrice =
-    tickets.adult * getPrice(priceCategory, "Adult") +
-    tickets.child * getPrice(priceCategory, "Child") +
-    tickets.senior * getPrice(priceCategory, "Pensioner");
 
 
 
