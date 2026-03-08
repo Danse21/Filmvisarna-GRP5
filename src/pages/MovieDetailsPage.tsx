@@ -18,6 +18,11 @@ export default function MovieDetailsPage() {
   const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
+  const screenNames: Record<number, string> = {
+    1: "Stora Salongen",
+    2: "Lilla Salongen",
+  };
+
 
   return (
     <Container className="pt-5 pb-5 mt-1">
@@ -122,6 +127,9 @@ export default function MovieDetailsPage() {
                   dateStyle: "short",
                   timeStyle: "short",
                 })}
+                <div className="small text-muted">
+                  {screenNames[show.screen_id]}
+                </div>
               </Button>
             </Col>
           ))}
