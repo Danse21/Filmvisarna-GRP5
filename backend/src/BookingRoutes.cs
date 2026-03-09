@@ -10,7 +10,7 @@ public static class BookingRoutes
       var showtimeIdStr = context.Request.Query["showtimeId"].ToString();
 
       if (string.IsNullOrWhiteSpace(showtimeIdStr))
-        return RestResult.Parse(context, new { showtime = (object?)null, screen = (object?)null, seats = new object[] { } });
+        return RestResult.Parse(context, new { showtime = (object)null, screen = (object)null, seats = new object[] { } });
 
       if (!int.TryParse(showtimeIdStr, out var showtimeId))
         return RestResult.Parse(context, new { error = "Invalid showtimeId" });
@@ -57,7 +57,11 @@ public static class BookingRoutes
         decimal totalPrice = (decimal)body.total_price;
 
         int statusId = 1; // booking_status: 1 = Pending
-        string bookingRef = Guid.NewGuid().ToString("N");
+        //Generate booking unique booking number using Timestamp-based style
+        // (ex. 20260305221538942 (YYYYMMDDHHMMSS + random 3 digits))
+        string bookingRef =
+          DateTime.UtcNow.ToString("yyyyMMddHHmmss") +
+          Random.Shared.Next(100, 999);
 
         // 1) INSERT booking
         SQLQuery(@"
