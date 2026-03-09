@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   movie: MovieCardDto;
   showShowtime?: boolean;
+  showBiljetter?: boolean;
 }
 
-export default function MovieCard({ movie, showShowtime = true }: Props) {
+export default function MovieCard({ movie, showShowtime = true, showBiljetter = true }: Props) {
   const [showTrailer, setShowTrailer] = useState(false);
   const navigate = useNavigate();
 
@@ -97,15 +98,17 @@ export default function MovieCard({ movie, showShowtime = true }: Props) {
             )}
 
             {/* Biljetter */}
-            <button
-              className="btn btn-sm fw-semibold text-white btn-biljetter"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`);
-              }}
-            >
-              Biljetter
-            </button>
+            {showBiljetter && (
+              <button
+                className="btn btn-sm fw-semibold text-white btn-biljetter"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`);
+                }}
+              >
+                Biljetter
+              </button>
+            )}
 
           </div>
         </Card.ImgOverlay>

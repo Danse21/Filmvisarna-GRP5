@@ -42,7 +42,7 @@ export default function MoviesPage() {
       <Row className="g-2">
         {movies.map((movie) => (
           <Col xs={4} key={movie.slug}>
-            <MovieCard movie={movie} showShowtime={false} />
+            <MovieCard movie={movie} showShowtime={false} showBiljetter={false} />
           </Col>
         ))}
       </Row>
