@@ -280,10 +280,6 @@ export default function BookingPage() {
         >
           Till kassan
         </Button>
-
-        {/* <button type="button" className="checkout-btn-small mt-4 me-5" disabled>
-          Till kassan
-        </button> */}
       </div>
     </Container>
   );
