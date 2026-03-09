@@ -21,7 +21,7 @@ public static class MovieRoutes
 "  LIMIT 1" +
 ") " +
 "ORDER BY s.start_time " +
-"LIMIT 4",
+"LIMIT 6",
 null,
 context
 );
