@@ -1,4 +1,4 @@
-import type Product from '../interfaces/Product';
+/*import type Product from '../interfaces/Product';
 
 export interface SortOption {
   description: string;
@@ -42,4 +42,4 @@ export function getHelpers(productsJson: any) {
     sortOptions,
     sortDescriptions
   };
-}
+} */
