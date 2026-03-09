@@ -12,7 +12,8 @@ import { fetchBookingPrices } from "../utils/booking/fetchBookingPrices";
 import { calculateBookingTotals } from "../utils/booking/calculateBookingTotals";
 import { screenLayouts } from "../utils/booking/screenLayouts";
 
-import { mergeSeatsWithBookingState } from "../utils/booking/mergeSeatsWithBookingState";
+import mergeSeatsWithBookingState from "../utils/booking/mergeSeatsWithBookingState";
+
 
 import { toggleSeat } from "../utils/booking/toggleSeat";
 import { getPrice } from "../utils/booking/getPrice";

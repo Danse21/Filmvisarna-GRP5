@@ -11,7 +11,7 @@ import SearchPage from "./pages/SearchPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import BookingPage from "./pages/BookingPage.tsx";
 import BookingSummaryPage from "./pages/BookingSummaryPage.tsx";
-import snackspage from "./pages/Snackspage.tsx";
+import snackspage from "./pages/SnacksPage.tsx";
 
 
 interface Route {
