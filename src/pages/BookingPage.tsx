@@ -12,7 +12,8 @@ import { fetchBookingPrices } from "../utils/booking/fetchBookingPrices";
 import { calculateBookingTotals } from "../utils/booking/calculateBookingTotals";
 import { screenLayouts } from "../utils/booking/screenLayouts";
 
-import { generateSeatsFromLayout } from "../utils/booking/generateSeatsFromLayout";
+import { mergeSeatsWithBookingState } from "../utils/booking/mergeSeatsWithBookingState";
+
 import { toggleSeat } from "../utils/booking/toggleSeat";
 import { getPrice } from "../utils/booking/getPrice";
 import type { PriceCategory } from "../interfaces/priceCategory";
@@ -46,8 +47,7 @@ export default function BookingPage() {
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
   const layout = screenLayouts[screen.screen_name] ?? [];
-
-
+  const mergedSeats = mergeSeatsWithBookingState(layout, dbSeats);
 
 
   const navigate = useNavigate();
@@ -90,21 +90,6 @@ export default function BookingPage() {
 
 
 
-
-
-  // 1) Generate the UI layout seats
-  const uiSeats = generateSeatsFromLayout(layout);
-
-  // 2) Overlay DB booked state onto UI layout
-  const mergedSeats = uiSeats.map((seat) => {
-    const dbSeat = dbSeats.find(
-      (s) => s.seat_row === seat.row && s.seat_number === seat.seatNumber,
-    );
-    return {
-      ...seat,
-      is_booked: dbSeat ? dbSeat.is_booked : false,
-    };
-  });
 
   return (
     <Container className="pt-5">
