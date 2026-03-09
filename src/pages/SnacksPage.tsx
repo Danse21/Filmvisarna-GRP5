@@ -1,4 +1,4 @@
-import type { SnackCardDto } from "../interfaces/SnackCardDto.ts";
+import type { SnackCardDto } from "../interfaces/snackCardDto.ts";
 import snackLoader from "../loaders/snackLoader";
 import { useLoaderData } from "react-router-dom";
 
