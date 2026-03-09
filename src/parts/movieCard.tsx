@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   movie: MovieCardDto;
+  showShowtime?: boolean;
 }
 
-export default function MovieCard({ movie }: Props) {
+export default function MovieCard({ movie, showShowtime = true }: Props) {
   const [showTrailer, setShowTrailer] = useState(false);
   const navigate = useNavigate();
 
@@ -76,29 +77,31 @@ export default function MovieCard({ movie }: Props) {
                Visningsinformation
                Limegrön ruta så text syns över bilden
           */}
-            <div
-              style={{
-                background: "limegreen",
-                color: "black",
-                fontWeight: 600,
-                fontSize: "0.75rem",
-                padding: "4px 8px",
-                borderRadius: "6px",
-                textAlign: "center",
-                minWidth: "110px"
-              }}
-            >
-              {formattedDate} • {formattedTime}
-              <br />
-              {movie.screen_name}
-            </div>
+            {showShowtime && (
+              <div
+                style={{
+                  background: "limegreen",
+                  color: "black",
+                  fontWeight: 600,
+                  fontSize: "0.75rem",
+                  padding: "4px 8px",
+                  borderRadius: "6px",
+                  textAlign: "center",
+                  minWidth: "110px"
+                }}
+              >
+                {formattedDate} • {formattedTime}
+                <br />
+                {movie.screen_name}
+              </div>
+            )}
 
             {/* Biljetter */}
             <button
               className="btn btn-sm fw-semibold text-white btn-biljetter"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`)
+                navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`);
               }}
             >
               Biljetter

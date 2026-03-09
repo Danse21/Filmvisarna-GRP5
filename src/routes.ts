@@ -12,6 +12,8 @@ import LoginPage from "./pages/LoginPage.tsx";
 import BookingPage from "./pages/BookingPage.tsx";
 import BookingSummaryPage from "./pages/BookingSummaryPage.tsx";
 import snackspage from "./pages/SnacksPage.tsx";
+import MoviesPage from "./pages/MoviesPage.tsx";
+
 
 
 interface Route {
@@ -34,6 +36,7 @@ export default [
   BookingPage,
   BookingSummaryPage,
   snackspage,
+  MoviesPage,
 ]
   // map the route property of each page component to a Route,
   // that is converts each element so that each appears as StartPage.route, for example
