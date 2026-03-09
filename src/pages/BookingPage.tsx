@@ -14,7 +14,6 @@ import { screenLayouts } from "../utils/booking/screenLayouts";
 
 import mergeSeatsWithBookingState from "../utils/booking/mergeSeatsWithBookingState";
 
-
 import { toggleSeat } from "../utils/booking/toggleSeat";
 import { getPrice } from "../utils/booking/getPrice";
 import type { PriceCategory } from "../interfaces/priceCategory";
@@ -36,8 +35,6 @@ type DbSeat = {
   is_booked: boolean;
 };
 
-
-
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
     movie: Movie;
@@ -49,7 +46,6 @@ export default function BookingPage() {
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
   const layout = screenLayouts[screen.screen_name] ?? [];
   const mergedSeats = mergeSeatsWithBookingState(layout, dbSeats);
-
 
   const navigate = useNavigate();
 
@@ -72,9 +68,6 @@ export default function BookingPage() {
     setTickets((prev) => updateTicketCount(prev, key, plusMinus));
   }
 
-
-
-
   // Fetch on mount
   // Merge: price_category_id -> category name
   useEffect(() => {
@@ -86,11 +79,6 @@ export default function BookingPage() {
 
     loadPrices();
   }, []);
-
-
-
-
-
 
   return (
     <Container className="pt-5">
@@ -138,7 +126,9 @@ export default function BookingPage() {
                       ${selectedSeats.includes(s.id) ? "seat-selected" : ""}
                     `}
                     disabled={s.is_booked}
-                    onClick={() => setSelectedSeats((prev) => toggleSeat(prev, s.id))}
+                    onClick={() =>
+                      setSelectedSeats((prev) => toggleSeat(prev, s.id))
+                    }
                     title={`Rad ${s.row}, Stol ${s.seatNumber}`}
                   />
                 ))}
@@ -166,7 +156,9 @@ export default function BookingPage() {
         <div className="ticket-grid">
           {/* VUXEN */}
           <div className="ticket-col">
-            <div className="ticket-price">Pris {getPrice(priceCategory, "Adult")} kr</div>
+            <div className="ticket-price">
+              Pris {getPrice(priceCategory, "Adult")} kr
+            </div>
 
             {/* Card contains ONLY the category label */}
             <div className="ticket-card-only">
@@ -198,7 +190,9 @@ export default function BookingPage() {
           {/* BARN Lagt att den inte renderas om age limit är 12 eller mer*/}
           {movie.age_limit < 12 && (
             <div className="ticket-col">
-              <div className="ticket-price">Pris {getPrice(priceCategory, "Child")} kr</div>
+              <div className="ticket-price">
+                Pris {getPrice(priceCategory, "Child")} kr
+              </div>
 
               <div className="ticket-card-only">
                 <div className="ticket-label">Barn &lt; 12 år</div>
@@ -228,7 +222,9 @@ export default function BookingPage() {
 
           {/* PENSIONÄR */}
           <div className="ticket-col">
-            <div className="ticket-price">Pris {getPrice(priceCategory, "Pensioner")} kr</div>
+            <div className="ticket-price">
+              Pris {getPrice(priceCategory, "Pensioner")} kr
+            </div>
 
             <div className="ticket-card-only">
               <div className="ticket-label">Pensionär</div>
@@ -267,7 +263,7 @@ export default function BookingPage() {
 
         {/* Navigation button to next page, only enbled when there is seat and ticket selected */}
         <Button
-          className="checkout-btn-small mt-4 me-5"
+          className="checkout-btn-small d-flex align-items-center mt-4 me-5"
           disabled={selectedSeats.length === 0 || totalTickets === 0}
           onClick={() =>
             navigate("/booking/selected", {
