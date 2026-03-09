@@ -94,12 +94,18 @@ export default function BookingSummaryPage() {
     });
 
     const data = await response.json();
-    // Navigate to confirmation page
-    if (response.ok && !data.error) {
+
+    if (response.ok) {
       navigate("/booking/confirmation", {
         state: {
           bookingId: data.booking_id,
           bookingReference: data.booking_reference,
+          movie,
+          showtime,
+          screen,
+          selectedSeats,
+          tickets,
+          totalPrice,
         },
       });
     } else {
