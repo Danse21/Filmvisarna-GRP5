@@ -1,5 +1,6 @@
 import type { PriceCategory } from "../../interfaces/priceCategory";
 
+// Find a price for a ticket category
 export function getPrice(priceCategory: PriceCategory[], name: string) {
   const wanted = name.trim().toLowerCase();
   const match = priceCategory.find(

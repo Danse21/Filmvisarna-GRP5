@@ -7,6 +7,7 @@ type Tickets = {
   senior: number;
 };
 
+// Computes total tickets and total price
 export function calculateBookingTotals(
   tickets: Tickets,
   priceCategory: PriceCategory[],
