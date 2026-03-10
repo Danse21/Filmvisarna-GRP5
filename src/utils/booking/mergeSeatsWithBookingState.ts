@@ -7,6 +7,7 @@ type DbSeat = {
   is_booked: boolean;
 };
 
+// Combine layout seats (uiSeats) with DB booked seats (dbSeat)
 export default function mergeSeatsWithBookingState(
   layout: number[],
   dbSeats: DbSeat[],
@@ -15,7 +16,8 @@ export default function mergeSeatsWithBookingState(
 
   return uiSeats.map((seat) => {
     const dbSeat = dbSeats.find(
-      (item) => item.seat_row === seat.row && item.seat_number === seat.seatNumber,
+      (item) =>
+        item.seat_row === seat.row && item.seat_number === seat.seatNumber,
     );
 
     return {
@@ -24,4 +26,3 @@ export default function mergeSeatsWithBookingState(
     };
   });
 }
-
