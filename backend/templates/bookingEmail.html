@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <meta charset="UTF-8">
+  <title>RetroCinema Bokningsbekräftelse</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f4efe6;font-family:Arial,Helvetica,sans-serif;color:#2b2b2b;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;background:#f4efe6;">
+    <tr>
+      <td align="center">
+
+        <table width="600" cellpadding="0" cellspacing="0"
+          style="max-width:600px;background:#fff8e8;border:2px dashed #7a5c2e;border-radius:10px;overflow:hidden;">
+
+          <tr>
+            <td align="center"
+              style="background:#4b2e19;color:#f8e7b9;padding:24px;font-size:28px;font-weight:bold;letter-spacing:2px;">
+              🎬 RetroCinema
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:24px;font-size:16px;">
+              Hej!<br><br>
+              Här kommer din bokningsbekräftelse från <b>RetroCinema</b>.
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 24px 16px 24px;border-top:1px solid #d8c7a0;">
+              <h3 style="color:#4b2e19;">Film & Visning</h3>
+
+              <b>Film:</b> {{movieTitle}}<br>
+              <b>Åldersgräns:</b> {{ageLimit}} år<br>
+              <b>Datum:</b> {{showDate}}<br>
+              <b>Tid:</b> {{showTime}}<br>
+              <b>Salong:</b> {{screenName}}<br>
+              <b>Platser:</b> {{seatList}}
+
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 24px 16px 24px;border-top:1px solid #d8c7a0;">
+              <h3 style="color:#4b2e19;">Biljetter</h3>
+
+              Barn: {{childCount}} st – {{childPrice}} kr<br>
+              Vuxen: {{adultCount}} st – {{adultPrice}} kr<br>
+              Pensionär: {{seniorCount}} st – {{seniorPrice}} kr<br><br>
+
+              <b>Totalt pris:</b> {{totalPrice}} kr
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px 24px;border-top:1px solid #d8c7a0;background:#f9f1dc;">
+              <b>Bokningsnummer</b><br>
+              <span style="font-size:22px;font-weight:bold;letter-spacing:2px;">
+                {{bookingCode}}
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:24px;">
+              Visa QR-koden vid entrén.<br><br>
+
+              <img src="{{qrImageUrl}}" width="160" height="160" alt="QR kod">
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 24px 20px 24px;font-size:14px;color:#555;">
+              Vi rekommenderar att du är på plats minst <b>10 minuter före visningen</b>.
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:20px;font-size:14px;color:#5d4b2b;">
+              Välkommen åter!<br>
+              <b>RetroCinema</b>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+
+</html>
