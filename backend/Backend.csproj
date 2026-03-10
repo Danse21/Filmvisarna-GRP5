@@ -14,5 +14,9 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dyndata" Version="1.0.5" />
   </ItemGroup>
-
+<ItemGroup>
+  <Content Include="templates\bookingEmail.html">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 </Project>
