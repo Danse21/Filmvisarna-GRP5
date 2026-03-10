@@ -43,24 +43,19 @@ public static class BookingRoutes
       if (screen == null)
         return RestResult.Parse(context, new { error = "Screen not found" });
 
-      // Fetch seats and mark whether they are already booked for this showtime
-      var seats = SQLQuery(@"
-        SELECT
-          s.id,
-          s.seat_row,
-          s.seat_number,
-          CASE WHEN bs.id IS NULL THEN 0 ELSE 1 END AS is_booked
-        FROM seat s
-        LEFT JOIN booking_seat bs
-          ON bs.seat_id = s.id
-          AND bs.showtime_id = @showtimeId
-        WHERE s.screen_id = @screenId
-        ORDER BY s.seat_row ASC, s.seat_number DESC
-      ", new
+      // Fetch all seats for the screen/saloon
+      var seats = SQLQuery(@"SELECT id, seat_row, seat_number FROM seat WHERE screen_id = @screenId", new
       {
-        showtimeId,
         screenId = screen.id
       });
+
+      // Fetch occoupied seats
+      var occupiedSeats = SQLQuery(@"SELECT * FROM booking_seat WHERE showtime_id = @showtimeId", new
+      {
+        showtimeId
+      });
+
+      occupiedSeats.ForEach(x => seats.Find(y => y.id == x.seat_id).is_booked=true);
 
       return RestResult.Parse(context, new
       {
