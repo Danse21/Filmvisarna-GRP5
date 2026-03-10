@@ -6,7 +6,7 @@ import type { MovieCardDto } from "../interfaces/moviecardDto";
 
 MoviesPage.route = {
   path: "/filmer",
-  index: 11,
+  index: 12,
 };
 
 export default function MoviesPage() {
