@@ -12,13 +12,8 @@ import LoginPage from "./pages/LoginPage.tsx";
 import BookingPage from "./pages/BookingPage.tsx";
 import BookingSummaryPage from "./pages/BookingSummaryPage.tsx";
 import snackspage from "./pages/SnacksPage.tsx";
-<<<<<<< HEAD
-import MoviesPage from "./pages/MoviesPage.tsx";
-
-
-=======
 import BookingConfirmationPage from "./pages/BookingConfirmationPage.tsx";
->>>>>>> main
+import MoviesPage from "./pages/MoviesPage.tsx";
 
 interface Route {
   element: JSX.Element;
