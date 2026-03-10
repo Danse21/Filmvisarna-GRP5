@@ -1,6 +1,47 @@
+.pt-header {
+  padding-top: 90px; // så sidan inte hamnar bakom headern
+}
+
+.confirmation-page {
+  max-width: 820px;
+}
+
+.confirmation-title {
+  font-weight: 700;
+}
+
+.confirmation-text {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 .confirmation-box {
-  max-width: 420px;
-  border: 2px solid #111;
+  max-width: 640px;
+  border: 2px solid #f9c765;
+  background: #f9c765;
   border-radius: 10px;
-  padding: 20px;
+  padding: 22px;
+}
+
+.confirmation-line {
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.ticket-summary {
+  margin-left: 20px;
+}
+
+.confirmation-footer {
+  max-width: 640px;
+  margin: 40px auto 0 auto; // space above the section
+  text-align: left;
+}
+
+.welcome-text {
+  margin-bottom: 32px; // creates space before greeting
+}
+
+.greeting-text {
+  line-height: 1.4;
 }

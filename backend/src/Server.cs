@@ -18,6 +18,7 @@ public static class Server
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();
+        TestRoutes.Start();
         
         
         // Start the server on port 3001

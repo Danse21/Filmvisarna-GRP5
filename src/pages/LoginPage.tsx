@@ -16,7 +16,7 @@ export default function LoginPage() {
     <Container className="pt-5 pb-5" style={{ maxWidth: "420px" }}>
       {/* Add close button */}
       <button
-        className="btn btn-link text-decoration-none mb-4"
+        className="btn btn-link text-dark p-0 text-decoration-none fw-bold mb-4"
         onClick={() => navigate("/")}
         aria-label="Close login page"
       >

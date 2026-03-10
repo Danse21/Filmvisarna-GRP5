@@ -82,6 +82,7 @@ export default function BookingPage() {
 
   return (
     <Container className="pt-5">
+      {/* Add a button to go back to the previous page */}
       <Button
         variant="link"
         className="ps-0 text-decoration-none fw-medium"
