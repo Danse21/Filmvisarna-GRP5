@@ -20,10 +20,7 @@ public static class EmailService
         var config = JSON.Parse(configJson);
         
         // Laddar Email template
-        var templatePath = Path.Combine(
-        AppContext.BaseDirectory, "..", "..", "..", "templates", "bookingEmail.html"
-        );
-        string body = File.ReadAllText(templatePath);
+      string body = File.ReadAllText("templates/bookingEmail.html");
 
         // Plockar ut konfigurationen från "db-config.json"
         string smtpServer = config.smtpServer;
