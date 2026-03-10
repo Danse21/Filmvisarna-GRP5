@@ -1,21 +1,10 @@
-
-
-type Snack = {
-  name: string;
-  price: string;
-};
-
-const snacks: Snack[] = [
-  { name: "Popcorn storlek S", price: "80:-" },
-  { name: "Popcorn storlek M", price: "100:-" },
-  { name: "Popcorn storlek L", price: "120:-" },
-  { name: "Godis", price: "40:-" },
-  { name: "Retro Cola", price: "45:-" },
-  { name: "Kaffe & ostsmörgås", price: "85:-" },
-  { name: "Kaffe & skinksmörgås", price: "85:-" },
-];
+import type { SnackCardDto } from "../interfaces/snackCardDto.ts";
+import snackLoader from "../loaders/snackLoader";
+import { useLoaderData } from "react-router-dom";
 
 function Snackspage() {
+  const snacks = useLoaderData() as SnackCardDto[];
+  console.log(snacks);
   return (
     <div className="snacks-page">
 
@@ -23,7 +12,7 @@ function Snackspage() {
 
       <div className="snacks-card">
         {snacks.map((snack) => (
-          <div className="snack-row" key={snack.name}>
+          <div className="snack-row" key={snack.id}>
             <span>{snack.name}</span>
             <span>{snack.price}</span>
           </div>
@@ -35,6 +24,7 @@ function Snackspage() {
       </button>
 
     </div>
+
   );
 }
 
@@ -42,6 +32,7 @@ Snackspage.route = {
   path: "/snacks",
   menuLabel: "Snacks",
   index: 20,
+  loader: snackLoader
 };
 
 export default Snackspage;

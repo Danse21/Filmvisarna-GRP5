@@ -113,9 +113,8 @@ export default function BookingSummaryPage() {
   return (
     // pt-header pushes content below your fixed header
     <Container className="booking-summary-page pt-header pb-5">
-      {/* ===== TOP SECTION ===== */}
       <Row className="booking-section">
-        {/* LEFT BOX - selections */}
+        {/* Ticket type selections - Adult, Child, or Pensioner */}
         <Col md={6}>
           <div className="selection-box">
             <h5 className="mb-1">Dina val:</h5>

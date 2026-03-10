@@ -32,9 +32,10 @@ export default function StartPage() {
 
       setMovies(data);
     }
-
     fetchMovies();
   }, []);
+
+
 
   return (
     <Container fluid className="pt-5 mt-3 pb-4 px-2 min-vh-100" >

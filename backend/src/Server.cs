@@ -7,6 +7,7 @@ public static class Server
         App = builder.Build();
         Middleware();
         DebugLog.Start();
+        TestRoutes.Start();
         BookingRoutes.Start();
         Acl.Start();
         ErrorHandler.Start();
