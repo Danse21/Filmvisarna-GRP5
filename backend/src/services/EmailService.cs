@@ -8,7 +8,7 @@ public static class EmailService
 {
 
     // Skapar vår funktion som skickar email med 3 parametrar.
-    public static void SendEmail(string to, string subject, string body)
+    public static void SendEmail(string to)
     {
         // Sätt path - för att hitta db-config.json
         var configPath = Path.Combine(
@@ -18,6 +18,12 @@ public static class EmailService
         var configJson = File.ReadAllText(configPath);
         // Gör om den inlästa filen "db-config.json" till json-format
         var config = JSON.Parse(configJson);
+        
+        // Laddar Email template
+        var templatePath = Path.Combine(
+        AppContext.BaseDirectory, "..", "..", "..", "templates", "bookingEmail.html"
+        );
+        string body = File.ReadAllText(templatePath);
 
         // Plockar ut konfigurationen från "db-config.json"
         string smtpServer = config.smtpServer;
@@ -33,7 +39,7 @@ public static class EmailService
             // To = Motagarens email, den vi ska skicka mail till.
             To = { MailboxAddress.Parse(to) },
             // Subject = Rubriken på mailet 
-            Subject = subject,
+            Subject = "RetroCinema – Bokningsbekräftelse",
             // Body = Den meddelande text man vill ha i mailet. 
             // TextPart("html") = Gör att vi kan använda html-element för att strukturera meddelandet. 
             Body = new TextPart("html") { Text = body }
@@ -51,3 +57,37 @@ public static class EmailService
             }
     }
 }
+
+
+
+
+/*
+EMAIL TEMPLATE PLACEHOLDERS
+
+Film & Visning
+{{movieTitle}}     -> Filmens titel
+{{ageLimit}}       -> Åldersgräns
+{{showDate}}       -> Datum för visningen
+{{showTime}}       -> Starttid (ev. även sluttid)
+{{screenName}}     -> Salong / Screen
+{{seatList}}       -> Lista med platser (ex: "Rad 4 – Stol 38, 39, 40")
+
+Biljetter
+{{childCount}}     -> Antal barnbiljetter
+{{childPrice}}     -> Pris per barnbiljett
+
+{{adultCount}}     -> Antal vuxenbiljetter
+{{adultPrice}}     -> Pris per vuxenbiljett
+
+{{seniorCount}}    -> Antal pensionärsbiljetter
+{{seniorPrice}}    -> Pris per pensionärsbiljett
+
+Pris
+{{totalPrice}}     -> Totalt pris för bokningen
+
+Bokning
+{{bookingCode}}    -> Bokningsnummer / bokningskod
+
+QR
+{{qrImageUrl}}     -> URL eller base64-bild till QR-kod
+*/
