@@ -1,5 +1,6 @@
 import type { UiSeat } from "../../interfaces/uiSeat";
 
+// Create seat object from a hall layout
 export function generateSeatsFromLayout(layout: number[]): UiSeat[] {
   const seats: UiSeat[] = [];
   let seatNumber = 1;

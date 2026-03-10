@@ -6,6 +6,7 @@ type Tickets = {
 
 type TicketType = "adult" | "child" | "senior";
 
+// Update ticket count
 export function updateTicketCount(
   tickets: Tickets,
   key: TicketType,

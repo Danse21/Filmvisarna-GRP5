@@ -7,6 +7,7 @@ public static class Server
         App = builder.Build();
         Middleware();
         DebugLog.Start();
+        TestRoutes.Start();
         BookingRoutes.Start();
         Acl.Start();
         ErrorHandler.Start();
@@ -17,6 +18,7 @@ public static class Server
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();
+        TestRoutes.Start();
         
         
         // Start the server on port 3001

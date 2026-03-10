@@ -4,6 +4,7 @@ import type {
   PriceCategoryRow,
 } from "../../interfaces/priceCategory";
 
+// Fetch and merge price data from backend
 export async function fetchBookingPrices(): Promise<PriceCategory[]> {
   const [priceRes, catRes] = await Promise.all([
     fetch("/api/price"),
@@ -14,7 +15,9 @@ export async function fetchBookingPrices(): Promise<PriceCategory[]> {
   const categories: PriceCategoryRow[] = await catRes.json();
 
   return prices.map((price) => {
-    const category = categories.find((item) => item.id === price.price_category_id);
+    const category = categories.find(
+      (item) => item.id === price.price_category_id,
+    );
 
     return {
       id: price.id,
