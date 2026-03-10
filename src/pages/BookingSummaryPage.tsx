@@ -94,16 +94,22 @@ export default function BookingSummaryPage() {
     });
 
     const data = await response.json();
-
-    if (response.ok) {
+    // Navigate to confirmation page
+    if (response.ok && !data.error) {
       navigate("/booking/confirmation", {
-        state: { bookingId: data.booking_id },
+        state: {
+          bookingId: data.booking_id,
+          bookingReference: data.booking_reference,
+        },
       });
     } else {
-      alert("Bokningen misslyckades.");
+      alert(
+        data.error
+          ? `${data.error}: ${data.message ?? ""}`
+          : "Bokningen misslyckades.",
+      );
     }
   }
-
   return (
     // pt-header pushes content below your fixed header
     <Container className="booking-summary-page pt-header pb-5">

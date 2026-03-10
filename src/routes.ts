@@ -12,7 +12,7 @@ import LoginPage from "./pages/LoginPage.tsx";
 import BookingPage from "./pages/BookingPage.tsx";
 import BookingSummaryPage from "./pages/BookingSummaryPage.tsx";
 import snackspage from "./pages/SnacksPage.tsx";
-
+import BookingConfirmationPage from "./pages/BookingConfirmationPage.tsx";
 
 interface Route {
   element: JSX.Element;
@@ -33,6 +33,7 @@ export default [
   LoginPage,
   BookingPage,
   BookingSummaryPage,
+  BookingConfirmationPage,
   snackspage,
 ]
   // map the route property of each page component to a Route,
