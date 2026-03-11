@@ -14,7 +14,6 @@ public static class Server
         FileServer.Start();
         LoginRoutes.Start();
         MovieRoutes.Start();
-        /*MovieShowtimeRoutes.Start();*/
         AiChatRoutes.Start();
         RestApi.Start();
         Session.Start();

@@ -23,7 +23,6 @@ export default function MovieDetailsPage() {
     2: "Lilla Salongen",
   };
 
-
   return (
     <Container className="pt-5 pb-5 mt-1">
       {/* Create a close button (X STÄNG) */}
@@ -143,40 +142,3 @@ export default function MovieDetailsPage() {
     </Container>
   );
 }
-
-// {
-//   /* //       <h1>{movie.title}</h1>
-
-// //       <img src={"/images/movies/" + movie.slug + ".jpg"} />
-
-// //       <p>
-// //         <strong>Genre:</strong> {movie.genre}
-// //       </p>
-// //       <p>
-// //         <strong>Duration:</strong> {movie.duration_minutes} min
-// //       </p>
-// //       <p>
-// //         <strong>Age limit:</strong> {movie.age_limit}+
-// //       </p>
-
-// //       <p>{movie.description}</p>
-// //       <Col md={6}>
-// //         <div className="movie-text-block text-center h-100">
-// //           <ul className="list-unstyled mb=0 movie-facts">
-// //             {movie.description}
-// //           </ul>
-// //         </div>
-// //       </Col>
-// //       <div className="mt-3">
-// //         <a href={movie.imdb_link} target="_blank" rel="noreferrer">
-// //           IMDb
-// //         </a>
-// //         {" | "}
-// //         <a href={movie.rottentomatoes_link} target="_blank" rel="noreferrer">
-// //           Rotten Tomatoes
-// //         </a>
-// //       </div>
-// //     </Container>
-// //   );
-// // } */
-// }
