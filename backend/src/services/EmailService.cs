@@ -8,7 +8,7 @@ public static class EmailService
 {
 
     // Skapar vår funktion som skickar email med 3 parametrar.
-    public static void SendEmail(string to)
+  public static void SendEmail(string to, string htmlBody)
     {
         // Sätt path - för att hitta db-config.json
         var configPath = Path.Combine(
@@ -19,8 +19,7 @@ public static class EmailService
         // Gör om den inlästa filen "db-config.json" till json-format
         var config = JSON.Parse(configJson);
         
-        // Laddar Email template
-      string body = File.ReadAllText("templates/bookingEmail.html");
+
 
         // Plockar ut konfigurationen från "db-config.json"
         string smtpServer = config.smtpServer;
@@ -39,7 +38,37 @@ public static class EmailService
             Subject = "RetroCinema – Bokningsbekräftelse",
             // Body = Den meddelande text man vill ha i mailet. 
             // TextPart("html") = Gör att vi kan använda html-element för att strukturera meddelandet. 
-            Body = new TextPart("html") { Text = body }
+       var builder = new BodyBuilder();
+
+// HTML-version (din template)
+builder.HtmlBody = htmlBody;
+
+// Enkel fallback-text
+builder.TextBody = $@"
+RetroCinema Bokningsbekräftelse
+
+Film: {movieTitle}
+Datum: {showDate}
+Tid: {showTime}
+Salong: {screenName}
+
+Platser: {seatList}
+
+Bokningsnummer:
+{bookingRef}
+
+Visa bokningsnumret eller QR-koden i kassan.
+
+Tack för ditt besök!
+RetroCinema
+";
+var message = new MimeMessage()
+{
+    From = { MailboxAddress.Parse(emailUsername) },
+    To = { MailboxAddress.Parse(to) },
+    Subject = "RetroCinema – Bokningsbekräftelse",
+    Body = builder.ToMessageBody()
+};
         };
 
         using (var client = new SmtpClient ()) {
