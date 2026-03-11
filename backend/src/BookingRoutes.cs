@@ -43,19 +43,24 @@ public static class BookingRoutes
       if (screen == null)
         return RestResult.Parse(context, new { error = "Screen not found" });
 
-      // Fetch all seats for the screen/saloon
-      var seats = SQLQuery(@"SELECT id, seat_row, seat_number FROM seat WHERE screen_id = @screenId", new
+      // Fetch seats and mark whether they are already booked for this showtime
+      var seats = SQLQuery(@"
+        SELECT
+          s.id,
+          s.seat_row,
+          s.seat_number,
+          CASE WHEN bs.id IS NULL THEN 0 ELSE 1 END AS is_booked
+        FROM seat s
+        LEFT JOIN booking_seat bs
+          ON bs.seat_id = s.id
+          AND bs.showtime_id = @showtimeId
+        WHERE s.screen_id = @screenId
+        ORDER BY s.seat_row ASC, s.seat_number DESC
+      ", new
       {
+        showtimeId,
         screenId = screen.id
       });
-
-      // Fetch occoupied seats
-      var occupiedSeats = SQLQuery(@"SELECT * FROM booking_seat WHERE showtime_id = @showtimeId", new
-      {
-        showtimeId
-      });
-
-      occupiedSeats.ForEach(x => seats.Find(y => y.id == x.seat_id).is_booked=true);
 
       return RestResult.Parse(context, new
       {
@@ -96,8 +101,10 @@ public static class BookingRoutes
         decimal totalPrice = Convert.ToDecimal(body.total_price);
 
         // Seats are sent like ["8-3", "8-2", "8-1"]
-        var selectedSeats = body.seats;
-
+       // var selectedSeats = body.seats;
+        var selectedSeats = ((IEnumerable<dynamic>)body.seats)
+                    .Select(x => (string)x)
+                    .ToList();
         // Booking status: 1 = Pending
         int statusId = 1;
 
@@ -113,6 +120,12 @@ public static class BookingRoutes
           "SELECT * FROM showtime WHERE id = @id",
           new { id = showtimeId }
         );
+// För mailen
+        var movie = SQLQueryOne(
+  "SELECT title, age_limit FROM movie WHERE id = @id",
+  new { id = showtime.movie_id }
+);
+//För mailen ovanför
 
         if (showtime == null)
           return RestResult.Parse(context, new { error = "Showtime not found" });
@@ -300,6 +313,27 @@ public static class BookingRoutes
           seatIndex++;
         }
 
+/*try
+{
+BookingEmailBuilder.SendBookingEmail(
+    email,
+    bookingRef,
+    (string)movie.title,
+    Convert.ToInt32(movie.age_limit),
+    Convert.ToDateTime(showtime.start_time),
+    (string)screen.name,
+    selectedSeats,
+    adultCount,
+    childCount,
+    seniorCount,
+    totalPrice
+);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Email failed but booking succeeded");
+    Console.WriteLine(ex.Message);
+}*/
         // Step 5: Return success response
         return RestResult.Parse(context, new
         {
