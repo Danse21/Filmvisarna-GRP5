@@ -245,9 +245,29 @@ public static class BookingRoutes
         int pensionerCategoryId = 2;
         int childCategoryId = 3;
 
+        // Get number of ticket
         int adultCount = body.tickets?.adult != null ? Convert.ToInt32(body.tickets.adult) : 0;
         int childCount = body.tickets?.child != null ? Convert.ToInt32(body.tickets.child) : 0;
         int seniorCount = body.tickets?.senior != null ? Convert.ToInt32(body.tickets.senior) : 0;
+
+
+        // Do not allow a user to book if the number of selected ticket is not equal to the number of selected seat
+        // A user cannot select more ticket than seat. You cannot go further with booking.
+        int selectedSeatCount = 0;
+        foreach (var _ in selectedSeats)
+        {
+          selectedSeatCount++;
+        }
+
+        int totalTicketCount = adultCount + childCount + seniorCount;
+
+        if (totalTicketCount != selectedSeatCount)
+        {
+          return RestResult.Parse(context, new
+          {
+            error = "Number of tickets must match number of selected seats"
+          });
+}
 
         var categoryQueue = new List<int>();
 
@@ -267,6 +287,9 @@ public static class BookingRoutes
           int seatInRow = int.Parse(parts[1]);
           int seatNumber = ToSeatNumber(row, seatInRow);
 
+          Console.WriteLine($"Seat mapping: row={row}, seatInRow={seatInRow}");
+          // Console.WriteLine($"Seats in row: {seatsInRow}");
+
           var dbSeat = SQLQueryOne(
             "SELECT id FROM seat WHERE screen_id = @screenId AND seat_number = @seatNumber",
             new
@@ -275,13 +298,11 @@ public static class BookingRoutes
               seatNumber
             }
           );
-
           if (dbSeat == null || dbSeat.id == null)
             return RestResult.Parse(context, new
             {
               error = $"dbSeat.id is null for row {row}, seat {seatInRow}, mapped seat_number {seatNumber}"
             });
-
           // Assign price category by ticket order
           int priceCategoryId =
             seatIndex < categoryQueue.Count ? categoryQueue[seatIndex] : adultCategoryId;

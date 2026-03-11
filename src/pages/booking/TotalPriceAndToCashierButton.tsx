@@ -23,7 +23,10 @@ export default function TotalPriceAndToCashierButton({
 
       <Button
         className="checkout-btn-small d-flex align-items-center mt-4 me-5"
-        disabled={selectedSeats.length === 0 || totalTickets === 0}
+        // Ensure the number of selected seat and ticket match before enabling this button
+        disabled={
+          selectedSeats.length === 0 || totalTickets !== selectedSeats.length
+        }
         onClick={onCheckout}
       >
         Till kassan
