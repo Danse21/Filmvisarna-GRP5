@@ -1,7 +1,17 @@
+using QRCoder;
 namespace WebApp;
+
 
 public static class BookingEmailBuilder
 {
+private static byte[] GenerateQr(string content)
+{
+    var generator = new QRCodeGenerator();
+    var data = generator.CreateQrCode(content, QRCodeGenerator.ECCLevel.Q);
+
+    var qrCode = new PngByteQRCode(data);
+    return qrCode.GetGraphic(10);
+}
     public static void SendBookingEmail(
     string email,
     string bookingRef,
@@ -15,6 +25,7 @@ public static class BookingEmailBuilder
     int seniorCount,
     decimal totalPrice
 )
+
     {
         // Läs template
         var templatePath = Path.Combine(
@@ -57,7 +68,8 @@ template = template.Replace("{{showDate}}", startTime.ToString("yyyy-MM-dd"));
 template = template.Replace("{{showTime}}", startTime.ToString("HH:mm"));
 
 template = template.Replace("{{screenName}}", screenName);
-        template = template.Replace("{{qrImageUrl}}", "");
+
+
 
 
 template = template.Replace("{{childPrice}}", "");
@@ -65,9 +77,9 @@ template = template.Replace("{{adultPrice}}", "");
 template = template.Replace("{{seniorPrice}}", "");
 
 
-
-
         // Skicka mail
-        EmailService.SendEmail(email, template);
+byte[] qrBytes = GenerateQr(bookingRef);
+EmailService.SendEmail(email, template, qrBytes);
+
     }
 }

@@ -313,7 +313,7 @@ public static class BookingRoutes
           seatIndex++;
         }
 
-try
+/*try
 {
 BookingEmailBuilder.SendBookingEmail(
     email,
@@ -333,7 +333,7 @@ catch (Exception ex)
 {
     Console.WriteLine("Email failed but booking succeeded");
     Console.WriteLine(ex.Message);
-}
+}*/
         // Step 5: Return success response
         return RestResult.Parse(context, new
         {
