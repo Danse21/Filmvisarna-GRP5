@@ -1,6 +1,7 @@
 import type { SnackCardDto } from "../interfaces/snackCardDto.ts";
 import snackLoader from "../loaders/snackLoader";
 import { useLoaderData } from "react-router-dom";
+import '/sass/snackspage.scss';
 
 function Snackspage() {
   const snacks = useLoaderData() as SnackCardDto[];
