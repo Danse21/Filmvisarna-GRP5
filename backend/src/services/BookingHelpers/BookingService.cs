@@ -1,6 +1,5 @@
 namespace WebApp;
 
-
 // Holds the logic from GET and POST (the booking itself)
 // for retrieving booking data and creating bookings.
 public static class BookingService
@@ -84,7 +83,7 @@ public static class BookingService
       // Parse incoming JSON request body.
       var body = JSON.Parse(bodyJson.ToString());
 
-      // Validate required fields
+      // Validate required fields.
       if (body.showtime_id == null)
         return RestResult.Parse(context, new { error = "showtime_id is missing" });
 
@@ -97,15 +96,18 @@ public static class BookingService
       if (body.seats == null)
         return RestResult.Parse(context, new { error = "seats are missing" });
 
+      if (body.tickets == null)
+        return RestResult.Parse(context, new { error = "tickets are missing" });
+
       // Convert JSON values to typed variables.
       int showtimeId = Convert.ToInt32(body.showtime_id);
       string email = (string)body.email;
       decimal totalPrice = Convert.ToDecimal(body.total_price);
 
-      // Seats arrive as strings like "4-3" (Row 4 seat 3)
+      // Seats arrive as strings like "4-3" (Row 4 seat 3).
       var selectedSeats = body.seats;
 
-      // Booking status 1 = Pending
+      // Booking status 1 = Pending.
       int statusId = 1;
 
       // Create a unique booking reference.
@@ -113,7 +115,7 @@ public static class BookingService
         DateTime.UtcNow.ToString("yyyyMMddHHmmss") +
         Random.Shared.Next(100, 999).ToString();
 
-      // Fetch showtime and screen
+      // Fetch showtime.
       var showtime = SQLQueryOne(
         "SELECT * FROM showtime WHERE id = @id",
         new { id = showtimeId }
@@ -139,14 +141,16 @@ public static class BookingService
         ? ((string)screen.screen_name).Trim()
         : "";
 
+      // Get the correct seat layout for the selected screen.
       int[] layout = SeatBookingHelpers.GetScreenLayout(screenName);
 
-      // Step 1: Prevent double booking
+      // Step 1: Prevent double booking.
       foreach (var seatStrObj in selectedSeats)
       {
+        // Convert the selected seat object to string.
         string seatStr = (string)seatStrObj;
 
-        // Validate seat id format (e.g. "6-11").
+        // Validate seat id format, for example "6-11".
         if (!SeatBookingHelpers.TryParseSeatId(seatStr, out int row, out int seatInRow))
         {
           return RestResult.Parse(context, new
@@ -156,7 +160,12 @@ public static class BookingService
         }
 
         // Convert row + seatInRow into a continuous seat number.
-        int seatNumber = SeatBookingHelpers.ToContinuousSeatNumber(row, seatInRow, layout, screenName);
+        int seatNumber = SeatBookingHelpers.ToContinuousSeatNumber(
+          row,
+          seatInRow,
+          layout,
+          screenName
+        );
 
         // Find the seat in the database.
         var dbSeat = SQLQueryOne(
@@ -168,13 +177,14 @@ public static class BookingService
           }
         );
 
+        // Stop if the seat does not exist in the database.
         if (dbSeat == null)
           return RestResult.Parse(context, new
           {
             error = $"Seat not found for row {row}, seat {seatInRow}"
           });
 
-        // Check if seat is already booked.
+        // Check if the seat is already booked for the same showtime.
         var existing = SQLQueryOne(
           "SELECT id FROM booking_seat WHERE seat_id = @seatId AND showtime_id = @showtimeId",
           new
@@ -184,6 +194,7 @@ public static class BookingService
           }
         );
 
+        // Stop if the seat is already booked.
         if (existing != null)
           return RestResult.Parse(context, new
           {
@@ -191,7 +202,7 @@ public static class BookingService
           });
       }
 
-      // Step 2: Insert booking row
+      // Step 2: Insert booking row.
       SQLQuery(@"
         INSERT INTO booking
           (user_id, email, showtime_id, booking_date, booking_reference, booking_status_id, total_price)
@@ -212,6 +223,7 @@ public static class BookingService
         new { bookingRef }
       );
 
+      // Stop if the booking row was inserted but no id was returned.
       if (created == null || created.id == null)
       {
         context.Response.StatusCode = 500;
@@ -222,17 +234,77 @@ public static class BookingService
         });
       }
 
+      // Convert the booking id to integer.
       int bookingId = Convert.ToInt32(created.id);
 
-      // Step 3: Insert booking_seat rows
+      // Step 3: Build the ticket category queue.
+      // Adult first, then Child, then Pensioner.
+      int adultCategoryId = 1;
+      int pensionerCategoryId = 2;
+      int childCategoryId = 3;
+
+      // Read number of selected tickets in each category.
+      int adultCount = body.tickets?.adult != null ? Convert.ToInt32(body.tickets.adult) : 0;
+      int childCount = body.tickets?.child != null ? Convert.ToInt32(body.tickets.child) : 0;
+      int seniorCount = body.tickets?.senior != null ? Convert.ToInt32(body.tickets.senior) : 0;
+
+      // Count selected seats.
+      int selectedSeatCount = 0;
+      foreach (var _ in selectedSeats)
+      {
+        selectedSeatCount++;
+      }
+
+      // Count total selected tickets.
+      int totalTicketCount = adultCount + childCount + seniorCount;
+
+      // Stop if number of tickets does not match number of seats.
+      if (totalTicketCount != selectedSeatCount)
+      {
+        return RestResult.Parse(context, new
+        {
+          error = "Number of tickets must match number of selected seats"
+        });
+      }
+
+      // Build ticket category queue in booking order.
+      var categoryQueue = new List<int>();
+
+      // Add adult ticket categories first.
+      for (int i = 0; i < adultCount; i++) categoryQueue.Add(adultCategoryId);
+
+      // Add child ticket categories second.
+      for (int i = 0; i < childCount; i++) categoryQueue.Add(childCategoryId);
+
+      // Add pensioner ticket categories last.
+      for (int i = 0; i < seniorCount; i++) categoryQueue.Add(pensionerCategoryId);
+
+      // Step 4: Insert booking_seat rows.
+      int seatIndex = 0;
+
       foreach (var seatStrObj in selectedSeats)
       {
+        // Convert the selected seat object to string.
         string seatStr = (string)seatStrObj;
 
-        SeatBookingHelpers.TryParseSeatId(seatStr, out int row, out int seatInRow);
+        // Validate seat id format before using it.
+        if (!SeatBookingHelpers.TryParseSeatId(seatStr, out int row, out int seatInRow))
+        {
+          return RestResult.Parse(context, new
+          {
+            error = $"Invalid seat format: '{seatStr}'"
+          });
+        }
 
-        int seatNumber = SeatBookingHelpers.ToContinuousSeatNumber(row, seatInRow, layout, screenName);
+        // Convert row + seatInRow into a continuous seat number.
+        int seatNumber = SeatBookingHelpers.ToContinuousSeatNumber(
+          row,
+          seatInRow,
+          layout,
+          screenName
+        );
 
+        // Find the matching seat in the database.
         var dbSeat = SQLQueryOne(
           "SELECT id FROM seat WHERE screen_id = @screenId AND seat_number = @seatNumber",
           new
@@ -242,15 +314,33 @@ public static class BookingService
           }
         );
 
+        // Stop if the seat could not be found.
+        if (dbSeat == null || dbSeat.id == null)
+        {
+          return RestResult.Parse(context, new
+          {
+            error = $"dbSeat.id is null for row {row}, seat {seatInRow}, mapped seat_number {seatNumber}"
+          });
+        }
+
+        // Assign the correct price category based on ticket order.
+        int priceCategoryId =
+          seatIndex < categoryQueue.Count ? categoryQueue[seatIndex] : adultCategoryId;
+
+        // Insert one booking_seat row for this seat.
         SQLQuery(@"
-          INSERT INTO booking_seat (booking_id, seat_id, showtime_id)
-          VALUES (@bookingId, @seatId, @showtimeId)
+          INSERT INTO booking_seat (booking_id, seat_id, showtime_id, price_category_id)
+          VALUES (@bookingId, @seatId, @showtimeId, @priceCategoryId)
         ", new
         {
           bookingId,
           seatId = Convert.ToInt32(dbSeat.id),
-          showtimeId
+          showtimeId,
+          priceCategoryId
         });
+
+        // Move to the next selected seat.
+        seatIndex++;
       }
 
       // Return success response.
