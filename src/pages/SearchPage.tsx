@@ -36,7 +36,7 @@ export default function SearchPage() {
         {/* Create text input */}
         <input
           type="text"
-          className="form-control ps-5 pe-5"
+          className="form-input ps-5 pe-5"
           placeholder="sök efter film..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}

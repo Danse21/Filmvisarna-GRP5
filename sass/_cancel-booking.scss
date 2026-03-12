@@ -1,0 +1,21 @@
+/* Input fields on cancel booking page */
+.form-input {
+  background-color: #d9d9d9;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* Buttons on cancel booking page */
+.cancel-btn {
+  background-color: #9cfac3;
+  border: 1px solid #9cfac3;
+  color: black;
+  margin-left: 34px;
+}
+
+/* Prevent bootstrap hover override */
+.cancel-btn:hover {
+  background-color: #9cfac3;
+  border-color: #9cfac3;
+  color: black;
+}
