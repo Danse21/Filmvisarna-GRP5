@@ -9,6 +9,8 @@ import { calculateBookingTotals } from "../utils/booking/calculateBookingTotals"
 import { screenLayouts } from "../utils/booking/screenLayouts";
 import mergeSeatsWithBookingState from "../utils/booking/mergeSeatsWithBookingState";
 import { toggleSeat } from "../utils/booking/toggleSeat";
+import type DbSeat from "../interfaces/dbSeat";
+import type SelectedSeatInfo from "../interfaces/selectedSeatInfo";
 
 import type Movie from "../interfaces/movie";
 import type { PriceCategory } from "../interfaces/priceCategory";
@@ -19,13 +21,7 @@ import SeatLegendLabel from "./booking/SeatLegendLabel";
 import TicketPriceCategorySelector from "./booking/TicketPriceCategorySelector";
 import TotalPriceAndToCashierButton from "./booking/TotalPriceAndToCashierButton";
 
-type DbSeat = {
-  id: number;
-  seat_row: number;
-  seat_number: number;
-  is_booked: boolean;
-};
-
+// Navigation route
 BookingPage.route = {
   path: "/booking/:slug",
   loader: bookingLoader,
@@ -42,11 +38,33 @@ export default function BookingPage() {
 
   const { movie, showtime, screen, seats: dbSeats } = loaderData;
   const layout = screenLayouts[screen.screen_name] ?? [];
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const mergedSeats = mergeSeatsWithBookingState(layout, dbSeats);
+
+  // This array stores the exact selected seats with their real seat numbers
+  // from the booking page seat layout.
+  const selectedSeatInfo: SelectedSeatInfo[] = selectedSeats
+    .map((selectedId) => {
+      // Find the matching seat object in the merged seat list.
+      const matchingSeat = mergedSeats.find((seat) => seat.id === selectedId);
+
+      // Return null if the seat was not found.
+      if (!matchingSeat) {
+        return null;
+      }
+
+      // Return the exact seat information used in the seat layout.
+      return {
+        id: matchingSeat.id,
+        row: matchingSeat.row,
+        seatNumber: matchingSeat.seatNumber,
+      };
+    })
+    // Remove null values from the array.
+    .filter((seat): seat is SelectedSeatInfo => seat !== null);
 
   const navigate = useNavigate();
 
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [tickets, setTickets] = useState({
     adult: 0,
     child: 0,
@@ -173,6 +191,7 @@ export default function BookingPage() {
               showtime,
               screen,
               selectedSeats,
+              selectedSeatInfo,
               tickets,
               totalPrice,
             },

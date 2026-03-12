@@ -5,4 +5,6 @@ export const screenLayouts: Record<string, number[]> = {
   "Lilla Salongen": [6, 8, 9, 10, 10, 12],
 };
 
-// Stores layout data only
+// Stores layout data only, and
+// This object defines how many seats each row contains in each cinema salon.
+// The numbers represent seats per row from top to bottom.

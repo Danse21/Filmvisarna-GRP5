@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import type Movie from "../interfaces/movie";
 
+import type SelectedSeatInfo from "../interfaces/selectedSeatInfo";
+import type Tickets from "../interfaces/ticket";
+
 import SelectedTicketPriceSummary from "./booking/SelectedTicketPriceSummary";
 import EmailInputField from "./booking/EmailInputField";
 import SelectedMovieAndSeatInfo from "./booking/SelectedMovieAndSeatInfo";
@@ -10,12 +13,6 @@ import SelectedMovieAndSeatInfo from "./booking/SelectedMovieAndSeatInfo";
 BookingSummaryPage.route = {
   path: "/booking/selected",
   index: 10,
-};
-
-type Tickets = {
-  adult: number;
-  child: number;
-  senior: number;
 };
 
 export default function BookingSummaryPage() {
@@ -28,6 +25,7 @@ export default function BookingSummaryPage() {
         showtime: { id: number; start_time: string };
         screen: { screen_name: string };
         selectedSeats: string[];
+        selectedSeatInfo: SelectedSeatInfo[];
         tickets: Tickets;
         totalPrice: number;
       }
@@ -46,29 +44,49 @@ export default function BookingSummaryPage() {
     );
   }
 
-  const { movie, showtime, screen, tickets, totalPrice, selectedSeats } = state;
+  const {
+    movie,
+    showtime,
+    screen,
+    tickets,
+    totalPrice,
+    selectedSeats,
+    selectedSeatInfo,
+  } = state;
 
+  // This object groups selected seats by row using the exact seat numbers
+  // from the booking page seat layout.
+  const groupedSeats: Record<number, number[]> = {};
+
+  // Loop through all selected seat info objects.
+  selectedSeatInfo.forEach((seat) => {
+    // Create an empty array for the row if it does not exist yet.
+    if (!groupedSeats[seat.row]) {
+      groupedSeats[seat.row] = [];
+    }
+
+    // Add the exact seat number to the correct row.
+    groupedSeats[seat.row].push(seat.seatNumber);
+  });
+
+  // This variable creates the text that shows the selected seats
+  // using the exact seat numbers from BookingPage.
   const seatText =
-    selectedSeats?.length > 0
-      ? Object.entries(
-          selectedSeats.reduce<Record<string, number[]>>((acc, id) => {
-            const [rowStr, seatStr] = id.split("-");
-            const row = rowStr;
-            const seat = Number(seatStr);
-
-            if (!acc[row]) acc[row] = [];
-            acc[row].push(seat);
-
-            return acc;
-          }, {}),
-        )
+    selectedSeatInfo.length > 0
+      ? Object.entries(groupedSeats)
+          // Sort rows from lowest to highest row number.
           .sort(([a], [b]) => Number(a) - Number(b))
           .map(([row, seats]) => {
-            const sorted = seats.sort((x, y) => y - x);
-            return `Rad ${row}: stol ${sorted.join(", ")}`;
+            // Sort seat numbers from lowest to highest.
+            const sortedSeats = [...seats].sort((a, b) => a - b);
+
+            // Return formatted seat text for one row.
+            return `Rad ${row}: stol ${sortedSeats.join(", ")}`;
           })
+          // Join all row texts into one string.
           .join(" • ")
-      : "—";
+      : // Show a dash if no seats are selected.
+        "—";
 
   async function confirmBooking() {
     const response = await fetch("/api/booking", {
@@ -96,6 +114,7 @@ export default function BookingSummaryPage() {
           showtime,
           screen,
           selectedSeats,
+          selectedSeatInfo,
           tickets,
           totalPrice,
           email,

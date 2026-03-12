@@ -6,19 +6,31 @@ import ConfirmationInitialMessage from "../pages/booking/ConfirmationInitialMess
 import ConfirmationAllSelectedItems from "../pages/booking/ConfirmationAllSelectedItems";
 import ConfirmationFooterGreetingsNotes from "../pages/booking/ConfirmationFooterGreetingsNotes";
 
-BookingConfirmationPage.route = {
-  path: "/booking/confirmation",
-  index: 11,
-};
-
+// This type stores how many tickets were selected in each category.
 type Tickets = {
   adult: number;
   child: number;
   senior: number;
 };
 
+// This type stores the exact selected seat information
+// passed from BookingPage through BookingSummaryPage.
+type SelectedSeatInfo = {
+  id: string;
+  row: number;
+  seatNumber: number;
+};
+
+BookingConfirmationPage.route = {
+  path: "/booking/confirmation",
+  index: 11,
+};
+
 export default function BookingConfirmationPage() {
+  // This hook is used to navigate the user to another page.
   const navigate = useNavigate();
+
+  // This hook is used to read booking data passed from the previous page.
   const location = useLocation();
 
   /*
@@ -33,6 +45,7 @@ export default function BookingConfirmationPage() {
         showtime: { id: number; start_time: string };
         screen: { screen_name: string };
         selectedSeats: string[];
+        selectedSeatInfo: SelectedSeatInfo[];
         tickets: Tickets;
         totalPrice: number;
         email?: string;
@@ -54,38 +67,44 @@ export default function BookingConfirmationPage() {
     );
   }
 
+  // Destructure the booking data so it is easier to use below.
   const {
     bookingReference,
     movie,
     showtime,
     screen,
     selectedSeats,
+    selectedSeatInfo,
     tickets,
     totalPrice,
   } = state;
 
+  // Render the full confirmation page.
   return (
     <Container className="confirmation-page pt-header pb-5">
       <div>
-        {/* Top text section */}
+        {/* This component renders the top heading and greeting text. */}
         <ConfirmationInitialMessage />
 
-        {/* Main box */}
+        {/* This component renders the main booking summary box. */}
         <ConfirmationAllSelectedItems
           movie={movie}
           showtime={showtime}
           screen={screen}
           selectedSeats={selectedSeats}
+          selectedSeatInfo={selectedSeatInfo}
           tickets={tickets}
           totalPrice={totalPrice}
           bookingReference={bookingReference}
         />
 
-        {/* Footer text */}
+        {/* This component renders the footer greeting text. */}
         <ConfirmationFooterGreetingsNotes />
       </div>
+
       <div className="mt-4">
-        <Button variant="dark" onClick={() => navigate("/")}>
+        {/* This button sends the user back to the home page. */}
+        <Button variant="danger" onClick={() => navigate("/")}>
           Till startsidan
         </Button>
       </div>
