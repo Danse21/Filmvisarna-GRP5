@@ -59,8 +59,26 @@ export default function BookingPage() {
     priceCategory,
   );
 
+  // A user should not be able to select more ticket category than the number of selected seats or vice versa
   function changeTicket(key: "adult" | "child" | "senior", plusMinus: number) {
-    setTickets((prev) => updateTicketCount(prev, key, plusMinus));
+    setTickets((prev) => {
+      const next = updateTicketCount(prev, key, plusMinus);
+
+      const selectedSeatCount = selectedSeats.length;
+      const nextTotal = next.adult + next.child + next.senior;
+
+      // Never allow more ticket selection than selected seats
+      if (nextTotal > selectedSeatCount) {
+        return prev;
+      }
+
+      // Extra safety check to ensure nothing goes below 0 (negative)
+      if (next.adult < 0 || next.child < 0 || next.senior < 0) {
+        return prev;
+      }
+
+      return next;
+    });
   }
 
   useEffect(() => {
@@ -71,6 +89,38 @@ export default function BookingPage() {
 
     loadPrices();
   }, []);
+
+  // Adjust number of selected seats if a user makes a change
+  useEffect(() => {
+    setTickets((prev) => {
+      const selectedSeatCount = selectedSeats.length;
+      let total = prev.adult + prev.child + prev.senior;
+
+      // If the number of ticket matches number of selected seats, change nothing
+      if (total <= selectedSeatCount) {
+        return prev;
+      }
+
+      // Create a shallow copy of an existing object (prev)
+      // this help us to work on a part of sate
+      const next = { ...prev };
+
+      // Remove the excess ticket in the reverse order
+      // First senior, then child, then adult
+      while (total > selectedSeatCount) {
+        if (next.senior > 0) {
+          next.senior--;
+        } else if (next.child > 0) {
+          next.child--;
+        } else if (next.adult > 0) {
+          next.adult--;
+        }
+        total = next.adult + next.child + next.senior;
+      }
+
+      return next;
+    });
+  }, [selectedSeats]);
 
   return (
     <Container className="pt-5">

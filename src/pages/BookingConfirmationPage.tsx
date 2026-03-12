@@ -85,7 +85,7 @@ export default function BookingConfirmationPage() {
         <ConfirmationFooterGreetingsNotes />
       </div>
       <div className="mt-4">
-        <Button variant="da" onClick={() => navigate("/")}>
+        <Button variant="dark" onClick={() => navigate("/")}>
           Till startsidan
         </Button>
       </div>

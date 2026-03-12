@@ -22,7 +22,10 @@ export default function SeatLayout({
   return (
     <div className="d-flex flex-column gap-2 align-items-center">
       {layout.map((_, rowIndex) => (
-        <div key={rowIndex} className="d-flex gap-2 justify-content-center">
+        <div
+          key={rowIndex}
+          className="d-flex flex-row-reverse gap-2 justify-content-center"
+        >
           {mergedSeats
             .filter((s) => s.row === rowIndex + 1)
             .map((s) => (
