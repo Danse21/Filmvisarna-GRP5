@@ -12,7 +12,7 @@ function Snackspage() {
 
       <div className="snacks-card">
         {snacks.map((snack) => (
-          <div className="snack-row" key={snack.id}>
+          <div key={snack.id} className="snack-id">
             <span>{snack.name}</span>
             <span>{snack.price}</span>
           </div>

@@ -14,7 +14,7 @@ MovieDetailsPage.route = {
 
 export default function MovieDetailsPage() {
   // Load movie data using movieLoader
-  const { movie } = useLoaderData() as { movie: Movie };
+  const { movie } = useLoaderData() as { movie: Movie; };
   const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ export default function MovieDetailsPage() {
     1: "Stora Salongen",
     2: "Lilla Salongen",
   };
-
 
   return (
     <Container className="pt-5 pb-5 mt-1">
