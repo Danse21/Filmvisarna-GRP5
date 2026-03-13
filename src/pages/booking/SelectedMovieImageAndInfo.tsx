@@ -24,7 +24,9 @@ export default function SelectedMovieImageAndInfo({
       </Col>
 
       <Col xs={6}>
-        <h4>{movie.title}</h4>
+        <h4>
+          <strong>{movie.title}</strong>
+        </h4>
         <strong>{formatDateTime(showtime.start_time)}</strong>
         <p>
           <strong>{screen.screen_name}</strong>

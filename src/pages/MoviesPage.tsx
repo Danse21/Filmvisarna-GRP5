@@ -33,7 +33,7 @@ export default function MoviesPage() {
   // Hämtar alla unika åldersgränser och sortera dem
   // new Set() tar bort dubbletter, [...] gör om till array
   const ageLimits = [...new Set(movies.map((m) => m.age_limit))].sort(
-    (a, b) => a - b
+    (a, b) => a - b,
   );
   // Filtrerar filmer baserat på vald åldersgräns i dropdownen
   const filteredMovies = movies.filter((movie) => {
@@ -48,7 +48,7 @@ export default function MoviesPage() {
     <Container fluid className="pt-5 mt-3 pb-4 px-2 min-vh-100">
       {/* Stängknapp som navigerar tillbaka till startsidan */}
       <button
-        className="btn btn-link text-decoration-none mb-3"
+        className="btn btn-link text-decoration-none ps-0 fw-bold text-dark mb-3"
         onClick={() => navigate("/")}
       >
         ✕ STÄNG
@@ -77,7 +77,11 @@ export default function MoviesPage() {
       <Row className="g-2">
         {filteredMovies.map((movie) => (
           <Col xs={4} key={movie.slug}>
-            <MovieCard movie={movie} showShowtime={false} showBiljetter={false} />
+            <MovieCard
+              movie={movie}
+              showShowtime={false}
+              showBiljetter={false}
+            />
           </Col>
         ))}
       </Row>

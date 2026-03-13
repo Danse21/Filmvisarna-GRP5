@@ -19,6 +19,7 @@ public static class Server
         RestApi.Start();
         Session.Start();
         TestRoutes.Start();
+        CancelBookingRoutes.Start();
         
         
         // Start the server on port 3001

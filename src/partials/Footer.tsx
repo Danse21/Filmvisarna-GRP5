@@ -3,12 +3,14 @@ import { Container, Row, Col } from "react-bootstrap";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-success-subtle text-dark pt-4 pb-4">
+      <footer className="bg-success-subtle text-center text-dark pt-4 pb-4">
         <Container>
           {/* two columns in 1 row */}
           <Row className="mb-3">
             <Col xs={6} md={6}>
-              <h5 className="footer-font mb-3">Kontakt</h5>
+              <h5 className="footer-kontakt-font mb-3">
+                <strong>Kontakt</strong>
+              </h5>
               <p className="footer-kontakt-font mb-1">Info@Retro-cinema.com </p>
               <p className="footer-kontakt-font mb-1">Riksgränsen 981 94</p>
               <p className="footer-kontakt-font mb-1">+46 000 00 0</p>
@@ -24,7 +26,7 @@ export default function Footer() {
           </Row>
           {/* Another row: text centered */}
           <Row>
-            <Col className="text-center pt-3 border-top border-secondary">
+            <Col className="pt-3 border-top border-secondary">
               © Retro Cinema {new Date().getFullYear()}
             </Col>
           </Row>

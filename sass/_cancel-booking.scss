@@ -19,3 +19,20 @@
   border-color: #9cfac3;
   color: black;
 }
+
+/* Shared result box style for cancellation pages */
+.cancellation-result-box {
+  max-width: 520px;
+  padding: 40px 20px;
+  border-radius: 8px;
+}
+
+/* Light green box for successful cancellation */
+.cancellation-success-box {
+  background-color: #d9f8df;
+}
+
+/* Light red box for unsuccessful cancellation */
+.cancellation-error-box {
+  background-color: #e53333c5;
+}
