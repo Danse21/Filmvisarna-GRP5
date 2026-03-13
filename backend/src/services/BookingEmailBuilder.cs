@@ -1,15 +1,15 @@
 using QRCoder;
 using System.Collections;
 using System.Globalization;
-
+// Omvandlare för jag vet inte vilken datatyp jag får i stringen och en omvandlare för datum till svenska och Qr kod builder
 namespace WebApp;
 
 public static class BookingEmailBuilder
 {
 
-    // -----------------------------
+   
     // QR generator
-    // -----------------------------
+   
     private static byte[] GenerateQr(string content)
     {
         var generator = new QRCodeGenerator();
@@ -20,9 +20,8 @@ public static class BookingEmailBuilder
     }
 
 
-    // -----------------------------
     // Main email builder
-    // -----------------------------
+ 
     public static void SendBookingEmail(
         string email,
         string bookingRef,
@@ -95,10 +94,10 @@ public static class BookingEmailBuilder
     }
 
 
-    // ---------------------------------------------------------
-    // Wrapper that fetches movie + showtime data
+    
+    // "Adapter" that fetches movie + showtime data
     // and converts seats from dynamic → string
-    // ---------------------------------------------------------
+   
     public static void SendBookingEmailFromShowtime(
         string email,
         string bookingRef,

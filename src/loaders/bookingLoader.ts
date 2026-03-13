@@ -15,7 +15,7 @@ export default async function bookingLoader({ params, request }: any) {
 
   const bookingRes = await fetch(`/api/booking?showtimeId=${showtimeId}`);
   const bookingData = await bookingRes.json();
-  console.log(bookingData)
+
   return {
     movie,
     showtime: bookingData?.showtime ?? null,
