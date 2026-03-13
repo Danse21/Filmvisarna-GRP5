@@ -6,7 +6,7 @@ public static class TestRoutes
     {
         App.MapGet("/api/testmail", () =>
         {
-            EmailService.SendEmail("retrocinemagrp5@gmail.com");
+            EmailService.SendEmail("retrocinemagrp5@gmail.com", "test mail", null);
 
             return "Mail skickat!";
         });

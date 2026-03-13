@@ -1,9 +1,11 @@
+// This type defines how many tickets of each category were selected.
 type Tickets = {
   adult: number;
   child: number;
   senior: number;
 };
 
+// This type defines all props that is compenent receives from its parent (BookingSummaryPage)
 type Props = {
   tickets: Tickets;
   totalPrice: number;
@@ -14,7 +16,7 @@ export default function SelectedTicketPriceSummary({
   totalPrice,
 }: Props) {
   return (
-    <div className="selection-box">
+    <div className="selection-box summary-part-one">
       <h5 className="mb-1">Dina val:</h5>
 
       <div className="ticket-summary">

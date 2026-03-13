@@ -14,6 +14,8 @@ export default function mergeSeatsWithBookingState(
 ) {
   const uiSeats = generateSeatsFromLayout(layout);
 
+  console.log(dbSeats);
+
   return uiSeats.map((seat) => {
     const dbSeat = dbSeats.find(
       (item) =>

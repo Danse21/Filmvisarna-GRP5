@@ -8,7 +8,7 @@ public static class EmailService
 {
 
     // Skapar vår funktion som skickar email med 3 parametrar.
-    public static void SendEmail(string to)
+ public static void SendEmail(string to, string htmlBody, byte[] qrBytes)
     {
         // Sätt path - för att hitta db-config.json
         var configPath = Path.Combine(
@@ -19,8 +19,7 @@ public static class EmailService
         // Gör om den inlästa filen "db-config.json" till json-format
         var config = JSON.Parse(configJson);
         
-        // Laddar Email template
-      string body = File.ReadAllText("templates/bookingEmail.html");
+
 
         // Plockar ut konfigurationen från "db-config.json"
         string smtpServer = config.smtpServer;
@@ -28,34 +27,38 @@ public static class EmailService
         string emailUsername = config.emailUsername;
         string emailPassword = config.emailPassword;
 
-        // Sätter ihop ett meddelande med rätt stuktur genom att använda MimeMessage, rekommenderas av MailKit att använda detta.  
-        var message = new MimeMessage()
-        {
-            // From = Avsändarens email, ska vara vår email.
-            From = { MailboxAddress.Parse(emailUsername) },
-            // To = Motagarens email, den vi ska skicka mail till.
-            To = { MailboxAddress.Parse(to) },
-            // Subject = Rubriken på mailet 
-            Subject = "RetroCinema – Bokningsbekräftelse",
-            // Body = Den meddelande text man vill ha i mailet. 
-            // TextPart("html") = Gör att vi kan använda html-element för att strukturera meddelandet. 
-            Body = new TextPart("html") { Text = body }
-        };
+ 
+var builder = new BodyBuilder();
 
-        using (var client = new SmtpClient ()) {
-                // Öppnar en uppkoppling till email-providerns server, i vårat fall gmail.
-                client.Connect (smtpServer, smtpPort, false);
-                // Skickar in verifiering för att kontrollera att vi har en giltig email med stöd för SMTP.
-                client.Authenticate (emailUsername, emailPassword);
-                // Skickar meddelandet
-                client.Send (message);
-                // Stänger uppkopplingen när vi är klara.
-                client.Disconnect (true);
-            }
+// HTML-version  var builder = new BodyBuilder();
+        builder.HtmlBody = htmlBody;
+        builder.TextBody = @"
+RetroCinema Bokningsbekräftelse
+
+Om HTML-mailet inte visas korrekt kan du använda bokningsnumret i kassan.
+
+Tack för ditt besök!
+RetroCinema
+";
+
+        var image = builder.LinkedResources.Add("qrcode.png", qrBytes);
+        image.ContentId = "qrcode";
+
+        var message = new MimeMessage();
+        message.From.Add(MailboxAddress.Parse(emailUsername));
+        message.To.Add(MailboxAddress.Parse(to));
+        message.Subject = "RetroCinema - Bokningsbekräftelse";
+        message.Body = builder.ToMessageBody();
+
+        using (var client = new SmtpClient())
+        {
+            client.Connect(smtpServer, smtpPort, false);
+            client.Authenticate(emailUsername, emailPassword);
+            client.Send(message);
+            client.Disconnect(true);
+        }
     }
 }
-
-
 
 
 /*

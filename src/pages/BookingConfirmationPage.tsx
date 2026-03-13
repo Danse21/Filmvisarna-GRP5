@@ -2,21 +2,41 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
 import type Movie from "../interfaces/movie";
 
-BookingConfirmationPage.route = {
-  path: "/booking/confirmation",
-  index: 11,
-};
+import ConfirmationInitialMessage from "../pages/booking/ConfirmationInitialMessage";
+import ConfirmationAllSelectedItems from "../pages/booking/ConfirmationAllSelectedItems";
+import ConfirmationFooterGreetingsNotes from "../pages/booking/ConfirmationFooterGreetingsNotes";
 
+// This type stores how many tickets were selected in each category.
 type Tickets = {
   adult: number;
   child: number;
   senior: number;
 };
 
+// This type stores the exact selected seat information
+// passed from BookingPage through BookingSummaryPage.
+type SelectedSeatInfo = {
+  id: string;
+  row: number;
+  seatNumber: number;
+};
+
+BookingConfirmationPage.route = {
+  path: "/booking/confirmation",
+  index: 11,
+};
+
 export default function BookingConfirmationPage() {
+  // This hook is used to navigate the user to another page.
   const navigate = useNavigate();
+
+  // This hook is used to read booking data passed from the previous page.
   const location = useLocation();
 
+  /*
+    The confirmation page receives all booking data through navigate(..., { state })
+    from BookingSummaryPage after successful booking.
+  */
   const state = location.state as
     | {
         bookingId: number;
@@ -25,11 +45,17 @@ export default function BookingConfirmationPage() {
         showtime: { id: number; start_time: string };
         screen: { screen_name: string };
         selectedSeats: string[];
+        selectedSeatInfo: SelectedSeatInfo[];
         tickets: Tickets;
         totalPrice: number;
+        email?: string;
       }
     | undefined;
 
+  /*
+    If the page is refreshed directly, location.state is lost.
+    Then we show a fallback message.
+  */
   if (!state) {
     return (
       <Container className="pt-5">
@@ -41,144 +67,46 @@ export default function BookingConfirmationPage() {
     );
   }
 
+  // Destructure the booking data so it is easier to use below.
   const {
     bookingReference,
     movie,
     showtime,
     screen,
     selectedSeats,
+    selectedSeatInfo,
     tickets,
     totalPrice,
   } = state;
 
-  function formatDateTimeRange(startIso: string, durationMinutes: number) {
-    const start = new Date(startIso);
-    const end = new Date(start.getTime() + durationMinutes * 60000);
-
-    const dateText = start.toLocaleDateString("sv-SE", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
-    const startTime = start.toLocaleTimeString("sv-SE", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    const endTime = end.toLocaleTimeString("sv-SE", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    return `${dateText} ${startTime} - ${endTime}`;
-  }
-
-  // Gör om ["4-3","4-2","4-1"] till "Rad 4 stol 3, 2 och 1"
-  const groupedSeats = selectedSeats.reduce<Record<string, number[]>>(
-    (acc, id) => {
-      const [rowStr, seatStr] = id.split("-");
-      const row = rowStr;
-      const seat = Number(seatStr);
-
-      if (!acc[row]) acc[row] = [];
-      acc[row].push(seat);
-
-      return acc;
-    },
-    {},
-  );
-
-  const seatText = Object.entries(groupedSeats)
-    .sort(([a], [b]) => Number(a) - Number(b))
-    .map(([row, seats]) => {
-      const sorted = seats.sort((a, b) => a - b);
-
-      if (sorted.length === 1) {
-        return `Rad ${row} stol ${sorted[0]}`;
-      }
-
-      if (sorted.length === 2) {
-        return `Rad ${row} stol ${sorted[0]} och ${sorted[1]}`;
-      }
-
-      const lastSeat = sorted[sorted.length - 1];
-      const firstSeats = sorted.slice(0, -1).join(", ");
-      return `Rad ${row} stol ${firstSeats} och ${lastSeat}`;
-    })
-    .join(" • ");
-
+  // Render the full confirmation page.
   return (
     <Container className="confirmation-page pt-header pb-5">
-      {/* Add a close button at the left top */}
-      <Button
-        variant="link"
-        className="btn btn-link text-dark p-0 text-decoration-none fw-bold"
-        onClick={() => navigate("/")}
-      >
-        ✕ STÄNG
-      </Button>
-      <h2 className="confirmation-title text-center mb-4">Bekräftelse</h2>
-      <div className="confirmation-text mb-4">
-        <p className="mb-1">Hej,</p>
-        <p>Här kommer bokningsbekräftelse för dina biljetter.</p>
+      <div>
+        {/* This component renders the top heading and greeting text. */}
+        <ConfirmationInitialMessage />
+
+        {/* This component renders the main booking summary box. */}
+        <ConfirmationAllSelectedItems
+          movie={movie}
+          showtime={showtime}
+          screen={screen}
+          selectedSeats={selectedSeats}
+          selectedSeatInfo={selectedSeatInfo}
+          tickets={tickets}
+          totalPrice={totalPrice}
+          bookingReference={bookingReference}
+        />
+
+        {/* This component renders the footer greeting text. */}
+        <ConfirmationFooterGreetingsNotes />
       </div>
-      <div className="confirmation-box mx-auto mb-4">
-        <p className="ticket-summary mb-2">
-          <strong>Dina val:</strong>
-        </p>
 
-        {tickets.child > 0 && (
-          <p className="ticket-summary confirmation-line">
-            {tickets.child} Barn {tickets.child * 80} kr
-          </p>
-        )}
-
-        {tickets.adult > 0 && (
-          <p className="ticket-summary confirmation-line">
-            {tickets.adult} Vuxen {tickets.adult * 160} kr
-          </p>
-        )}
-
-        {tickets.senior > 0 && (
-          <p className="ticket-summary confirmation-line">
-            {tickets.senior} Pensionär {tickets.senior * 120} kr
-          </p>
-        )}
-
-        <p className="ticket-summary confirmation-line mb-3">
-          <strong>Totaltpris:</strong> {totalPrice} kr
-        </p>
-
-        <p className="confirmation-line">
-          <strong>Film:</strong> {movie.title} (Åldersgräns: {movie.age_limit}{" "}
-          år)
-        </p>
-
-        <p className="confirmation-line">
-          <strong>Datum:</strong>{" "}
-          {formatDateTimeRange(showtime.start_time, movie.duration_minutes)}
-        </p>
-
-        <p className="confirmation-line">
-          <strong>Plats:</strong> {seatText}
-        </p>
-
-        <p className="confirmation-line">
-          <strong>Salong:</strong> {screen.screen_name}
-        </p>
-
-        <p className="confirmation-line mb-0">
-          <strong>Bokningsnummer:</strong> {bookingReference}
-        </p>
-      </div>
-      <div className="confirmation-footer">
-        <p className="welcome-text">Välkommen åter!</p>
-        <p className="greeting-text">
-          Hälsningar,
-          <br />
-          Retro Cinema
-        </p>
+      <div className="mt-4">
+        {/* This button sends the user back to the home page. */}
+        <Button variant="danger" onClick={() => navigate("/")}>
+          Till startsidan
+        </Button>
       </div>
     </Container>
   );
