@@ -5,8 +5,10 @@ import MovieCard from "../parts/movieCard";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 
 MoviesPage.route = {
-  path: "/filmer",
-  index: 12,
+  path: "/Filmer/:date",
+  index: 14,
+
+
 };
 
 export default function MoviesPage() {
