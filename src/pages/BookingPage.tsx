@@ -144,7 +144,7 @@ export default function BookingPage() {
     <Container className="pt-5">
       <Button
         variant="link"
-        className="ps-0 text-decoration-none fw-medium"
+        className="ps-0 text-decoration-none fw-bold text-dark"
         onClick={() => navigate(-1)}
       >
         ← Bakåt

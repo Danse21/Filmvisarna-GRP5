@@ -29,7 +29,7 @@ export default function MovieDetailsPage() {
       <div className="d-flex justify-content-start mb-4">
         <Button
           variant="link"
-          className="fw-medium text-decoration-none ps-0"
+          className="fw-bold text-dark text-decoration-none ps-0"
           onClick={() => navigate("/")}
         >
           X STÄNG
@@ -127,7 +127,7 @@ export default function MovieDetailsPage() {
                   timeStyle: "short",
                 })}
                 <div className="small text-muted">
-                  {screenNames[show.screen_id]}
+                  <strong>{screenNames[show.screen_id]}</strong>
                 </div>
               </Button>
             </Col>
