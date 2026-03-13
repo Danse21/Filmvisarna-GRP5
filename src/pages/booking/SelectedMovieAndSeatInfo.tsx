@@ -43,22 +43,12 @@ export default function SelectedMovieAndSeatInfo({
       </Col>
 
       {/* right-hand side column: movie and booking details */}
-      <Col md={6} className="movie-info-box ps-md-5">
-        <p className="tight">
-          <strong>Film:</strong> {movie.title}
-        </p>
-        <p className="tight">
-          <strong>Åldersgräns:</strong> {movie.age_limit}+
-        </p>
-        <p className="tight">
-          <strong>Datum:</strong> {formatDateTime(showtime.start_time)}
-        </p>
-        <p className="tight">
-          <strong>Plats:</strong> {seatText}
-        </p>
-        <p className="tight mb-0">
-          <strong>Salong:</strong> {screen.screen_name}
-        </p>
+      <Col md={6} className="summary-part-one movie-info-box ps-md-5">
+        <p className="tight">Film: {movie.title}</p>
+        <p className="tight">Åldersgräns: {movie.age_limit}+</p>
+        <p className="tight">Datum: {formatDateTime(showtime.start_time)}</p>
+        <p className="tight">Plats: {seatText}</p>
+        <p className="tight mb-0">Salong: {screen.screen_name}</p>
       </Col>
     </Row>
   );

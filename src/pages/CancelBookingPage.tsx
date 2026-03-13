@@ -29,28 +29,28 @@ export default function CancelBookingPage() {
       {/* Back button */}
       <Button
         variant="link"
-        className="ps-0 text-decoration-none fw-medium mb-4"
+        className="ps-0 text-decoration-none fw-bold text-dark mb-4"
         onClick={() => navigate("/menu")}
       >
         ← Bakåt
       </Button>
 
       {/* Page heading */}
-      <h1 className="text-center mb-5">Avbokning</h1>
+      <h1 className="avbokning-header text-center mb-5">Avbokning</h1>
 
       {/* Description text */}
-      <div className="mb-4">
-        <p className="mb-1">Behöver du avboka?</p>
+      <div className="avbokning-body mb-4">
+        <p className="mb-0">Behöver du avboka?</p>
         <p>Ange e-post och bokningsnummer</p>
       </div>
 
       {/* Email input row */}
-      <Row className="align-items-center mb-4">
-        <Col xs={12} md={3} className="email-field">
+      <Row className="avbokning-body align-items-center mb-4">
+        <Col xs={12} md={4} className="email-field">
           <label htmlFor="cancel-email">E-post adress:</label>
         </Col>
 
-        <Col xs={12} md={9}>
+        <Col xs={12} md={8}>
           <Form.Control
             id="cancel-email"
             type="email"
@@ -62,7 +62,7 @@ export default function CancelBookingPage() {
       </Row>
 
       {/* Booking number input row */}
-      <Row className="align-items-center mb-5">
+      <Row className="avbokning-body align-items-center mb-5">
         <Col xs={12} md={4}>
           <label htmlFor="cancel-booking">Bokningsnummer:</label>
         </Col>

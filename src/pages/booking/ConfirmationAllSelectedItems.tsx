@@ -129,11 +129,9 @@ export default function ConfirmationAllSelectedItems({
 
   // Render the confirmation box with all selected booking information.
   return (
-    <div className="confirmation-box mx-auto mb-4">
+    <div className="confirmation-box confirmation-message mx-auto mb-4">
       {/* Show a heading for the selected items. */}
-      <p className="ticket-summary mb-2">
-        <strong>Dina val:</strong>
-      </p>
+      <p className="ticket-summary mb-2">Dina val:</p>
 
       {/* Show child tickets if at least one child ticket was selected. */}
       {tickets.child > 0 && (
@@ -158,33 +156,29 @@ export default function ConfirmationAllSelectedItems({
 
       {/* Show the total booking price. */}
       <p className="ticket-summary confirmation-line mb-3">
-        <strong>Totaltpris:</strong> {totalPrice} kr
+        Totaltpris: {totalPrice} kr
       </p>
 
       {/* Show the movie title and age limit. */}
       <p className="confirmation-line">
-        <strong>Film:</strong> {movie.title} (Åldersgräns: {movie.age_limit} år)
+        Film: {movie.title} (Åldersgräns: {movie.age_limit} år)
       </p>
 
       {/* Show the movie date and time. */}
       <p className="confirmation-line">
-        <strong>Datum:</strong>{" "}
+        Datum:{" "}
         {formatDateTimeRange(showtime.start_time, movie.duration_minutes)}
       </p>
 
       {/* Show the selected seats using the exact seat numbers from BookingPage. */}
-      <p className="confirmation-line">
-        <strong>Plats:</strong> {seatText}
-      </p>
+      <p className="confirmation-line">Plats: {seatText}</p>
 
       {/* Show the selected cinema salon. */}
-      <p className="confirmation-line">
-        <strong>Salong:</strong> {screen.screen_name}
-      </p>
+      <p className="confirmation-line">Salong: {screen.screen_name}</p>
 
       {/* Show the booking reference number. */}
       <p className="confirmation-line mb-0">
-        <strong>Bokningsnummer:</strong> {bookingReference}
+        Bokningsnummer: {bookingReference}
       </p>
     </div>
   );

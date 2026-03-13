@@ -16,7 +16,7 @@ export default function SelectedTicketPriceSummary({
   totalPrice,
 }: Props) {
   return (
-    <div className="selection-box">
+    <div className="selection-box summary-part-one">
       <h5 className="mb-1">Dina val:</h5>
 
       <div className="ticket-summary">
