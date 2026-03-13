@@ -342,7 +342,20 @@ public static class BookingService
         // Move to the next selected seat.
         seatIndex++;
       }
-
+      
+      //Skickar info och triggar email service.
+    
+  BookingEmailBuilder.SendBookingEmailFromShowtime(
+    email,
+    bookingRef,
+    showtimeId,
+    screenName,
+    selectedSeats,
+    adultCount,
+    childCount,
+    seniorCount,
+    totalPrice
+);
       // Return success response.
       return RestResult.Parse(context, new
       {
