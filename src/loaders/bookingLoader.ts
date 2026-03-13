@@ -23,3 +23,5 @@ export default async function bookingLoader({ params, request }: any) {
     seats: bookingData?.seats ?? [],
   };
 }
+
+// loads seats from /api/booking through bookingLoader
