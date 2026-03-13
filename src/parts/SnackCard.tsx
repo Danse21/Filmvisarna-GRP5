@@ -1,5 +1,5 @@
 
-import "./snackcard.scss";
+import '../sass/snackspage.scss';
 
 type Props = {
   snack: typeof SnackCard;

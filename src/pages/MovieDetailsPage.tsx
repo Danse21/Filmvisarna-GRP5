@@ -14,7 +14,7 @@ MovieDetailsPage.route = {
 
 export default function MovieDetailsPage() {
   // Load movie data using movieLoader
-  const { movie } = useLoaderData() as { movie: Movie };
+  const { movie } = useLoaderData() as { movie: Movie; };
   const [showTrailer, setShowTrailer] = useState(false);
   console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
