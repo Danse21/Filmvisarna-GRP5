@@ -1,0 +1,28 @@
+.date-card {
+  flex: 1 1 0;
+  max-width: 20%;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .date-card {
+    max-width: 25%;
+  }
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+  .date-card {
+    max-width: 33.33%;
+  }
+}
+
+.date-card .card {
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.date-card .card:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.9);
+}

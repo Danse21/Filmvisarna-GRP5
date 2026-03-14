@@ -21,8 +21,8 @@ export default function UnsuccessfulCancellationPage() {
   // Read custom error message from route state if it exists
   const state = location.state as
     | {
-        errorMessage?: string;
-      }
+      errorMessage?: string;
+    }
     | undefined;
 
   // Use backend error message if available, otherwise use default text

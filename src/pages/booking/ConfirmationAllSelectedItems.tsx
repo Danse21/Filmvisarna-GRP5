@@ -18,8 +18,8 @@ type SelectedSeatInfo = {
 // This type defines all props that this component receives from its parent.
 type Props = {
   movie: Movie;
-  showtime: { id: number; start_time: string };
-  screen: { screen_name: string };
+  showtime: { id: number; start_time: string; };
+  screen: { screen_name: string; };
   selectedSeats: string[];
   selectedSeatInfo: SelectedSeatInfo[];
   tickets: Tickets;
@@ -43,7 +43,7 @@ export default function ConfirmationAllSelectedItems({
   movie,
   showtime,
   screen,
-  selectedSeats,
+  selectedSeats: _selectedSeats,
   selectedSeatInfo,
   tickets,
   totalPrice,
@@ -99,33 +99,33 @@ export default function ConfirmationAllSelectedItems({
   const seatText =
     selectedSeatInfo.length > 0
       ? Object.entries(groupedSeats)
-          // Sort rows from lowest to highest row number.
-          .sort(([a], [b]) => Number(a) - Number(b))
-          .map(([row, seats]) => {
-            // Sort seat numbers from lowest to highest.
-            const sortedSeats = [...seats].sort((a, b) => a - b);
+        // Sort rows from lowest to highest row number.
+        .sort(([a], [b]) => Number(a) - Number(b))
+        .map(([row, seats]) => {
+          // Sort seat numbers from lowest to highest.
+          const sortedSeats = [...seats].sort((a, b) => a - b);
 
-            // If there is only one seat in the row, show one seat number.
-            if (sortedSeats.length === 1) {
-              return `Rad ${row}: stol ${sortedSeats[0]}`;
-            }
+          // If there is only one seat in the row, show one seat number.
+          if (sortedSeats.length === 1) {
+            return `Rad ${row}: stol ${sortedSeats[0]}`;
+          }
 
-            // If there are two seats in the row, join them with "och".
-            if (sortedSeats.length === 2) {
-              return `Rad ${row}: stol ${sortedSeats[0]} och ${sortedSeats[1]}`;
-            }
+          // If there are two seats in the row, join them with "och".
+          if (sortedSeats.length === 2) {
+            return `Rad ${row}: stol ${sortedSeats[0]} och ${sortedSeats[1]}`;
+          }
 
-            // If there are more than two seats, separate all but the last with commas.
-            const lastSeat = sortedSeats[sortedSeats.length - 1];
-            const firstSeats = sortedSeats.slice(0, -1).join(", ");
+          // If there are more than two seats, separate all but the last with commas.
+          const lastSeat = sortedSeats[sortedSeats.length - 1];
+          const firstSeats = sortedSeats.slice(0, -1).join(", ");
 
-            // Return formatted text for the row.
-            return `Rad ${row}: stol ${firstSeats} och ${lastSeat}`;
-          })
-          // Join all row texts into one string.
-          .join(" • ")
+          // Return formatted text for the row.
+          return `Rad ${row}: stol ${firstSeats} och ${lastSeat}`;
+        })
+        // Join all row texts into one string.
+        .join(" • ")
       : // Show a dash if no seats were selected.
-        "—";
+      "—";
 
   // Render the confirmation box with all selected booking information.
   return (
