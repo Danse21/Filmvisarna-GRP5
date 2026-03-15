@@ -92,12 +92,12 @@ export default function CancelBookingPage() {
       {/* Email input row */}
       <Row className="align-items-center mb-4">
         {/* Email label */}
-        <Col xs={12} md={3}>
+        <Col xs={5} md={4}>
           <label htmlFor="cancel-email">E-post adress:</label>
         </Col>
 
         {/* Email input field */}
-        <Col xs={12} md={9}>
+        <Col xs={7} md={8}>
           <Form.Control
             id="cancel-email"
             type="email"
@@ -111,12 +111,12 @@ export default function CancelBookingPage() {
       {/* Booking reference input row */}
       <Row className="align-items-center mb-5">
         {/* Booking reference label */}
-        <Col xs={12} md={4}>
+        <Col xs={5} md={4}>
           <label htmlFor="cancel-booking">Bokningsnummer:</label>
         </Col>
 
         {/* Booking reference input field */}
-        <Col xs={12} md={8}>
+        <Col xs={7} md={8}>
           <Form.Control
             id="cancel-booking"
             type="text"
