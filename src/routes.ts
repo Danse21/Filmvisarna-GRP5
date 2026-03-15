@@ -17,6 +17,7 @@ import MoviesPage from "./pages/MoviesPage.tsx";
 import CancelBookingPage from "./pages/CancelBookingPage.tsx";
 import SuccessfulCancellationPage from "./pages/SuccessfulCancellationPage.tsx";
 import UnsuccessfulCancellationPage from "./pages/UnsuccessfulCancellationPage.tsx";
+import PresentCardPage from "./pages/PresentCardPage.tsx";
 
 interface Route {
   element: JSX.Element;
@@ -43,6 +44,7 @@ export default [
   CancelBookingPage,
   SuccessfulCancellationPage,
   UnsuccessfulCancellationPage,
+  PresentCardPage,
 ]
   // map the route property of each page component to a Route,
   // that is converts each element so that each appears as StartPage.route, for example
