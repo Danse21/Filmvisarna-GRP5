@@ -48,7 +48,7 @@ export default function Header() {
             icon={faSearch}
             size="lg"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/search")}
+            onClick={() => navigate("/filmer")}
             aria-label="Open filmer"
           />
           <FontAwesomeIcon
