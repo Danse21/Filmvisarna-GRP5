@@ -7,6 +7,9 @@ import "/sass/_dateselector.scss";
 // returnerar 0 för Söndag, 1 för måndag osv.
 const weekdays = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"];
 
+// förkortningar som används på mobil där utrymmet är begränsat.
+const weekdaysShort = ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"];
+
 // Skapar en lista med 14 datum: idag + 13 dagar framåt
 function getUpcomingDates() {
   const dates = [];
@@ -33,8 +36,15 @@ function getUpcomingDates() {
     else if (i === 1) label = "Imorgon";
     else label = weekdays[d.getDay()];
 
+    // förkortningar för mobil
+    let shortLabel = "";
+    if (i === 0) shortLabel = "Idag";
+    else if (i === 1) shortLabel = "Imon";
+    else shortLabel = weekdaysShort[d.getDay()];
+
     dates.push({
       label,
+      shortLabel,
       date: dateStr,
       urlDate
     });
@@ -96,15 +106,21 @@ export default function DateSelector() {
             >
 
               {/* Card.Body = innehållet i kortet */}
-              <Card.Body className="d-flex flex-column justify-content-center">
+              <Card.Body className="d-flex flex-column justify-content-center p-2">
 
+                {/* Veckodag — förkortning på mobil, långt på desktop */}
+                {/* d-md-none = visas BARA på mobil (döljs på desktop) */}
+                {/* d-none d-md-block = visas BARA på desktop (döljs på mobil) */}
+                <Card.Title className="mb-0 text-black d-md-none" style={{ fontSize: "0.85rem" }}>
+                  {item.shortLabel}
+                </Card.Title>
                 {/* Veckodag */}
-                <Card.Title className="fs-5 text-black">
+                <Card.Title className="text-black d-none d-md-block fs-5">
                   {item.label}
                 </Card.Title>
 
                 {/* Datum */}
-                <Card.Text className="fs-4 text-black">
+                <Card.Text className="mb-0 text-black fw-bold" style={{ fontSize: "1rem" }}>
                   {item.date}
                 </Card.Text>
 
