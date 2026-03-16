@@ -38,7 +38,7 @@ export default function StartPage() {
 
 
   return (
-    <Container fluid className="pt-5 mt-3 pb-4 px-0 px-md-2 min-vh-100" >
+    <Container fluid className="pb-4 px-0 px-md-2 min-vh-100" >
 
       {/* Första filmen som hero-kort i full bredd */}
       {movies.length > 0 && (

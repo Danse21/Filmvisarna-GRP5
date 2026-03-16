@@ -55,9 +55,11 @@ export default function HeroCard() {
           backgroundImage: `url(/images/movies/${movie.slug}.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "clamp(350px, 50vw, 500px)",
+          height: "clamp(400px, 50vw, 600px)",
+          marginTop: "-56px",
+          paddingTop: "56px",
           transition: "background-image 0.5s ease-in-out",
-          width: "100%"
+          width: "100%",
         }}
       >
 
