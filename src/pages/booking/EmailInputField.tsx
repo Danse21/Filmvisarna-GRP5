@@ -1,23 +1,20 @@
 import { Form } from "react-bootstrap";
 
-// Props: data tht this component receives from its parent page (BookingSummaryPage)
-// email: the current value typed by the user
-// onChangeEmail: a function from the parent page that updates the email state
-
+// This type defines the props that this component receives from its parent.
 type Props = {
   email: string;
   onChangeEmail: (value: string) => void;
 };
 
-// This component is responsible only for rendering:
-// the "Fyll i din Email:" label, and
-// the email input field
+// This component renders the email label and the email input field.
 export default function EmailInputField({ email, onChangeEmail }: Props) {
   return (
     <div>
       <span className="email-label-inline">
-        {/* label shown above the email */}
-        <strong>Fyll i din Email:</strong>
+        {/* Show the email label with a red star to mark it as required */}
+        <strong>
+          Fyll i din Email: <span style={{ color: "red" }}>*</span>
+        </strong>
       </span>
 
       {/* Email input field */}
