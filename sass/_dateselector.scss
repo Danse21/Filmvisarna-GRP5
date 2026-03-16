@@ -28,3 +28,28 @@
   transform: translateY(-2px);
   filter: brightness(0.9);
 }
+
+// Pilar på datumväljaren
+.date-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: none;
+  border: none;
+  font-size: 3rem;
+  color: #e8872a;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-50%) scale(1.3);
+    filter: brightness(0.7);
+  }
+
+  // Disabled-state — blekare när man inte kan klicka
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}

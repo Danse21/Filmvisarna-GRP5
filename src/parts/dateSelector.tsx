@@ -73,15 +73,10 @@ export default function DateSelector() {
 
       {/* VÄNSTER PIL */}
       <button
+        className="date-arrow"
+        style={{ left: 0 }}
         onClick={() => setStartIndex(Math.max(0, startIndex - 1))}
         disabled={startIndex === 0}
-        style={{
-          position: "absolute",
-          left: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 2
-        }}
       >
         &lt;
       </button>
@@ -135,15 +130,10 @@ export default function DateSelector() {
 
       {/* HÖGER PIL */}
       <button
+        className="date-arrow"
+        style={{ right: 0 }}
         onClick={() => setStartIndex(Math.min(dates.length - 5, startIndex + 1))}
         disabled={startIndex >= dates.length - 5}
-        style={{
-          position: "absolute",
-          right: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 2
-        }}
       >
         &gt;
       </button>
