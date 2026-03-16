@@ -2,6 +2,7 @@ using QRCoder;
 using System.Collections;
 using System.Globalization;
 // Omvandlare för jag vet inte vilken datatyp jag får i stringen och en omvandlare för datum till svenska och Qr kod builder
+// Inte snyggt jag vet men orkar inte decoda seat_id.
 namespace WebApp;
 
 public static class BookingEmailBuilder
