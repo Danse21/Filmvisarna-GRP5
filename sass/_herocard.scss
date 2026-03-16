@@ -1,0 +1,14 @@
+// Hover-effekt på pilarna i hero-kortet
+// transition gör animerigs ändringen mjukt (0.2 sekunder)
+// transform: scale(1.3) = gör pilen 30% större
+// filter: brightness(0.7) = gör pilen mörkare (70% ljusstyrka)
+.hero-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-50%) scale(1.3);
+    filter: brightness(0.7);
+  }
+}

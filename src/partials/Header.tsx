@@ -17,8 +17,11 @@ export default function Header() {
   return (
     <Navbar
       fixed="top"
-      className="px-3"
-      style={{ backgroundColor: "rgba(255, 236, 153, 0.75)" }}
+      className="mx-3 mt-2 px-4 py-2 rounded-4"
+      style={{
+        backgroundColor: "rgba(255, 236, 153, 0.75)",
+        zIndex: 1000
+      }}
     >
       <Container
         fluid
@@ -48,7 +51,7 @@ export default function Header() {
             icon={faSearch}
             size="lg"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/search")}
+            onClick={() => navigate("/filmer")}
             aria-label="Open filmer"
           />
           <FontAwesomeIcon

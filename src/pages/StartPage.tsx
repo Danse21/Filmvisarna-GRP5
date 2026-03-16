@@ -38,7 +38,7 @@ export default function StartPage() {
 
 
   return (
-    <Container fluid className="pt-5 mt-3 pb-4 px-2 min-vh-100" >
+    <Container fluid className="pb-4 px-0 px-md-2 min-vh-100" >
 
       {/* Första filmen som hero-kort i full bredd */}
       {movies.length > 0 && (
@@ -54,7 +54,7 @@ export default function StartPage() {
       {/* Resten av filmerna: 4 per rad och det är dom första unika kommande visningarna*/}
       <Row className="g-2">
         {movies.map((movie) => (
-          <Col xs={4} key={movie.slug}>
+          <Col xs={12} md={4} key={movie.slug} className="px-1 px-md-1">
             <MovieCard movie={movie} />
           </Col>
         ))}
