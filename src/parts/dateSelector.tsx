@@ -110,7 +110,7 @@ export default function DateSelector() {
 
                 {/* Veckodag — förkortning på mobil, långt på desktop */}
                 {/* d-md-none = visas BARA på mobil (döljs på desktop) */}
-                {/* d-none d-md-block = visas BARA på desktop (döljs på mobil) */}
+                {/* d-none d-md-block = visas bara på desktop (döljs på mobil) */}
                 <Card.Title className="mb-0 text-black d-md-none" style={{ fontSize: "0.85rem" }}>
                   {item.shortLabel}
                 </Card.Title>
