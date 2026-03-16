@@ -13,6 +13,7 @@ public static class Server
         ErrorHandler.Start();
         FileServer.Start();
         LoginRoutes.Start();
+        MovieOfTheDayRoute.Start();
         MovieRoutes.Start();
         AiChatRoutes.Start();
         RestApi.Start();

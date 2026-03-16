@@ -33,6 +33,7 @@ export default [
   MovieDetailsPage,
   NotFoundPage,
   StartPage,
+  MoviesOfTheDay,
   MenuPage,
   SearchPage,
   LoginPage,
@@ -46,6 +47,7 @@ export default [
   UnsuccessfulCancellationPage,
   PresentCardPage,
 ]
+
   // map the route property of each page component to a Route,
   // that is converts each element so that each appears as StartPage.route, for example
   .map((x) => ({ element: createElement(x), ...x.route }) as Route)
