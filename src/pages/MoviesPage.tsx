@@ -64,10 +64,10 @@ export default function MoviesPage() {
 
       <h2 className="mb-3">Filmer</h2>
 
-      <Row className="mb-3">
+      <Row className="mb-3 g-2">
 
         {/* Sökfält Form.Control */}
-        <Col xs={8}>
+        <Col xs={12} md={8}>
           <Form.Control
             type="text"
             placeholder="Sök efter film..."
@@ -78,7 +78,7 @@ export default function MoviesPage() {
         </Col>
 
         {/* Dropdown för åldersgräns-filter */}
-        <Col xs={4}>
+        <Col xs={12} md={4}>
           <Form.Select
             value={ageFilter}
             onChange={(e) => setAgeFilter(e.target.value)}
@@ -97,7 +97,7 @@ export default function MoviesPage() {
       {/* Samma grid som startsidan — 3 kort per rad */}
       <Row className="g-2">
         {filteredMovies.map((movie) => (
-          <Col xs={4} key={movie.slug}>
+          <Col xs={12} md={4} key={movie.slug}>
             <MovieCard
               movie={movie}
               showShowtime={false}
