@@ -13,3 +13,25 @@
 .movie-drink-tips {
   margin-top: 1rem; // small vertical spacing
 }
+
+// Visningsknappar på MovieDetailsPage
+.btn-showtime {
+  background-color: #FAECB6;
+  color: black;
+  box-shadow: none;
+  border: none;
+
+  &:hover {
+    background-color: darken(#FAECB6, 10%);
+    color: black;
+  }
+
+  // Tar bort grön border vid fokus och klick
+  &:focus,
+  &:active,
+  &:focus-visible {
+    border-color: none;
+    box-shadow: none;
+    outline: none;
+  }
+}
