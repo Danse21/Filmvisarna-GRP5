@@ -1,7 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import type Movie from "../interfaces/movie";
 import movieLoader from "../loaders/movieLoader";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Card, CardBody } from "react-bootstrap";
 import TrailerModal from "../utils/trailerModal";
 import { useState } from "react";
 
@@ -37,103 +37,111 @@ export default function MovieDetailsPage() {
       </div>
 
       {/* Upper section of the page */}
-      <Row className="mb-4 align-items-stretch">
-        <Col xs={6}>
-          <div className="movie-image-block">
-            <img
-              src={`/images/movies/${movie.slug}.jpg`}
-              alt={movie.title}
-              className="movie-info-image img-fluid mb-2"
-            />
-            <Button
-              className="pt-0 pb-0 mt-none"
-              onClick={() => setShowTrailer(true)}
-            >
-              Se Trailer
-            </Button>
-          </div>
-        </Col>
+      <Card className="border-0 shadow-sm rounded-3 mb-4" style={{ backgroundColor: "#91D3AD80" }}>
+        <Card.Body>
+          <Row className="mb-3 mx-2 align-items-stretch shadow-sm rounded-3" style={{ backgroundColor: "#FAECB666" }}>
+            <Col xs={5}>
+              <img
+                src={`/images/movies/${movie.slug}.jpg`}
+                alt={movie.title}
+                className="img-fluid rounded shadow mt-3"
+                style={{ width: "100%", objectFit: "cover" }}
+              />
+              <div className="text-center mt-2">
+                <Button
+                  className="btn-trailer fw-semibold px-4 text-black mb-3"
+                  onClick={() => setShowTrailer(true)}
+                >
+                  Se Trailer
+                </Button>
+              </div>
+            </Col>
+            {/* Add movie description */}
+            <Col xs={7} className="d-flex align-items-center">
+              <p className="mb-0" style={{ fontSize: "0.95rem", lineHeight: "1.6" }}>
+                {movie.description}</p>
+            </Col>
+          </Row>
 
-        {/* Add movie description */}
-        <Col xs={6} className="d-flex">
-          <div className="movie-text-block d-flex align-items-center">
-            <p className="movie-description mb-0">{movie.description}</p>
-          </div>
-        </Col>
-      </Row>
+          {/*Drink tips info - Hardcoded*/}
+          <Row className="mb-4">
+            <Col xs={5}>
+              <Card className="h-100 border-0 shadow-sm" style={{ backgroundColor: "#FAECB666" }}>
+                <Card.Body className="text-center">
+                  <Card.Title className="fw-bold mb-3" style={{ fontSize: "1rem" }}>
+                    Drink tips:
+                  </Card.Title>
+                  <p className="mb-1">Milkshake (Boozy twist)</p>
+                  <p className="mb-1">En blinkning till Mia</p>
+                  <p className="mb-1">& Vincents ikoniska scen</p>
+                  <p className="mb-1">Bourbon eller rom</p>
+                  <p className="mb-1">Vaniljglass & Baileys</p>
+                  <p className="mb-1">En skvätt Baileys</p>
+                  <p className="mb-0">Lite mjölk</p>
+                </Card.Body>
+              </Card>
+            </Col>
 
-      {/*Drink tips info - Hardcoded*/}
-      <Row className="mb-4 align-items-stretch text-center">
-        <Col xs={6}>
-          <div className="movie-image-block movie-drink-tips movie-text-block">
-            <h6 className="mb-2 text-center">Drink Tips</h6>
-            <p className="mb-0 text-center">Milkshake (Boozy twist)</p>
-            <p className="mb-0 text-center">En blinkning till Mia</p>
-            <p className="mb-0 text-center">& Vincents ikoniska scen</p>
-            <p className="mb-0 text-center">Bourbon eller rom</p>
-            <p className="mb-0 text-center">Vaniljglass & Baileys</p>
-            <p className="mb-0 text-center">En skvätt Baileys</p>
-            <p className="mb-0 text-center">Lite mjölk</p>
-          </div>
-        </Col>
-
-        {/* Movie facts */}
-        <Col xs={6}>
-          <div className="movie-text-block h-100">
-            <ul className="list-unstyled movie-facts">
-              <li>
-                <strong>Genre:</strong> {movie.genre}
-              </li>
-              <li>
-                <strong>Längd:</strong> {movie.duration_minutes} min
-              </li>
-              <li>
-                <strong>Åldersgräns:</strong> {movie.age_limit}+
-              </li>
-            </ul>
-            <div className="mt-2">
-              <a href={movie.imdb_link} target="_blank" rel="noreferrer">
-                IMDb
-              </a>{" "}
-              |{" "}
-              <a
-                href={movie.rottentomatoes_link}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Rotten Tomatoes
-              </a>
-            </div>
-          </div>
-        </Col>
-      </Row>
+            {/* Movie facts */}
+            <Col xs={7}>
+              <Card className="h-100 border-0 shadow-sm" style={{ backgroundColor: "#FAECB666" }}>
+                <CardBody className="text-center d-flex flex-column justify-content-center">
+                  <p className="mb-1">
+                    <strong>Genre:</strong> {movie.genre}
+                  </p>
+                  <p className="mb-1">
+                    <strong>Längd:</strong> {movie.duration_minutes} min
+                  </p>
+                  <p className="mb-1">
+                    <strong>Åldersgräns:</strong> {movie.age_limit}+
+                  </p>
+                  <p className="mb-0">
+                    <a href={movie.imdb_link} target="_blank" rel="noreferrer">
+                      IMDb
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      href={movie.rottentomatoes_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Rotten Tomatoes
+                    </a>
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
       {/* Add showtime (välj visning) */}
-      <section className="mt-4">
-        <h4 className="mb-3">Välj visning</h4>
+      <Card className="mt-4 border-0 shadow-sm rounded-3" style={{ backgroundColor: "rgba(249, 168, 36, 0.55)" }}>
+        <Card.Body>
+          <h4 className="text-center fw-bold mb-3">Välj visning</h4>
 
-        <Row className="g-3">
-          {(movie.showtime ?? []).map((show) => (
-            <Col md={3} key={show.id}>
-              <Button
-                variant="outline-dark"
-                className="w-100 py-3"
-                onClick={() =>
-                  navigate(`/booking/${movie.slug}?showtimeId=${show.id}`)
-                }
-              >
-                {new Date(show.start_time).toLocaleString("sv-SE", {
-                  dateStyle: "short",
-                  timeStyle: "short",
-                })}
-                <div className="small text-muted">
-                  <strong>{screenNames[show.screen_id]}</strong>
-                </div>
-              </Button>
-            </Col>
-          ))}
-        </Row>
-      </section>
+          <Row className="g-3">
+            {(movie.showtime ?? []).map((show) => (
+              <Col md={3} key={show.id}>
+                <Button
+                  className="w-100 py-3 rounded-3 shadow-sm btn-showtime"
+                  onClick={() =>
+                    navigate(`/booking/${movie.slug}?showtimeId=${show.id}`)
+                  }
+                >
+                  {new Date(show.start_time).toLocaleString("sv-SE", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                  <div className="small text-muted">
+                    <strong>{screenNames[show.screen_id]}</strong>
+                  </div>
+                </Button>
+              </Col>
+            ))}
+          </Row>
+        </Card.Body>
+      </Card>
       <TrailerModal
         show={showTrailer}
         onHide={() => setShowTrailer(false)}
