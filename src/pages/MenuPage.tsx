@@ -30,7 +30,7 @@ export default function MenuPage() {
       */}
       <nav className="d-flex flex-column gap-3 fs-4">
         {/* Link to the page that shows the user's bookings */}
-        <Link className="menu-link" to="/mina-bokningar">
+        <Link className="mt-4  menu-link" to="/mina-bokningar">
           Mina Bokningar
         </Link>
 

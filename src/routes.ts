@@ -15,7 +15,9 @@ import snackspage from "./pages/SnacksPage.tsx";
 import BookingConfirmationPage from "./pages/BookingConfirmationPage.tsx";
 import MoviesPage from "./pages/MoviesPage.tsx";
 import CancelBookingPage from "./pages/CancelBookingPage.tsx";
-import MoviesOfTheDay from "./pages/MoviesOfTheDay.tsx";
+import SuccessfulCancellationPage from "./pages/SuccessfulCancellationPage.tsx";
+import UnsuccessfulCancellationPage from "./pages/UnsuccessfulCancellationPage.tsx";
+import PresentCardPage from "./pages/PresentCardPage.tsx";
 
 interface Route {
   element: JSX.Element;
@@ -41,6 +43,9 @@ export default [
   snackspage,
   MoviesPage,
   CancelBookingPage,
+  SuccessfulCancellationPage,
+  UnsuccessfulCancellationPage,
+  PresentCardPage,
 ]
 
   // map the route property of each page component to a Route,
