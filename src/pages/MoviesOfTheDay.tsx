@@ -56,11 +56,6 @@ export default function MoviesOfTheDay() {
   today.setHours(0, 0, 0, 0);
   tomorrow.setHours(0, 0, 0, 0);
 
-  const formattedDate = selectedDate.toLocaleDateString("sv-SE", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  });
 
   // Funktion som jämför två datum (ignorerar tid)
   function isSameDay(a: Date, b: Date) {

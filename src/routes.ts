@@ -18,6 +18,7 @@ import CancelBookingPage from "./pages/CancelBookingPage.tsx";
 import SuccessfulCancellationPage from "./pages/SuccessfulCancellationPage.tsx";
 import UnsuccessfulCancellationPage from "./pages/UnsuccessfulCancellationPage.tsx";
 import PresentCardPage from "./pages/PresentCardPage.tsx";
+import MoviesOfTheDay from "./pages/MoviesOfTheDay.tsx";
 
 interface Route {
   element: JSX.Element;
