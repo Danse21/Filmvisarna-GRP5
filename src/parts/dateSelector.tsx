@@ -80,8 +80,9 @@ export default function DateSelector() {
       <div
         style={{
           display: "flex",
-          gap: "10px",
-          width: "100%"
+          gap: "4px",
+          width: "100%",
+          padding: "0 4px"
         }}
       >
         {visibleDates.map((item, index) => (
