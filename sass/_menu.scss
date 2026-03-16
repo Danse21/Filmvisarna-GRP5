@@ -5,7 +5,7 @@
 
   // Create effect when cursor is placed on an item
   &:hover {
-    text-decoration: none;
-    opacity: 0.5;
+    text-decoration: underline;
+    // opacity: 0.5;
   }
 }

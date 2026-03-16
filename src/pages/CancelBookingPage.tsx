@@ -74,7 +74,7 @@ export default function CancelBookingPage() {
       {/* Back button that navigates back to MenuPage */}
       <Button
         variant="link"
-        className="ps-0 text-decoration-none fw-bold text-dark mb-4"
+        className="ps-0 text-decoration-none fw-bold text-dark mt-2 mb-4"
         onClick={() => navigate("/menu")}
       >
         ← Bakåt
