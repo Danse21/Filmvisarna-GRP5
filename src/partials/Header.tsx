@@ -1,6 +1,7 @@
 import { Container, Navbar } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// Import icons to be used on the header section
 import {
   faBars,
   faSearch,
@@ -8,12 +9,18 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
+// This component renders the header section
 export default function Header() {
-  const location = useLocation();
+  // Hook used to navigate between pages
   const navigate = useNavigate();
 
+  // "location" stores information about current URL (page)
+  const location = useLocation();
+
+  // Check if the page is the menu page
   const isMenuOpen = location.pathname === "/menu";
 
+  // Shows how the header section will look
   return (
     <Navbar
       fixed="top"
@@ -49,7 +56,7 @@ export default function Header() {
             size="lg"
             style={{ cursor: "pointer" }}
             onClick={() => navigate("/search")}
-            aria-label="Open filmer"
+            aria-label="Open search"
           />
           <FontAwesomeIcon
             icon={faUser}

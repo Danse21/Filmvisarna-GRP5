@@ -17,6 +17,12 @@ public static class BookingRoutes
       return BookingService.GetBookingData(context);
     });
 
+    // GET /api/my-bookings?email=test@email.com
+    App.MapGet("/api/my-bookings", (HttpContext context) =>
+    {
+      return MyBookingsService.GetMyBookings(context);
+    });
+
     // POST /api/booking
     // Creates a new booking and related booking_seat rows
     App.MapPost("/api/booking", (HttpContext context, JsonElement bodyJson) =>
