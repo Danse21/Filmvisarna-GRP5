@@ -8,3 +8,7 @@ export default function Main() {
     </main>
   );
 }
+
+// This component renders page layout
+// "main" functions like a "frame"
+// "Outlet" acts as a placeholder where specific page content will be swapped in and out as the user navigate

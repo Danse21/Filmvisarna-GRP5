@@ -1,5 +1,5 @@
 // Import navigation hook from React Router
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Import layout and form components from React Bootstrap
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
@@ -13,16 +13,18 @@ CancelBookingPage.route = {
   index: 12,
 };
 
-// This component renders the cancel booking page
 export default function CancelBookingPage() {
-  // Hook used to navigate to other pages
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // State that stores the email entered by the user
-  const [email, setEmail] = useState("");
+  const state = location.state as
+    | { bookingReference?: string; email?: string }
+    | undefined;
 
-  // State that stores the booking reference entered by the user
-  const [bookingReference, setBookingReference] = useState("");
+  const [email, setEmail] = useState(state?.email ?? "");
+  const [bookingReference, setBookingReference] = useState(
+    state?.bookingReference ?? "",
+  );
 
   // This function runs when the user clicks the confirm button
   async function handleConfirmCancel() {
