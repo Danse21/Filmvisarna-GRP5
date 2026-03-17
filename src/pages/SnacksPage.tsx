@@ -13,9 +13,9 @@ function Snackspage() {
 
       <div className="snacks-card">
         {snacks.map((snack) => (
-          <div key={snack.id} className="snack-id">
+          <div key={snack.id} className="snack-row">
             <span>{snack.name}</span>
-            <span>{snack.price}</span>
+            <span>{snack.price}:-</span>
           </div>
         ))}
       </div>
