@@ -16,7 +16,7 @@ export default function LoginPage() {
   return (
     <Container className="pt-5 pb-5" style={{ maxWidth: "420px" }}>
       <button
-        className="btn btn-link text-dark p-0 text-decoration-none fw-bold mb-4"
+        className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-4"
         onClick={() => navigate("/")}
         aria-label="Close login page"
       >
@@ -32,7 +32,7 @@ export default function LoginPage() {
             <Form.Control
               type="email"
               placeholder="E-post"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
             />
           </Form.Group>
 
@@ -40,11 +40,11 @@ export default function LoginPage() {
             <Form.Control
               type="password"
               placeholder="Lösenord"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
             />
           </Form.Group>
 
-          <Button variant="primary" className="w-100">
+          <Button variant="primary" className="btn-continue w-100">
             Fortsätt
           </Button>
         </Form>

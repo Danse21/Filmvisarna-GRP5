@@ -20,7 +20,7 @@ export default function EmailInputField({ email, onChangeEmail }: Props) {
       {/* Email input field */}
       <div>
         <Form.Control
-          className="email-input"
+          className="email-input bg-dark bg-opacity-25 border-dark"
           type="email"
           placeholder="example@email.com"
           value={email}

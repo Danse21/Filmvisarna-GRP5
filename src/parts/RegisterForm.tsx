@@ -26,7 +26,7 @@ export default function RegisterForm() {
 
     // prev is the previous state object.
     // ...prev keeps the old values.
-    // [name]: value updates only the field that changed. 
+    // [name]: value updates only the field that changed.
     //  Det är om en användare skriver in sitt namn glömmer å skriva email så är namnet kvar
     setFormData((prev) => ({
       ...prev,
@@ -118,7 +118,7 @@ export default function RegisterForm() {
               type="text"
               name="firstName"
               placeholder="Förnamn"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
               value={formData.firstName}
               onChange={handleChange}
             />
@@ -129,7 +129,7 @@ export default function RegisterForm() {
               type="text"
               name="lastName"
               placeholder="Efternamn"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
               value={formData.lastName}
               onChange={handleChange}
             />
@@ -140,7 +140,7 @@ export default function RegisterForm() {
               type="email"
               name="email"
               placeholder="E-post"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
               value={formData.email}
               onChange={handleChange}
             />
@@ -151,7 +151,7 @@ export default function RegisterForm() {
               type="password"
               name="password"
               placeholder="Lösenord"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
               value={formData.password}
               onChange={handleChange}
             />
@@ -162,7 +162,7 @@ export default function RegisterForm() {
               type="password"
               name="confirmPassword"
               placeholder="Bekräfta lösenord"
-              className="text-center"
+              className="bg-dark bg-opacity-25 border-dark text-center"
               value={formData.confirmPassword}
               onChange={handleChange}
             />
@@ -173,7 +173,7 @@ export default function RegisterForm() {
           <Button
             type="submit"
             variant="primary"
-            className="w-100"
+            className="btn-continue w-100"
             disabled={isLoading}
           >
             {isLoading ? "Skapar konto..." : "Fortsätt"}
@@ -195,10 +195,7 @@ export default function RegisterForm() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            variant="primary"
-            onClick={() => setShowSuccessModal(false)}
-          >
+          <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
             Okej
           </Button>
         </Modal.Footer>
