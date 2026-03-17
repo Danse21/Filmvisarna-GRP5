@@ -3,22 +3,24 @@
   min-height: 100vh;
   background-color: #efe7cf;
   display: flex;
+  font-display: swap;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #111;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #000000;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
 .snacks-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 20px 10px;
+  padding: 20px 20px 10px;
 }
 
 .back-btn,
 .close-btn {
   background: transparent;
-  border: 2px solid #111;
+  border: 2px solid #000000;
   border-radius: 14px;
   padding: 6px 12px;
   font-size: 1rem;
@@ -44,7 +46,7 @@
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
-  padding: 10px 20px 30px;
+  padding: 10px 20px 40px;
 }
 
 .snacks-title {
@@ -56,8 +58,8 @@
 
 .snacks-card {
   background: #cfe8bc;
-  border-radius: 32px;
-  padding: 28px 28px;
+  border-radius: 50px;
+  padding: 10px 600px;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
@@ -71,8 +73,9 @@
 
 .snack-name,
 .snack-price {
-  font-size: 2rem;
-  font-weight: 400;
+  font-size: 0rem;
+  width: 100%;
+  font-weight: 500;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
@@ -84,19 +87,19 @@
   width: 100%;
   margin-top: 16px;
   background: #f55d5d;
-  color: white;
-  border: none;
+  color: rgb(232, 0, 0);
+  border: small solid #000000;
   border-radius: 18px;
   padding: 18px 20px;
   font-size: 1.5rem;
   font-weight: 700;
-  cursor: pointer;
+
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.16);
 }
 
 .snacks-footer {
   margin-top: auto;
-  background: #c8ddb8;
+  background: z#dddbb8;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -128,7 +131,7 @@
   }
 
   .buy-info-btn {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
   }
 
   .snacks-footer {
