@@ -76,7 +76,7 @@ export default function CancelBookingPage() {
       {/* Back button that navigates back to MenuPage */}
       <Button
         variant="link"
-        className="ps-0 text-decoration-none fw-bold text-dark mt-2 mb-4"
+        className="ps-0 text-decoration-none fw-bold text-dark mt-4 mb-4"
         onClick={() => navigate("/menu")}
       >
         ← Bakåt
@@ -105,7 +105,7 @@ export default function CancelBookingPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
+            className="bg-dark bg-opacity-25 border-dark"
           />
         </Col>
       </Row>
@@ -124,7 +124,7 @@ export default function CancelBookingPage() {
             type="text"
             value={bookingReference}
             onChange={(e) => setBookingReference(e.target.value)}
-            className="form-input"
+            className="bg-dark bg-opacity-25 border-dark"
           />
         </Col>
       </Row>
