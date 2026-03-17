@@ -55,8 +55,11 @@ export default function HeroCard() {
           backgroundImage: `url(/images/movies/${movie.slug}.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "500px",
-          transition: "background-image 0.5s ease-in-out"
+          height: "clamp(400px, 50vw, 600px)",
+          marginTop: "-56px",
+          paddingTop: "56px",
+          transition: "background-image 0.5s ease-in-out",
+          width: "100%",
         }}
       >
 
@@ -67,8 +70,15 @@ export default function HeroCard() {
 
         {/* Vänster pil */}
         <button
-          className="position-absolute top-50 start-0 translate-middle-y btn btn-dark"
-          style={{ zIndex: 5 }}
+          className="position-absolute top-50 start-0 btn hero-arrow"
+          style={{
+            zIndex: 5,
+            fontSize: "8rem",
+            color: "#2ab5a0",
+            background: "none",
+            border: "none",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+          }}
           onClick={prevMovie}
         >
           ‹
@@ -76,8 +86,15 @@ export default function HeroCard() {
 
         {/* Höger pil */}
         <button
-          className="position-absolute top-50 end-0 translate-middle-y btn btn-dark"
-          style={{ zIndex: 5 }}
+          className="position-absolute top-50 end-0 btn hero-arrow"
+          style={{
+            zIndex: 5,
+            fontSize: "8rem",
+            color: "#2ab5a0",
+            background: "none",
+            border: "none",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+          }}
           onClick={nextMovie}
         >
           ›

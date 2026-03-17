@@ -16,6 +16,10 @@ export default function MoviesPage() {
   // State som håller vald åldersgräns, börjar med "Alla"
   const [ageFilter, setAgeFilter] = useState("Alla");
 
+  // Sparar texten som användaren skriver i sökfältet
+  // "" (tom sträng) = ingen sökning aktiv, alla filmer visas
+  const [searchQuery, setSearchQuery] = useState("");
+
   const navigate = useNavigate();
 
   // Hämta alla filmer när sidan laddas
@@ -37,11 +41,15 @@ export default function MoviesPage() {
   );
   // Filtrerar filmer baserat på vald åldersgräns i dropdownen
   const filteredMovies = movies.filter((movie) => {
-    if (ageFilter === "Alla") return true;
+    const matchesAge =
+      ageFilter === "Alla" || movie.age_limit === Number(ageFilter);
 
-    // Visar endast filmer vars age_limit matchar filtret
-    // Number() används eftersom värdet från dropdownen är en string
-    return movie.age_limit === Number(ageFilter);
+    // .includes() kollar om strängen innehåller söktexten, "pulp fiction".includes ("pulp") = true
+    const matchesSearch = movie.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return matchesAge && matchesSearch;
   });
 
   return (
@@ -56,12 +64,25 @@ export default function MoviesPage() {
 
       <h2 className="mb-3">Filmer</h2>
 
-      {/* Dropdown för åldersgräns-filter */}
-      <Row className="mb-3">
-        <Col xs={4}>
+      <Row className="mb-3 g-2">
+
+        {/* Sökfält Form.Control */}
+        <Col xs={12} md={8}>
+          <Form.Control
+            type="text"
+            placeholder="Sök efter film..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="bg-dark bg-opacity-25 border-dark"
+          />
+        </Col>
+
+        {/* Dropdown för åldersgräns-filter */}
+        <Col xs={12} md={4}>
           <Form.Select
             value={ageFilter}
             onChange={(e) => setAgeFilter(e.target.value)}
+            className="bg-dark bg-opacity-25 border-dark"
           >
             <option value="Alla">Alla åldrar</option>
             {ageLimits.map((age) => (
@@ -76,7 +97,7 @@ export default function MoviesPage() {
       {/* Samma grid som startsidan — 3 kort per rad */}
       <Row className="g-2">
         {filteredMovies.map((movie) => (
-          <Col xs={4} key={movie.slug}>
+          <Col xs={12} md={4} key={movie.slug}>
             <MovieCard
               movie={movie}
               showShowtime={false}

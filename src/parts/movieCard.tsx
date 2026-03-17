@@ -65,7 +65,7 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
 
             {/* Trailer */}
             <button
-              className="btn btn-sm fw-semibold text-white btn-trailer"
+              className="btn btn-sm fw-semibold text-black btn-trailer"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowTrailer(true);
@@ -81,7 +81,7 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
             {showShowtime && (
               <div
                 style={{
-                  background: "limegreen",
+                  background: "hsla(48, 87%, 85%, 0.80)",
                   color: "black",
                   fontWeight: 600,
                   fontSize: "0.75rem",
@@ -100,7 +100,7 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
             {/* Biljetter */}
             {showBiljetter && (
               <button
-                className="btn btn-sm fw-semibold text-white btn-biljetter"
+                className="btn btn-sm fw-semibold text-black btn-biljetter"
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate(`/booking/${movie.slug}?showtimeId=${movie.showtime_id}`);

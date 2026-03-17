@@ -7,6 +7,9 @@ import "/sass/_dateselector.scss";
 // returnerar 0 för Söndag, 1 för måndag osv.
 const weekdays = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"];
 
+// förkortningar som används på mobil där utrymmet är begränsat.
+const weekdaysShort = ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"];
+
 // Skapar en lista med 14 datum: idag + 13 dagar framåt
 function getUpcomingDates() {
   const dates = [];
@@ -33,8 +36,15 @@ function getUpcomingDates() {
     else if (i === 1) label = "Imorgon";
     else label = weekdays[d.getDay()];
 
+    // förkortningar för mobil
+    let shortLabel = "";
+    if (i === 0) shortLabel = "Idag";
+    else if (i === 1) shortLabel = "Imon";
+    else shortLabel = weekdaysShort[d.getDay()];
+
     dates.push({
       label,
+      shortLabel,
       date: dateStr,
       urlDate
     });
@@ -63,15 +73,10 @@ export default function DateSelector() {
 
       {/* VÄNSTER PIL */}
       <button
+        className="date-arrow"
+        style={{ left: 0 }}
         onClick={() => setStartIndex(Math.max(0, startIndex - 1))}
         disabled={startIndex === 0}
-        style={{
-          position: "absolute",
-          left: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 2
-        }}
       >
         &lt;
       </button>
@@ -80,8 +85,9 @@ export default function DateSelector() {
       <div
         style={{
           display: "flex",
-          gap: "10px",
-          width: "100%"
+          gap: "4px",
+          width: "100%",
+          padding: "0 4px"
         }}
       >
         {visibleDates.map((item, index) => (
@@ -95,15 +101,21 @@ export default function DateSelector() {
             >
 
               {/* Card.Body = innehållet i kortet */}
-              <Card.Body className="d-flex flex-column justify-content-center">
+              <Card.Body className="d-flex flex-column justify-content-center p-2">
 
+                {/* Veckodag — förkortning på mobil, långt på desktop */}
+                {/* d-md-none = visas BARA på mobil (döljs på desktop) */}
+                {/* d-none d-md-block = visas bara på desktop (döljs på mobil) */}
+                <Card.Title className="mb-0 text-black d-md-none" style={{ fontSize: "0.85rem" }}>
+                  {item.shortLabel}
+                </Card.Title>
                 {/* Veckodag */}
-                <Card.Title className="fs-5 text-black">
+                <Card.Title className="text-black d-none d-md-block fs-5">
                   {item.label}
                 </Card.Title>
 
                 {/* Datum */}
-                <Card.Text className="fs-4 text-black">
+                <Card.Text className="mb-0 text-black fw-bold" style={{ fontSize: "1rem" }}>
                   {item.date}
                 </Card.Text>
 
@@ -118,15 +130,10 @@ export default function DateSelector() {
 
       {/* HÖGER PIL */}
       <button
+        className="date-arrow"
+        style={{ right: 0 }}
         onClick={() => setStartIndex(Math.min(dates.length - 5, startIndex + 1))}
         disabled={startIndex >= dates.length - 5}
-        style={{
-          position: "absolute",
-          right: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 2
-        }}
       >
         &gt;
       </button>
