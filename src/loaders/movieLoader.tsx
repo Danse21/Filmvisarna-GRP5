@@ -18,7 +18,8 @@ export default async function movieLoader({ params }: any) {
     throw new Response("Movie not found", { status: 404 });
   }
 
-  const showtimeRes = await fetch(`/api/showtime?WHERE=movie_id=${movie.id}`);
+  const showtimeRes = await fetch(`/api/upcoming_showtimes?where=movie_id=${movie.id}&orderby=start_time`);
+
   const showtime = showtimeRes.ok ? await showtimeRes.json() : [];
 
   return {
