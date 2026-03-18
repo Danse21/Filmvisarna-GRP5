@@ -72,7 +72,6 @@ export default function MovieDetailsPage() {
                     Drink tips:
                   </Card.Title>
                   {/* Hämtar drink_tips från databasen och delar upp på radbrytningar */}
-                  {/* .split("\n") delar strängen vid varje \n → ["Bourbon", "Vaniljglass", "Baileys"] */}
                   {/* .map() loopar och skapar en <p> per rad */}
                   {/* Om drink_tips är null/tom visas en fallback-text */}
                   {movie.drink_tips ? (
