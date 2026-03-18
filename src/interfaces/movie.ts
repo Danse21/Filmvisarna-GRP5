@@ -11,6 +11,7 @@ export default interface Movie {
   rottentomatoes_link: string;
   slug: string;
   trailer_link: string;
+  drink_tips: string;
 
   showtime?: {
     screen_name: string;

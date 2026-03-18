@@ -63,7 +63,7 @@ export default function MovieDetailsPage() {
             </Col>
           </Row>
 
-          {/*Drink tips info - Hardcoded*/}
+          {/*Drink tips info*/}
           <Row className="mb-4">
             <Col xs={5}>
               <Card className="h-100 border-0 shadow-sm" style={{ backgroundColor: "#FAECB666" }}>
@@ -71,13 +71,18 @@ export default function MovieDetailsPage() {
                   <Card.Title className="fw-bold mb-3" style={{ fontSize: "1rem" }}>
                     Drink tips:
                   </Card.Title>
-                  <p className="mb-1">Milkshake (Boozy twist)</p>
-                  <p className="mb-1">En blinkning till Mia</p>
-                  <p className="mb-1">& Vincents ikoniska scen</p>
-                  <p className="mb-1">Bourbon eller rom</p>
-                  <p className="mb-1">Vaniljglass & Baileys</p>
-                  <p className="mb-1">En skvätt Baileys</p>
-                  <p className="mb-0">Lite mjölk</p>
+                  {/* Hämtar drink_tips från databasen och delar upp på radbrytningar */}
+                  {/* .map() loopar och skapar en <p> per rad */}
+                  {/* Om drink_tips är null/tom visas en fallback-text */}
+                  {movie.drink_tips ? (
+                    movie.drink_tips.split("\n").map((line, index) => (
+                      <p className="mb-1" key={index}>
+                        {line}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="mb-0 text-muted">Inga drinktips ännu</p>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
