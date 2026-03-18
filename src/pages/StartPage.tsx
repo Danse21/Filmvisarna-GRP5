@@ -42,7 +42,7 @@ export default function StartPage() {
 
       {/* Första filmen som hero-kort i full bredd */}
       {movies.length > 0 && (
-        <Row className="mb-2 mx-n2">
+        <Row className="mx-n2">
           <Col xs={12} className="px-0">
             <HeroCard />
           </Col>

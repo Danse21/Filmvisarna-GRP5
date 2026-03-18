@@ -12,3 +12,19 @@
     filter: brightness(0.7);
   }
 }
+
+// Fade-effekt i botten av hero-bilden
+.hero-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(250, 236, 182, 0.3) 40%,
+      rgba(250, 236, 182, 0.7) 70%,
+      #faecb6 100%);
+  pointer-events: none; // Så man fortfarande kan klicka på knappar bakom
+  z-index: 1;
+}

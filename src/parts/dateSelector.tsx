@@ -85,7 +85,7 @@ export default function DateSelector() {
       <div
         style={{
           display: "flex",
-          gap: "4px",
+          gap: "6px",
           width: "100%",
           padding: "0 4px"
         }}
@@ -95,7 +95,7 @@ export default function DateSelector() {
           <div key={index} className="date-card">
 
             <Card
-              className="bg-primary text-center rounded-3 text-black border-dark shadow"
+              className="bg-primary text-center rounded-3 text-black"
               style={{ cursor: "pointer" }}
               onClick={() => navigate(`/filmer/${item.urlDate}`)}
             >

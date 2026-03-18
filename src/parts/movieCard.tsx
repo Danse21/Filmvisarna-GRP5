@@ -40,7 +40,7 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
   return (
     <>
       <Card
-        className="rounded-3 overflow-hidden shadow-lg border-0"
+        className="rounded-3 overflow-hidden border-0 movie-card-shadow"
         style={{ cursor: "pointer" }}
         onClick={() => navigate(`/movie/${movie.slug}`)}
       >
