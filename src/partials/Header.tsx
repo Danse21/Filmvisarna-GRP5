@@ -27,7 +27,7 @@ export default function Header() {
       className="mx-3 mt-2 px-4 py-2 rounded-4"
       style={{
         backgroundColor: "rgba(255, 236, 153, 0.75)",
-        zIndex: 1000
+        zIndex: 1000,
       }}
     >
       <Container
@@ -45,7 +45,9 @@ export default function Header() {
               <FontAwesomeIcon icon={faXmark} /> STÄNG
             </>
           ) : (
-            <FontAwesomeIcon icon={faBars} size="lg" />
+            <>
+              <FontAwesomeIcon icon={faBars} size="lg" /> MENY
+            </>
           )}
         </button>
 
