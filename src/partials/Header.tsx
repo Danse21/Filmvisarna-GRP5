@@ -1,4 +1,5 @@
 import { Container, Navbar } from "react-bootstrap";
+import { useUserContext } from "../hooks/userContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Import icons to be used on the header section
@@ -9,8 +10,12 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
+
+
 // This component renders the header section
 export default function Header() {
+
+  const [user] = useUserContext();
   // Hook used to navigate between pages
   const navigate = useNavigate();
 
@@ -63,13 +68,24 @@ export default function Header() {
             onClick={() => navigate("/search")}
             aria-label="Open search"
           />
-          <FontAwesomeIcon
-            icon={faUser}
-            size="lg"
-            style={{ cursor: "pointer" }}
-            onClick={() => navigate("/login")}
-            aria-label="Open login"
-          />
+          {user.isLoggedIn ? (
+            <button
+              className="btn btn-link text-dark p-0 text-decoration-none fw-bold"
+              onClick={() => navigate("/menu")}
+              aria-label="Open user menu"
+            >
+              {user.firstName}
+            </button>
+          ) : (
+            <FontAwesomeIcon
+              icon={faUser}
+              size="lg"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/login")}
+              aria-label="Open login"
+            />
+          )}
+
         </div>
       </Container>
     </Navbar>
