@@ -1,17 +1,19 @@
 // Import React hook for local state.
 // We use state to store form input, loading state, and error messages.
-import { useState } from "react";
-
 // Import layout and form components from React Bootstrap.
-import { Container, Button, Form } from "react-bootstrap";
-
 // Import navigation hook from React Router.
 // This lets us move the user to another page after successful login.
-import { useNavigate } from "react-router-dom";
-
-// Import the registration form component.
+// Import navigation hook from React Router.
+// This lets us move the user to another page after successful login.
+// // Import the registration form component.
 // This is rendered below the login form on the same page.
+// // Import the registration form component.
+// This is rendered below the login form on the same page.
+import { useState } from "react";
+import { Container, Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import RegisterForm from "../parts/RegisterForm";
+import { useUserContext } from "../hooks/userContext";
 
 // Route configuration used by the app router.
 LoginPage.route = {
@@ -24,6 +26,9 @@ LoginPage.route = {
 export default function LoginPage() {
   // Used to navigate between pages after successful login or when closing the page.
   const navigate = useNavigate();
+
+  // Viktigt denna ändrar user vid lyckad login.
+  const [, setUser] = useUserContext();
 
   // Store the email entered by the user.
   const [email, setEmail] = useState("");
@@ -88,6 +93,16 @@ export default function LoginPage() {
         return;
       }
 
+      // Nytt:
+      // När login lyckas sparar vi användaren i global context
+      // så resten av appen direkt vet att någon är inloggad.
+      setUser({
+        id: data.id ?? null,
+        firstName: data.firstName ?? "",
+        email: data.email ?? email.trim(),
+        isLoggedIn: true,
+      });
+
       // If login succeeds, navigate to the menu page.
       // The menu loader can now detect that the user is logged in.
       navigate("/menu");
@@ -102,11 +117,12 @@ export default function LoginPage() {
 
   return (
     <Container className="pt-5 pb-5" style={{ maxWidth: "420px" }}>
-      {/* 
+      {/*
         Close button.
         Sends the user back to the start page without logging in.
       */}
       <button
+        type="button"
         className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-4"
         onClick={() => navigate("/")}
         aria-label="Close login page"
@@ -118,7 +134,7 @@ export default function LoginPage() {
       <section className="mb-5 text-center">
         <h2 className="mb-4">Logga in!</h2>
 
-        {/* 
+        {/*
           Login form.
           When submitted, it calls handleLogin.
         */}
@@ -185,6 +201,9 @@ export default function LoginPage() {
 // loggar in via LoginPage
 
 // backend sparar användaren i session
+
+// Nytt:
+// LoginPage sparar också användaren i userContext direkt
 
 // användaren skickas till "/menu"
 
