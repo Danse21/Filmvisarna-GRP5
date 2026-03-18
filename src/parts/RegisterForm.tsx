@@ -1,9 +1,14 @@
+// Import React hook for local component state.
 import { useState } from "react";
+
+// Import Bootstrap components used for the form and success modal.
 import { Button, Form, Modal } from "react-bootstrap";
 
+// This component renders the registration form.
+// It collects user information and sends it to the backend to create a new user.
 export default function RegisterForm() {
-  // useState stores values between renders.
-  // Here we keep all form fields together in one object.
+  // Store all input field values in one object.
+  // This makes it easier to manage the whole form in a single state variable.
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -12,65 +17,73 @@ export default function RegisterForm() {
     confirmPassword: "",
   });
 
-  // Stores any error message we want to show to the user
+  // Store an error message to show validation or backend errors.
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Controls whether the success popup should be visible
+  // Controls whether the success modal is visible after successful registration.
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // Lets us disable the button while the request is running
+  // Tracks whether the registration request is currently running.
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle changes in any input field.
+  // The "name" attribute on each input tells us which property to update.
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
-    // prev is the previous state object.
-    // ...prev keeps the old values.
-    // [name]: value updates only the field that changed.
-    //  Det är om en användare skriver in sitt namn glömmer å skriva email så är namnet kvar
+    // Keep all existing field values,
+    // then update only the field that changed.
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
 
+  // Runs when the registration form is submitted.
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    // Prevent the browser from reloading the page on form submit
+    // Prevent the browser from reloading the page.
     event.preventDefault();
 
-    // Clear old errors before a new submit attempt
+    // Clear previous error before trying again.
     setErrorMessage("");
 
+    // Validate first name and last name.
     if (!formData.firstName.trim() || !formData.lastName.trim()) {
       setErrorMessage("Fyll i både förnamn och efternamn.");
       return;
     }
 
+    // Validate email.
     if (!formData.email.trim()) {
       setErrorMessage("Fyll i en e-postadress.");
       return;
     }
 
+    // Validate password.
     if (!formData.password) {
       setErrorMessage("Fyll i ett lösenord.");
       return;
     }
 
+    // Validate password confirmation.
     if (formData.password !== formData.confirmPassword) {
       setErrorMessage("Lösenorden matchar inte.");
       return;
     }
 
+    // Start loading state before sending request.
     setIsLoading(true);
 
     try {
+      // Send registration request to backend.
+      // Important:
+      // The frontend sends the exact password entered by the user.
+      // The backend should then hash that password and store the hash in the database.
       const response = await fetch("/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // JSON.stringify converts the JavaScript object
-        // into JSON text that can be sent to the backend.
         body: JSON.stringify({
           firstName: formData.firstName.trim(),
           lastName: formData.lastName.trim(),
@@ -79,16 +92,17 @@ export default function RegisterForm() {
         }),
       });
 
+      // Parse backend response.
       const data = await response.json();
 
-      // response.ok is false for HTTP errors.
-      // data.error handles errors returned by the API itself.
+      // If backend returns an error or HTTP status is not OK,
+      // show a user-friendly error message.
       if (!response.ok || data.error) {
         setErrorMessage(data.error ?? "Kunde inte skapa användaren.");
         return;
       }
 
-      // Reset the form after a successful registration
+      // Reset form fields after successful registration.
       setFormData({
         firstName: "",
         lastName: "",
@@ -97,22 +111,26 @@ export default function RegisterForm() {
         confirmPassword: "",
       });
 
+      // Show success popup.
       setShowSuccessModal(true);
     } catch {
+      // Handle unexpected network/server errors.
       setErrorMessage("Något gick fel när kontot skulle skapas.");
     } finally {
-      // finally always runs, no matter if try succeeded or failed.
-      // Good place for cleanup, like stopping a loading state.
+      // Stop loading state whether registration succeeded or failed.
       setIsLoading(false);
     }
   }
 
   return (
     <>
+      {/* Registration section */}
       <section className="text-center">
         <h3 className="mb-4">Bli medlem!</h3>
 
+        {/* Registration form */}
         <Form onSubmit={handleSubmit}>
+          {/* First name input */}
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
@@ -124,6 +142,7 @@ export default function RegisterForm() {
             />
           </Form.Group>
 
+          {/* Last name input */}
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
@@ -135,6 +154,7 @@ export default function RegisterForm() {
             />
           </Form.Group>
 
+          {/* Email input */}
           <Form.Group className="mb-3">
             <Form.Control
               type="email"
@@ -146,6 +166,7 @@ export default function RegisterForm() {
             />
           </Form.Group>
 
+          {/* Password input */}
           <Form.Group className="mb-3">
             <Form.Control
               type="password"
@@ -157,6 +178,7 @@ export default function RegisterForm() {
             />
           </Form.Group>
 
+          {/* Confirm password input */}
           <Form.Group className="mb-4">
             <Form.Control
               type="password"
@@ -168,8 +190,10 @@ export default function RegisterForm() {
             />
           </Form.Group>
 
+          {/* Show validation or backend errors */}
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
 
+          {/* Submit button */}
           <Button
             type="submit"
             variant="primary"
@@ -181,6 +205,7 @@ export default function RegisterForm() {
         </Form>
       </section>
 
+      {/* Success modal shown after successful registration */}
       <Modal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}

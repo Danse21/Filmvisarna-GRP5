@@ -6,6 +6,14 @@ public static class BookingRoutes
 {
   public static void Start()
   {
+    // POST /api/booking
+    // Creates a new booking and related booking_seat rows
+    App.MapPost("/api/booking", (HttpContext context, JsonElement bodyJson) =>
+    {
+      // Delegate the booking creation logic to BookingService
+      return BookingService.CreateBooking(context, bodyJson);
+    });
+    
     // GET /api/booking?showtimeId=XX
     // Returns all data required to render the booking page:
     // - showtime information
@@ -17,18 +25,11 @@ public static class BookingRoutes
       return BookingService.GetBookingData(context);
     });
 
-    // GET /api/my-bookings?email=test@email.com
+     // GET /api/my-bookings
+    // Returns all bookings that belong to the currently logged-in user.
     App.MapGet("/api/my-bookings", (HttpContext context) =>
     {
-      return MyBookingsService.GetMyBookings(context);
-    });
-
-    // POST /api/booking
-    // Creates a new booking and related booking_seat rows
-    App.MapPost("/api/booking", (HttpContext context, JsonElement bodyJson) =>
-    {
-      // Delegate the booking creation logic to BookingService
-      return BookingService.CreateBooking(context, bodyJson);
+      return BookingService.GetMyBookings(context);
     });
   }
 }

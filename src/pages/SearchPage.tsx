@@ -19,7 +19,7 @@ export default function SearchPage() {
     <Container className="pt-5">
       {/* Add a close button that navigates back to start page when clicked */}
       <button
-        className="btn btn-link text-decoration-none ps-0 fw-bold text-dark mb-4"
+        className="btn btn-link text-decoration-none ps-0 fw-bold text-dark mb-4 mt-4"
         onClick={() => navigate("/")}
       >
         ✕ STÄNG
