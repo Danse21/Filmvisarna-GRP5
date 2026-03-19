@@ -141,7 +141,7 @@ export default function BookingPage() {
   }, [selectedSeats]);
 
   return (
-    <Container className="pt-5 pb-5">
+    <Container className="pt-5 pb-5 mt-5">
       <Button
         variant="link"
         className="ps-0 text-decoration-none fw-bold text-dark"

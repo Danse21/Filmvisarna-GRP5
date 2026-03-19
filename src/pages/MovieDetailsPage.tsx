@@ -24,7 +24,7 @@ export default function MovieDetailsPage() {
   };
 
   return (
-    <Container className="pt-5 pb-5 mt-1">
+    <Container className="pt-5 pb-5 mt-5">
       {/* Create a close button (X STÄNG) */}
       <div className="d-flex justify-content-start mb-4">
         <Button

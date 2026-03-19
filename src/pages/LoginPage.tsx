@@ -123,7 +123,7 @@ export default function LoginPage() {
       */}
       <button
         type="button"
-        className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-4"
+        className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-5"
         onClick={() => navigate("/")}
         aria-label="Close login page"
       >
