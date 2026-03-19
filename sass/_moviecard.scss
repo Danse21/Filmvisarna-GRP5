@@ -1,6 +1,7 @@
 .btn.btn-trailer {
   background-color: #2ab5a0;
   color: white;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
 
   &:hover {
     background-color: darken(#2ab5a0, 10%);
@@ -10,11 +11,21 @@
 
 // Biljetter-knappen (orange)
 .btn.btn-biljetter {
-  background-color: #e8872a;
+  background-color: #e8862a;
   color: white;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
 
   &:hover {
     background-color: darken(#e8872a, 10%);
     color: white;
+  }
+}
+
+.movie-card-shadow {
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 6px 8px 16px rgba(0, 0, 0, 0.7);
   }
 }

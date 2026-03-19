@@ -50,12 +50,12 @@ export default function HeroCard() {
     <>
       {/* Hero container */}
       <div
-        className="position-relative overflow-hidden shadow-lg"
+        className="position-relative overflow-hidden"
         style={{
           backgroundImage: `url(/images/movies/${movie.slug}.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "clamp(400px, 50vw, 600px)",
+          height: "clamp(450px, 60vw, 700px)",
           marginTop: "-56px",
           paddingTop: "56px",
           transition: "background-image 0.5s ease-in-out",
@@ -99,6 +99,9 @@ export default function HeroCard() {
         >
           ›
         </button>
+
+        {/* Fade-effekt i botten — tonar ut bilden mot sidans bakgrundsfärg */}
+        <div className="hero-fade"></div>
 
         {/* Knappar längst ner */}
         <div
