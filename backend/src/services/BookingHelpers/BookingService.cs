@@ -1,8 +1,11 @@
 namespace WebApp;
 
+// BookingService is marked as partial so its methods
+// can be split across multiple files.
+// This keeps large service logic easier to organize.
 // Holds the logic for retrieving booking data,
 // creating bookings, and fetching bookings for the logged-in user.
-public static class BookingService
+public static partial class BookingService
 {
   // CreateBooking
   // Creates a new booking row and inserts matching booking_seat rows.
@@ -360,13 +363,13 @@ public static class BookingService
 
     // Fetch all seats that belong to this screen.
     var seats = SQLQuery(
-      @"SELECT id, seat_row, seat_number FROM seat WHERE screen_id = @screenId",
+      "SELECT id, seat_row, seat_number FROM seat WHERE screen_id = @screenId",
       new { screenId = screen.id }
     );
 
     // Fetch all seats already booked for this showtime.
     var occupiedSeats = SQLQuery(
-      @"SELECT * FROM booking_seat WHERE showtime_id = @showtimeId",
+      "SELECT * FROM booking_seat WHERE showtime_id = @showtimeId",
       new { showtimeId }
     );
 
@@ -388,9 +391,11 @@ public static class BookingService
     });
   }
 
-  // GetMyBookings
-  // Returns all bookings that belong to the currently logged-in user.
-  public static object GetMyBookings(HttpContext context)
+// GetMyBookings
+// Returns all bookings that belong to the currently logged-in user.
+public static object GetMyBookings(HttpContext context)
+{
+  try
   {
     // Read the logged-in user's id from the custom session.
     int? userId = MyBookingsAuthenticationHelpers.GetCurrentUserId(context);
@@ -406,58 +411,83 @@ public static class BookingService
       });
     }
 
-    // Get all bookings connected to this specific user id.
-    var bookings = SQLQuery(@"
-      SELECT
-        b.id,
-        b.user_id,
-        b.email,
-        b.booking_reference,
-        b.total_price,
-        b.booking_date,
-        b.showtime_id,
+    // Fetch all bookings that belong to the current logged-in user.
+    // This SQL string starts directly with SELECT,
+    // which matches the working pattern used in MovieRoutes.cs.
+    var bookings = SQLQuery(
+      "SELECT " +
+      "b.id, b.user_id, b.email, b.booking_reference, b.total_price, b.booking_date, " +
+      "b.showtime_id, st.start_time, st.screen_id, s.screen_name, " +
+      "m.id AS movie_id, m.title AS movie_title, m.slug AS movie_slug, " +
+      "m.age_limit, m.duration_minutes " +
+      "FROM booking b " +
+      "JOIN showtime st ON st.id = b.showtime_id " +
+      "JOIN screen s ON s.id = st.screen_id " +
+      "JOIN movie m ON m.id = st.movie_id " +
+      "WHERE b.user_id = @userId " +
+      "ORDER BY st.start_time DESC",
+      new { userId = userId.Value },
+      context
+    );
 
-        st.start_time,
-        st.screen_id,
-        st.movie_id,
-
-        s.screen_name,
-
-        m.id AS movie_id,
-        m.title AS movie_title,
-        m.slug AS movie_slug,
-        m.age_limit,
-        m.duration_minutes
-      FROM booking b
-      JOIN showtime st ON st.id = b.showtime_id
-      JOIN screen s ON s.id = st.screen_id
-      JOIN movie m ON m.id = st.movie_id
-      WHERE b.user_id = @userId
-      ORDER BY st.start_time DESC
-    ", new
+    // If SQLQuery returned an error row, return that clearly.
+    if (bookings != null && bookings.Length > 0 && bookings[0] != null && bookings[0].error != null)
     {
-      userId = userId.Value
-    });
+      context.Response.StatusCode = 500;
+
+      return RestResult.Parse(context, new
+      {
+        error = "Main bookings query failed",
+        message = bookings[0].error
+      });
+    }
 
     var result = new List<object>();
 
     foreach (var booking in bookings)
     {
-      // Get all seats connected to this booking.
-      var bookingSeats = SQLQuery(@"
-        SELECT
-          bs.seat_id,
-          bs.price_category_id,
-          seat.seat_row,
-          seat.seat_number
-        FROM booking_seat bs
-        JOIN seat ON seat.id = bs.seat_id
-        WHERE bs.booking_id = @bookingId
-        ORDER BY seat.seat_row, seat.seat_number
-      ", new
+      // Skip invalid rows if important values are missing.
+      if (
+        booking.id == null ||
+        booking.showtime_id == null ||
+        booking.screen_id == null ||
+        booking.movie_id == null
+      )
       {
-        bookingId = booking.id
-      });
+        continue;
+      }
+
+      // Convert key values once before reuse.
+      int bookingId = Convert.ToInt32(booking.id);
+      int showtimeId = Convert.ToInt32(booking.showtime_id);
+      int screenId = Convert.ToInt32(booking.screen_id);
+      int movieId = Convert.ToInt32(booking.movie_id);
+
+      // Fetch all seats connected to this booking.
+      // This also follows the same SQLQuery pattern as MovieRoutes.cs.
+      var bookingSeats = SQLQuery(
+        "SELECT " +
+        "bs.seat_id, bs.price_category_id, seat.seat_row, seat.seat_number " +
+        "FROM booking_seat bs " +
+        "JOIN seat ON seat.id = bs.seat_id " +
+        "WHERE bs.booking_id = @bookingId " +
+        "ORDER BY seat.seat_row, seat.seat_number",
+        new { bookingId },
+        context
+      );
+
+      // If SQLQuery returned an error row, return that clearly.
+      if (bookingSeats != null && bookingSeats.Length > 0 && bookingSeats[0] != null && bookingSeats[0].error != null)
+      {
+        context.Response.StatusCode = 500;
+
+        return RestResult.Parse(context, new
+        {
+          error = "Booking seats query failed",
+          message = bookingSeats[0].error,
+          bookingId
+        });
+      }
 
       var selectedSeats = new List<string>();
       var selectedSeatInfo = new List<object>();
@@ -468,55 +498,68 @@ public static class BookingService
 
       foreach (var seat in bookingSeats)
       {
-        // NOTE:
-        // This assumes that seat_row + seat_number matches
-        // the seat format expected by the frontend.
-        selectedSeats.Add($"{seat.seat_row}-{seat.seat_number}");
+        // Skip seat rows with missing values instead of crashing.
+        if (seat.seat_row == null || seat.seat_number == null)
+        {
+          continue;
+        }
 
+        int row = Convert.ToInt32(seat.seat_row);
+        int seatNumber = Convert.ToInt32(seat.seat_number);
+
+        // Build seat id in the format expected by the frontend.
+        selectedSeats.Add($"{row}-{seatNumber}");
+
+        // Store structured seat data for the frontend.
         selectedSeatInfo.Add(new
         {
-          id = $"{seat.seat_row}-{seat.seat_number}",
-          row = (int)seat.seat_row,
-          seatNumber = (int)seat.seat_number
+          id = $"{row}-{seatNumber}",
+          row,
+          seatNumber
         });
 
-        // Read the price category id and count ticket types.
-        int priceCategoryId = Convert.ToInt32(seat.price_category_id);
+        // Count ticket types if price_category_id exists.
+        if (seat.price_category_id != null)
+        {
+          int priceCategoryId = Convert.ToInt32(seat.price_category_id);
 
-        if (priceCategoryId == 1) adultCount++;
-        else if (priceCategoryId == 2) seniorCount++;
-        else if (priceCategoryId == 3) childCount++;
+          if (priceCategoryId == 1) adultCount++;
+          else if (priceCategoryId == 2) seniorCount++;
+          else if (priceCategoryId == 3) childCount++;
+        }
       }
 
       // Mark booking as upcoming if the showtime is in the future.
-      bool isUpcoming = Convert.ToDateTime(booking.start_time) > DateTime.Now;
+      bool isUpcoming =
+        booking.start_time != null &&
+        Convert.ToDateTime(booking.start_time) > DateTime.Now;
 
-      // Build the booking object in the format expected by the frontend.
+      // Build the final booking object in the format expected by the frontend.
       result.Add(new
       {
-        id = booking.id,
+        id = bookingId,
         bookingReference = booking.booking_reference,
         email = booking.email,
 
         movie = new
         {
-          id = booking.movie_id,
+          id = movieId,
           title = booking.movie_title,
           slug = booking.movie_slug,
-          age_limit = booking.age_limit,
-          duration_minutes = booking.duration_minutes
+          age_limit = booking.age_limit != null ? Convert.ToInt32(booking.age_limit) : 0,
+          duration_minutes = booking.duration_minutes != null ? Convert.ToInt32(booking.duration_minutes) : 0
         },
 
         showtime = new
         {
-          id = booking.showtime_id,
+          id = showtimeId,
           start_time = booking.start_time,
-          screen_id = booking.screen_id
+          screen_id = screenId
         },
 
         screen = new
         {
-          id = booking.screen_id,
+          id = screenId,
           screen_name = booking.screen_name
         },
 
@@ -530,13 +573,28 @@ public static class BookingService
           senior = seniorCount
         },
 
-        totalPrice = booking.total_price,
+        totalPrice = booking.total_price != null
+          ? Convert.ToDecimal(booking.total_price)
+          : 0,
+
         isUpcoming
       });
     }
 
     // Return all bookings for the logged-in user.
     return RestResult.Parse(context, result);
+    }
+    catch (Exception ex)
+    {
+      // Return a server error if something unexpected happens.
+      context.Response.StatusCode = 500;
+
+      return RestResult.Parse(context, new
+      {
+        error = "GetMyBookings crashed",
+        message = ex.Message
+      });
+    }
   }
 }
   
