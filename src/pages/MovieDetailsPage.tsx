@@ -37,9 +37,9 @@ export default function MovieDetailsPage() {
       </div>
 
       {/* Upper section of the page */}
-      <Card className="border-0 shadow-sm rounded-3 mb-4" style={{ backgroundColor: "#91D3AD80" }}>
+      <Card className="border-0 shadow rounded-3 mb-4" style={{ backgroundColor: "#91D3AD80" }}>
         <Card.Body>
-          <Row className="mb-3 mx-2 align-items-stretch shadow-sm rounded-3" style={{ backgroundColor: "#FAECB666" }}>
+          <Row className="mb-3 mx-2 align-items-stretch shadow rounded-3" style={{ backgroundColor: "#FAECB666" }}>
             <Col xs={5}>
               <img
                 src={`/images/movies/${movie.slug}.jpg`}
@@ -66,7 +66,7 @@ export default function MovieDetailsPage() {
           {/*Drink tips info*/}
           <Row className="mb-4">
             <Col xs={5}>
-              <Card className="h-100 border-0 shadow-sm" style={{ backgroundColor: "#FAECB666" }}>
+              <Card className="h-100 border-0 shadow" style={{ backgroundColor: "#FAECB666" }}>
                 <Card.Body className="text-center">
                   <Card.Title className="fw-bold mb-3" style={{ fontSize: "1rem" }}>
                     Drink tips:
@@ -89,7 +89,7 @@ export default function MovieDetailsPage() {
 
             {/* Movie facts */}
             <Col xs={7}>
-              <Card className="h-100 border-0 shadow-sm" style={{ backgroundColor: "#FAECB666" }}>
+              <Card className="h-100 border-0 shadow" style={{ backgroundColor: "#FAECB666" }}>
                 <CardBody className="text-center d-flex flex-column justify-content-center">
                   <p className="mb-1">
                     <strong>Genre:</strong> {movie.genre}
@@ -121,7 +121,7 @@ export default function MovieDetailsPage() {
       </Card>
 
       {/* Add showtime (välj visning) */}
-      <Card className="mt-4 border-0 shadow-sm rounded-3" style={{ backgroundColor: "rgba(249, 168, 36, 0.55)" }}>
+      <Card className="mt-4 border-0 shadow rounded-3" style={{ backgroundColor: "rgba(249, 168, 36, 0.55)" }}>
         <Card.Body>
           <h4 className="text-center fw-bold mb-3">Välj visning</h4>
 
@@ -129,7 +129,7 @@ export default function MovieDetailsPage() {
             {(movie.showtime ?? []).map((show) => (
               <Col md={3} key={show.id}>
                 <Button
-                  className="w-100 py-3 rounded-3 shadow-sm btn-showtime"
+                  className="w-100 py-3 rounded-3 shadow btn-showtime"
                   onClick={() =>
                     navigate(`/booking/${movie.slug}?showtimeId=${show.id}`)
                   }

@@ -31,8 +31,8 @@ BookingPage.route = {
 export default function BookingPage() {
   const loaderData = useLoaderData() as {
     movie: Movie;
-    showtime: { id: number; start_time: string; screen_id: number };
-    screen: { id: number; screen_name: string };
+    showtime: { id: number; start_time: string; screen_id: number; };
+    screen: { id: number; screen_name: string; };
     seats: DbSeat[];
   };
 
@@ -141,7 +141,7 @@ export default function BookingPage() {
   }, [selectedSeats]);
 
   return (
-    <Container className="pt-5">
+    <Container className="pt-5 pb-5">
       <Button
         variant="link"
         className="ps-0 text-decoration-none fw-bold text-dark"
@@ -150,13 +150,15 @@ export default function BookingPage() {
         ← Bakåt
       </Button>
 
-      <SelectedMovieImageAndInfo
-        movie={movie}
-        showtime={showtime}
-        screen={screen}
-      />
+      <div className="booking-movie-card mb-3 shadow">
+        <SelectedMovieImageAndInfo
+          movie={movie}
+          showtime={showtime}
+          screen={screen}
+        />
+      </div>
 
-      <section className="mt-5 text-center">
+      <section className="mt-3 text-center booking-seat-card shadow">
         <div className="text-black p-1 mb-2">
           <strong>Duken</strong>
         </div>
@@ -171,33 +173,33 @@ export default function BookingPage() {
         />
 
         <SeatLegendLabel />
+
+        <TicketPriceCategorySelector
+          tickets={tickets}
+          priceCategory={priceCategory}
+          ageLimit={movie.age_limit}
+          onChangeTicket={changeTicket}
+        />
+
+        <TotalPriceAndToCashierButton
+          totalPrice={totalPrice}
+          totalTickets={totalTickets}
+          selectedSeats={selectedSeats}
+          onCheckout={() =>
+            navigate("/booking/selected", {
+              state: {
+                movie,
+                showtime,
+                screen,
+                selectedSeats,
+                selectedSeatInfo,
+                tickets,
+                totalPrice,
+              },
+            })
+          }
+        />
       </section>
-
-      <TicketPriceCategorySelector
-        tickets={tickets}
-        priceCategory={priceCategory}
-        ageLimit={movie.age_limit}
-        onChangeTicket={changeTicket}
-      />
-
-      <TotalPriceAndToCashierButton
-        totalPrice={totalPrice}
-        totalTickets={totalTickets}
-        selectedSeats={selectedSeats}
-        onCheckout={() =>
-          navigate("/booking/selected", {
-            state: {
-              movie,
-              showtime,
-              screen,
-              selectedSeats,
-              selectedSeatInfo,
-              tickets,
-              totalPrice,
-            },
-          })
-        }
-      />
     </Container>
   );
 }
