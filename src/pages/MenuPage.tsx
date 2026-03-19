@@ -17,6 +17,7 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
 // Import the loader that checks whether a user is currently logged in.
 import currentLoggedInUserLoader from "../loaders/currentLoggedInUserLoader";
+import { useUserContext } from "../hooks/userContext";
 
 // Route configuration for the menu page.
 MenuPage.route = {
@@ -29,6 +30,7 @@ MenuPage.route = {
 export default function MenuPage() {
   // Hook used for programmatic navigation.
   const navigate = useNavigate();
+  const [, setUser] = useUserContext();
 
   // Read login state and user information returned by the loader.
   const loaderData = useLoaderData() as {
@@ -58,6 +60,13 @@ export default function MenuPage() {
       // Call backend to remove the logged-in user from session.
       await fetch("/api/login", {
         method: "DELETE",
+      });
+
+      setUser({
+        id: null,
+        firstName: "",
+        email: "",
+        isLoggedIn: false,
       });
 
       // After successful logout, go to the start page.
