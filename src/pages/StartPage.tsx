@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../parts/movieCard";
 import HeroCard from "../parts/heroCard";

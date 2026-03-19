@@ -3,12 +3,9 @@
 // Import layout and form components from React Bootstrap.
 // Import navigation hook from React Router.
 // This lets us move the user to another page after successful login.
-// Import navigation hook from React Router.
-// This lets us move the user to another page after successful login.
 // // Import the registration form component.
 // This is rendered below the login form on the same page.
-// // Import the registration form component.
-// This is rendered below the login form on the same page.
+
 import { useState } from "react";
 import { Container, Button, Form, Card, CardBody } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -92,8 +89,6 @@ export default function LoginPage() {
         setErrorMessage(data?.error ?? "Kunde inte logga in.");
         return;
       }
-
-      // Nytt:
       // När login lyckas sparar vi användaren i global context
       // så resten av appen direkt vet att någon är inloggad.
       setUser({

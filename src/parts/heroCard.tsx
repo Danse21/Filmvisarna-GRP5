@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 import TrailerModal from "../utils/trailerModal";

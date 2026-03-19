@@ -16,7 +16,6 @@ export default function MovieDetailsPage() {
   // Load movie data using movieLoader
   const { movie } = useLoaderData() as { movie: Movie; };
   const [showTrailer, setShowTrailer] = useState(false);
-  console.log("MOVIE WITH SHOWTIMES:", movie);
   const navigate = useNavigate();
   const screenNames: Record<number, string> = {
     1: "Stora Salongen",
@@ -25,7 +24,6 @@ export default function MovieDetailsPage() {
 
   return (
     <Container className="pt-5 pb-5 mt-5">
-      {/* Create a close button (X STÄNG) */}
       <div className="d-flex justify-content-start mb-4">
         <Button
           variant="link"
