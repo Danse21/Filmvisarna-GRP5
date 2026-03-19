@@ -5,7 +5,7 @@ import MyBookingsCard from "../parts/MyBookingsCard";
 import myBookingsServiceLoader from "../loaders/myBookingsServiceLoader";
 import type BookingItems from "../interfaces/bookingItems";
 
-// Route configuration for Mina bokningar.
+// Route configuration for Mina bokningar page.
 // The loader protects the page and fetches bookings
 // for the currently logged-in user.
 MyBookingsPage.route = {
@@ -43,7 +43,7 @@ export default function MyBookingsPage() {
     {},
   );
 
-  // Format the showtime date as "14 februari", etc.
+  // Format ISO date string as a short Swedish date.
   function formatShortDate(startIso: string) {
     return new Date(startIso).toLocaleDateString("sv-SE", {
       day: "numeric",
@@ -51,16 +51,16 @@ export default function MyBookingsPage() {
     });
   }
 
-  // Open the booking details page and pass the full booking in navigation state.
-  function handleOpenBookingDetails(booking: BookingItems) {
-    navigate(`/mina-bokningar/${booking.id}`, {
-      state: booking,
-    });
+  // For now, clicking a booking does nothing until the details page is added.
+  // We keep the function here so the next step is easy.
+  function handleOpenBookingDetails(_booking: BookingItems) {
+    // Intentionally left empty for now.
+    // Next step: navigate(`/mina-bokningar/${booking.id}`, { state: booking })
   }
 
   return (
     <Container className="pt-5 pb-5">
-      {/* Back button to return to the previous page */}
+      {/* Back button */}
       <Button
         variant="link"
         className="ps-0 text-decoration-none fw-bold text-dark mt-3"

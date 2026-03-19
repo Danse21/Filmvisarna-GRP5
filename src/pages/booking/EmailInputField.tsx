@@ -1,29 +1,36 @@
 import { Form } from "react-bootstrap";
 
-// This type defines the props that this component receives from its parent.
+// Props type for this component
+// - email: current value of the email input
+// - onChangeEmail: function that updates the email in the parent component
 type Props = {
   email: string;
   onChangeEmail: (value: string) => void;
 };
 
-// This component renders the email label and the email input field.
+// Component that renders the email label and input field
 export default function EmailInputField({ email, onChangeEmail }: Props) {
   return (
     <div>
+      {/* Label for the email field */}
+      {/* The red star (*) indicates that the field is required */}
       <span className="email-label-inline">
-        {/* Show the email label with a red star to mark it as required */}
         <strong>
           Fyll i din Email: <span style={{ color: "red" }}>*</span>
         </strong>
       </span>
 
-      {/* Email input field */}
+      {/* Container for the email input */}
       <div>
         <Form.Control
           className="email-input bg-dark bg-opacity-25 border-dark"
+          // HTML input type for email validation
           type="email"
+          // Placeholder text shown when the field is empty
           placeholder="example@email.com"
+          // Controlled input value coming from parent state
           value={email}
+          // When user types, send new value back to parent
           onChange={(e) => onChangeEmail(e.target.value)}
         />
       </div>
