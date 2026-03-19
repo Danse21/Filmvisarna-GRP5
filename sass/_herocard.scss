@@ -1,3 +1,33 @@
+// Hero-bilden — anpassar höjd efter skärmstorlek
+.hero-image {
+  width: 100%;
+  background-size: cover;
+  background-position: top;
+  height: 500px;
+  transition: background-image 0.5s ease-in-out;
+}
+
+// Mobil — lägre
+@media (max-width: 767px) {
+  .hero-image {
+    height: 400px;
+  }
+}
+
+// Stora skärmar — högre
+@media (min-width: 1200px) {
+  .hero-image {
+    height: 700px;
+  }
+}
+
+// Extra stora skärmar — ännu högre
+@media (min-width: 1600px) {
+  .hero-image {
+    height: 900px;
+  }
+}
+
 // Hover-effekt på pilarna i hero-kortet
 // transition gör animerigs ändringen mjukt (0.2 sekunder)
 // transform: scale(1.3) = gör pilen 30% större

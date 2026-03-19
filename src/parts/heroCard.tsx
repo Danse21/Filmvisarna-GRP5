@@ -50,16 +50,11 @@ export default function HeroCard() {
     <>
       {/* Hero container */}
       <div
-        className="position-relative overflow-hidden"
+        className="position-relative overflow-hidden hero-image"
         style={{
           backgroundImage: `url(/images/movies/${movie.slug}.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "clamp(450px, 60vw, 700px)",
           marginTop: "-56px",
           paddingTop: "56px",
-          transition: "background-image 0.5s ease-in-out",
-          width: "100%",
         }}
       >
 

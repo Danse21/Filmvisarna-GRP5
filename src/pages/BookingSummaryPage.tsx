@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Card, CardBody } from "react-bootstrap";
 import type Movie from "../interfaces/movie";
 
 import type SelectedSeatInfo from "../interfaces/selectedSeatInfo";
@@ -27,14 +27,14 @@ export default function BookingSummaryPage() {
   // Read the state object that was sent from BookingPage when navigating here
   const state = location.state as
     | {
-        movie: Movie; // The selected movie object
-        showtime: { id: number; start_time: string }; // Showtime information
-        screen: { screen_name: string }; // Cinema screen (salong) information
-        selectedSeats: string[]; // Array containing seat ids selected by the user
-        selectedSeatInfo: SelectedSeatInfo[]; // Detailed seat information including seat number
-        tickets: Tickets; // Object containing number of tickets per category
-        totalPrice: number; // Total price for the booking
-      }
+      movie: Movie; // The selected movie object
+      showtime: { id: number; start_time: string; }; // Showtime information
+      screen: { screen_name: string; }; // Cinema screen (salong) information
+      selectedSeats: string[]; // Array containing seat ids selected by the user
+      selectedSeatInfo: SelectedSeatInfo[]; // Detailed seat information including seat number
+      tickets: Tickets; // Object containing number of tickets per category
+      totalPrice: number; // Total price for the booking
+    }
     | undefined; // State can be undefined if the page is opened directly
 
   // React state used to store the email address entered by the user
@@ -87,19 +87,19 @@ export default function BookingSummaryPage() {
   const seatText =
     selectedSeatInfo.length > 0
       ? Object.entries(groupedSeats)
-          // Sort rows from lowest to highest row number.
-          .sort(([a], [b]) => Number(a) - Number(b))
-          .map(([row, seats]) => {
-            // Sort seat numbers from lowest to highest.
-            const sortedSeats = [...seats].sort((a, b) => a - b);
+        // Sort rows from lowest to highest row number.
+        .sort(([a], [b]) => Number(a) - Number(b))
+        .map(([row, seats]) => {
+          // Sort seat numbers from lowest to highest.
+          const sortedSeats = [...seats].sort((a, b) => a - b);
 
-            // Return formatted seat text for one row.
-            return `Rad ${row}: stol ${sortedSeats.join(", ")}`;
-          })
-          // Join all row texts into one string.
-          .join(" • ")
+          // Return formatted seat text for one row.
+          return `Rad ${row}: stol ${sortedSeats.join(", ")}`;
+        })
+        // Join all row texts into one string.
+        .join(" • ")
       : // Show a dash if no seats are selected.
-        "—";
+      "—";
 
   // This function checks whether the email address has a valid format.
   function isValidEmail(value: string) {
@@ -163,45 +163,53 @@ export default function BookingSummaryPage() {
   return (
     // Main Bootstrap container for the booking summary page
     <Container className="booking-summary-page pt-header pb-5">
-      {/* First section containing ticket summary and email input */}
-      <Row className="booking-section">
-        {/* Left column showing selected ticket types and prices */}
-        <Col md={6}>
-          {/* Component that displays ticket categories and total price */}
-          <SelectedTicketPriceSummary
-            tickets={tickets} // Pass ticket counts to the component
-            totalPrice={totalPrice} // Pass total booking price
+      <Card className="booking-summary-card border-0">
+
+        {/* First section containing ticket summary and email input */}
+        <Row className="booking-section">
+          {/* Left column showing selected ticket types and prices */}
+          <Col md={6}>
+            <Card className="booking-summary-inner-card border-0">
+
+              {/* Component that displays ticket categories and total price */}
+              <SelectedTicketPriceSummary
+                tickets={tickets} // Pass ticket counts to the component
+                totalPrice={totalPrice} // Pass total booking price
+              />
+            </Card>
+          </Col>
+
+          {/* Right column containing the email input field */}
+          <Col md={5}>
+            {/* Component that renders the email label and input field */}
+            <EmailInputField
+              email={email} // Current email value
+              onChangeEmail={setEmail} // Function used to update the email state
+            />
+          </Col>
+        </Row>
+
+        <Card className="booking-summary-inner-card border-0">
+          {/* Component showing movie information and selected seats */}
+          <SelectedMovieAndSeatInfo
+            movie={movie} // Pass movie data
+            showtime={showtime} // Pass showtime data
+            screen={screen} // Pass cinema screen information
+            seatText={seatText} // Pass formatted seat description text
           />
-        </Col>
+        </Card>
 
-        {/* Right column containing the email input field */}
-        <Col md={5}>
-          {/* Component that renders the email label and input field */}
-          <EmailInputField
-            email={email} // Current email value
-            onChangeEmail={setEmail} // Function used to update the email state
-          />
-        </Col>
-      </Row>
-
-      {/* Component showing movie information and selected seats */}
-      <SelectedMovieAndSeatInfo
-        movie={movie} // Pass movie data
-        showtime={showtime} // Pass showtime data
-        screen={screen} // Pass cinema screen information
-        seatText={seatText} // Pass formatted seat description text
-      />
-
-      {/* Section containing the confirm booking button */}
-      <div className="booking-section text-center">
-        {/* Button used to confirm the booking */}
-        <Button
-          className="confirm-booking-btn"
-          onClick={confirmBooking} // Function executed when the button is clicked
-        >
-          Bekräfta bokning
-        </Button>
-      </div>
+        {/* Section containing the confirm booking button */}
+        <div className="booking-section text-center">
+          {/* Button used to confirm the booking */}
+          <Button
+            className="confirm-booking-btn shadow"
+            onClick={confirmBooking} // Function executed when the button is clicked
+          >
+            Bekräfta bokning
+          </Button>
+        </div>
+      </Card>
     </Container>
   );
 }
