@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../parts/movieCard";
-import type { MovieCardDto } from "../interfaces/moviecardDto";
 import HeroCard from "../parts/heroCard";
 import DateSelector from "../parts/dateSelector";
-import TrailerModal from "../utils/trailerModal";
 import startPageLoader from "../loaders/startPageLoader";
-
+import { useLoaderData } from "react-router-dom";
+import type { StartPageDto } from "../interfaces/startPageDto";
 
 // Navigation route
 StartPage.route = {
@@ -18,22 +16,8 @@ StartPage.route = {
 
 export default function StartPage() {
   // State som håller alla filmer vi hämtar från databasen
-  const [movies, setMovies] = useState<MovieCardDto[]>([]);
-  const [showTrailer, setShowTrailer] = useState(false);
+  const { movies } = useLoaderData() as StartPageDto;
 
-
-
-  useEffect(() => {
-    async function fetchMovies() {
-      const res = await fetch("/api/movies/upcoming");
-      const data = await res.json();
-
-      console.log(JSON.stringify(data, null, 2)); // debug
-
-      setMovies(data);
-    }
-    fetchMovies();
-  }, []);
 
 
 
@@ -44,7 +28,7 @@ export default function StartPage() {
       {movies.length > 0 && (
         <Row className="mx-n2">
           <Col xs={12} className="px-0">
-            <HeroCard />
+            <HeroCard movies={movies} />
           </Col>
         </Row>
       )}
@@ -59,15 +43,6 @@ export default function StartPage() {
           </Col>
         ))}
       </Row>
-
-      {/* Trailer-modal för hero-kortet */}
-      {movies.length > 0 && (
-        <TrailerModal
-          show={showTrailer}
-          onHide={() => setShowTrailer(false)}
-          trailerUrl={movies[0]?.trailer_link}
-        />
-      )}
     </Container>
   );
 }

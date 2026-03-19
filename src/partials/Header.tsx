@@ -71,8 +71,8 @@ export default function Header() {
           {user.isLoggedIn ? (
             <button
               className="btn btn-link text-dark p-0 text-decoration-none fw-bold"
-              onClick={() => navigate("/menu")}
-              aria-label="Open user menu"
+              onClick={() => navigate("/mina-bokningar")}
+              aria-label="mina bokningar"
             >
               {user.firstName}
             </button>
