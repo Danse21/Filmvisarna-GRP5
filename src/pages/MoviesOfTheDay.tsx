@@ -94,10 +94,10 @@ export default function MoviesOfTheDay() {
   return (
 
     // Bootstrap container som centrerar innehållet och den stretchar ut.
-    <Container fluid className="movies-of-the-day pt-5 mt-3 px-4">
+    <Container fluid className="movies-of-the-day pt-5 mt-5 px-4 mb-5">
 
       {/* Rubrik för sidan */}
-      <h1 className="text-center mb-4">
+      <h1 className="text-center mb-5">
         Filmer {label}
       </h1>
 

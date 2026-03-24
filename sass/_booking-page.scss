@@ -48,7 +48,7 @@
 
 /* Seat colors */
 .seat-free {
-  background-color: #d0d0d0;
+  background-color: #f7f7f7;
 }
 
 .seat-occupied {
@@ -69,7 +69,8 @@
 .seat {
   width: 30px;
   height: 30px;
-  font-size: 10px; /* small numbers */
+  font-size: 10px;
+  /* small numbers */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,10 +79,11 @@
 /* Big rectangle across page */
 .ticket-selector {
   width: 100%;
-  border: 2px solid #efca34b5;
-  background: #efca34b5;
+  border: 2px solid #F7DB95;
+  background: #fbdb8a;
   border-radius: 10px;
   padding: 14px;
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* 3 columns */
@@ -114,6 +116,7 @@
   justify-content: center;
   align-items: center;
   min-height: 56px;
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .ticket-label {
@@ -146,15 +149,16 @@
 /* Totalt bigger, Till kassan smaller */
 .checkout-row {
   display: grid;
-  grid-template-columns: 1fr 160px; /* Totalt big, kassa smaller */
+  grid-template-columns: 1fr 160px;
+  /* Totalt big, kassa smaller */
   gap: 600px;
   align-items: stretch;
 }
 
 .total-box {
-  border: 2px solid #d7ad07;
+  border: 2px solid #F7DB95;
   border-radius: 10px;
-  background: #d7ad07;
+  background: #F7DB95;
   padding: 12px;
   text-align: center;
   min-height: 60px;
@@ -168,6 +172,7 @@
   padding: 12px;
   font-weight: 700;
   height: 60px;
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Optional mobile behavior:
@@ -176,7 +181,22 @@
   .ticket-grid {
     grid-template-columns: 1fr;
   }
+
   .checkout-row {
     grid-template-columns: 1fr;
   }
+}
+
+// Rundad bakgrundsruta för filminformation
+.booking-movie-card {
+  background-color: #91D3AD80;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+// Rundad bakgrundsruta för stolsval och biljetter
+.booking-seat-card {
+  background-color: #F9A8228C;
+  border-radius: 16px;
+  padding: 20px;
 }

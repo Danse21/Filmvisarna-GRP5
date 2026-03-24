@@ -1,12 +1,28 @@
 /* 1) Push content down so it doesn't hide behind fixed header */
 .pt-header {
-  padding-top: 90px; /* adjust if your header is taller/shorter */
+  padding-top: 90px;
+  /* adjust if your header is taller/shorter */
 }
 
 /* 2) More space between the big sections (Top / Middle / Button) */
 .booking-section {
   margin-top: 28px;
   margin-bottom: 28px;
+}
+
+/* En stor bakgrundsruta runt allt */
+.booking-summary-card {
+  background-color: #F9A8228C;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.booking-summary-inner-card {
+  background-color: #FAECB666;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Boxes */
@@ -29,7 +45,8 @@
 
 /* Make the email box visually shorter */
 .email-input {
-  height: 38px; /* default is ~38-40, keep it clean */
+  height: 38px;
+  /* default is ~38-40, keep it clean */
   padding-top: 6px;
   padding-bottom: 6px;
 }
@@ -45,6 +62,7 @@
   margin-top: 50px;
   padding: 12px 40px;
   font-size: 16px;
-  width: 340px; /* wider button */
+  width: 340px;
+  /* wider button */
   align-items: center;
 }

@@ -10,7 +10,7 @@
 // // Import the registration form component.
 // This is rendered below the login form on the same page.
 import { useState } from "react";
-import { Container, Button, Form } from "react-bootstrap";
+import { Container, Button, Form, Card, CardBody } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../parts/RegisterForm";
 import { useUserContext } from "../hooks/userContext";
@@ -116,68 +116,72 @@ export default function LoginPage() {
   }
 
   return (
-    <Container className="pt-5 pb-5" style={{ maxWidth: "420px" }}>
-      {/*
+    <Container className="mt-5 pt-5 pb-5" style={{ maxWidth: "420px" }}>
+      <Card className="login-card">
+        <CardBody>
+          {/*
         Close button.
         Sends the user back to the start page without logging in.
       */}
-      <button
-        type="button"
-        className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-4"
-        onClick={() => navigate("/")}
-        aria-label="Close login page"
-      >
-        ✕ STÄNG
-      </button>
+          <button
+            type="button"
+            className="btn btn-link text-dark ps-0 text-decoration-none fw-bold mb-4 mt-2"
+            onClick={() => navigate("/")}
+            aria-label="Close login page"
+          >
+            ✕ STÄNG
+          </button>
 
-      {/* Login section */}
-      <section className="mb-5 text-center">
-        <h2 className="mb-4">Logga in!</h2>
+          {/* Login section */}
+          <section className="mb-5 text-center">
+            <h2 className="mb-4">Logga in!</h2>
 
-        {/*
+            {/*
           Login form.
           When submitted, it calls handleLogin.
         */}
-        <Form onSubmit={handleLogin}>
-          {/* Email input */}
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="email"
-              placeholder="E-post"
-              className="bg-dark bg-opacity-25 border-dark text-center"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </Form.Group>
+            <Form onSubmit={handleLogin}>
+              {/* Email input */}
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="email"
+                  placeholder="E-post"
+                  className="bg-dark bg-opacity-25 border-dark text-center"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </Form.Group>
 
-          {/* Password input */}
-          <Form.Group className="mb-4">
-            <Form.Control
-              type="password"
-              placeholder="Lösenord"
-              className="bg-dark bg-opacity-25 border-dark text-center"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </Form.Group>
+              {/* Password input */}
+              <Form.Group className="mb-4">
+                <Form.Control
+                  type="password"
+                  placeholder="Lösenord"
+                  className="bg-dark bg-opacity-25 border-dark text-center"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </Form.Group>
 
-          {/* Show validation error or backend error */}
-          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+              {/* Show validation error or backend error */}
+              {errorMessage && <p className="text-danger">{errorMessage}</p>}
 
-          {/* Submit button */}
-          <Button
-            type="submit"
-            variant="primary"
-            className="btn-continue w-100"
-            disabled={isLoading}
-          >
-            {isLoading ? "Loggar in..." : "Fortsätt"}
-          </Button>
-        </Form>
-      </section>
+              {/* Submit button */}
+              <Button
+                type="submit"
+                variant="primary"
+                className="btn-continue w-100"
+                disabled={isLoading}
+              >
+                {isLoading ? "Loggar in..." : "Fortsätt"}
+              </Button>
+            </Form>
+          </section>
 
-      {/* Registration section shown below the login form */}
-      <RegisterForm />
+          {/* Registration section shown below the login form */}
+          <RegisterForm />
+        </CardBody>
+      </Card>
     </Container>
   );
 }
