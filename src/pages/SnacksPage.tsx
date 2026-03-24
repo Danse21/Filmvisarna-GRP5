@@ -20,7 +20,7 @@ function Snackspage() {
         ))}
       </div>
 
-      <button className="snacks-info">
+      <button className="snacks-info mt-10">
         Snacks köper du på plats!
       </button>
 
