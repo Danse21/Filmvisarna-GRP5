@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MovieCardDto } from "../interfaces/moviecardDto";
 import TrailerModal from "../utils/trailerModal";
 
-export default function HeroCard() {
 
-  // Alla filmer som hämtas från databasen
-  const [movies, setMovies] = useState<MovieCardDto[]>([]);
+interface Props {
+  movies: MovieCardDto[];
+}
+
+export default function HeroCard({ movies }: Props) {
 
   // Index för vilken film som visas just nu
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,17 +18,6 @@ export default function HeroCard() {
 
   // Router navigation
   const navigate = useNavigate();
-
-  // Hämtar alla filmer från databasen när komponenten laddas
-  useEffect(() => {
-    async function fetchMovies() {
-      const res = await fetch("/api/movies/upcoming");
-      const data = await res.json();
-      setMovies(data);
-    }
-
-    fetchMovies();
-  }, []);
 
   // Om inga filmer finns ännu renderas inget
   if (movies.length === 0) return null;

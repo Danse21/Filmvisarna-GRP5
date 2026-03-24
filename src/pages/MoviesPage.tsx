@@ -54,7 +54,6 @@ export default function MoviesPage() {
 
   return (
     <Container fluid className="pt-5 mt-3 pb-4 px-2 min-vh-100">
-      {/* Stängknapp som navigerar tillbaka till startsidan */}
       <button
         className="btn btn-link text-decoration-none ps-0 fw-bold text-dark mb-3"
         onClick={() => navigate("/")}

@@ -26,9 +26,8 @@ function getUpcomingDates() {
     const dateStr = `${d.getDate()}/${d.getMonth() + 1}`;
 
     // Skapa även datum i URL-format: YYYY-MM-DD
-    // toISOString() ger t.ex. "2026-03-13T00:00:00.000Z"
-    // split("T")[0] tar bara datumdelen → "2026-03-13"
-    const urlDate = d.toISOString().split("T")[0];
+    const urlDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
 
     // Första dagarna får specialnamn
     let label = "";

@@ -4,6 +4,7 @@ import type { MovieCardDto } from "../interfaces/moviecardDto";
 import TrailerModal from "../utils/trailerModal";
 import { useNavigate } from "react-router-dom";
 
+
 interface Props {
   movie: MovieCardDto;
   showShowtime?: boolean;
@@ -52,18 +53,13 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
 
         <Card.ImgOverlay className="d-flex flex-column justify-content-between p-2">
 
-          {/* Åldersgräns */}
           <p className="mb-0 align-self-start px-2 py-1 rounded bg-dark text-white fw-semibold small">
             {movie.age_limit}+
           </p>
 
-          {/* 
-             Nedersta raden
-             Trailer  Info  Biljetter
-     */}
           <div className="d-flex align-items-center justify-content-between">
 
-            {/* Trailer */}
+
             <button
               className="btn btn-sm fw-semibold text-black btn-trailer"
               onClick={(e) => {
@@ -74,10 +70,7 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
               Trailer
             </button>
 
-            {/* 
-               Visningsinformation
-               Limegrön ruta så text syns över bilden
-          */}
+
             {showShowtime && (
               <div
                 style={{
@@ -97,7 +90,6 @@ export default function MovieCard({ movie, showShowtime = true, showBiljetter = 
               </div>
             )}
 
-            {/* Biljetter */}
             {showBiljetter && (
               <button
                 className="btn btn-sm fw-semibold text-black btn-biljetter"
