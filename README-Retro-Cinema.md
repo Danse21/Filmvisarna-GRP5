@@ -86,7 +86,7 @@ And choose:
 
 - Framework: `React`
 - Variant: `TypeScript`
-- Hit `ENTER key` to the rest options
+- Hit `ENTER key` to the remaining options
 
 2. **Install frontend React dependencies**
 
