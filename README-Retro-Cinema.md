@@ -117,10 +117,9 @@ And choose:
 
 5. **Start the server:**
 
-````bash
-    npm run dev
-    ```
-
+   ```bash
+   npm run dev
+   ```
 
 - Nödvändiga inställningar och “hemligheter” (t.ex. connection strings) som behövs för att kunna starta applikationen, t.ex. i form av en environment-fil eller db-settings.json.
 - Användarnamn och lösenord för en användare med admin-rättigheter (om ni har ett admin-UX/backoffice).
@@ -133,4 +132,7 @@ And choose:
 - Planerat men ej genomfört arbete
 
 ---
-````
+
+```
+
+```
