@@ -76,31 +76,51 @@ Retro Cinema is a fullstack web application for browsing films, viewing showtime
 
 ### Installation, inkl databashantering/uppsättning
 
-1. Install Vite to initialize the project
-   `npm install vite@latest .`
-   And choose:
-   - Framework: `React`
-   - Variant: `TypeScript`
-   - Hit `ENTER key` to the rest options
-2. Install frontend React dependencies
-   `npm install`
-   `npm install react-router-dom`
-   `npm install react-bootstrap bootstrap`
-   `npm install react-router-bootstrap`
-   `npm install react-rapide`
+1. **Install Vite to initialize the project**
 
-3. Install StartPage header icons (Hamburger menu, seach, and user) and menu page chat icon
-   `npm i --save @fortawesome/react-fontawesome@latest`
-   `npm i --save @fortawesome/fontawesome-svg-core`
-   `npm i --save @fortawesome/free-solid-svg-icons`
-   `npm i --save @fortawesome/free-regular-svg-icons`
-   `npm i --save @fortawesome/free-brands-svg-icons`
+```bash
+   npm install vite@latest .
+```
 
-4. Install NuGet packages. Ensure you are inside the backend directory
-   `dotnet add package MailKit` - for MailKit.dll & MimeKit.dll
-   `dotnet add package QRCoder`
+And choose:
 
----
+- Framework: `React`
+- Variant: `TypeScript`
+- Hit `ENTER key` to the rest options
+
+2. **Install frontend React dependencies**
+
+```bash
+   npm install
+   npm install react-router-dom
+   npm install react-bootstrap bootstrap
+   npm install react-router-bootstrap
+   npm install react-rapide
+```
+
+3. **Install StartPage header icons - Hamburger menu, seach, and user and menu page chat icon**
+
+```bash
+   npm i --save @fortawesome/react-fontawesome@latest
+   npm i --save @fortawesome/fontawesome-svg-core
+   npm i --save @fortawesome/free-solid-svg-icons
+   npm i --save @fortawesome/free-regular-svg-icons
+   npm i --save @fortawesome/free-brands-svg-icons
+```
+
+4. **Install NuGet packages. Ensure you are inside the backend directory**
+
+   ```bash
+   dotnet add package MailKit
+   dotnet add package QRCoder
+   ```
+
+5. **Start the server:**
+
+````bash
+    npm run dev
+    ```
+
 
 - Nödvändiga inställningar och “hemligheter” (t.ex. connection strings) som behövs för att kunna starta applikationen, t.ex. i form av en environment-fil eller db-settings.json.
 - Användarnamn och lösenord för en användare med admin-rättigheter (om ni har ett admin-UX/backoffice).
@@ -113,3 +133,4 @@ Retro Cinema is a fullstack web application for browsing films, viewing showtime
 - Planerat men ej genomfört arbete
 
 ---
+````
