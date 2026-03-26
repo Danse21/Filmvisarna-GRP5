@@ -121,18 +121,52 @@ And choose:
    npm run dev
    ```
 
-- Nödvändiga inställningar och “hemligheter” (t.ex. connection strings) som behövs för att kunna starta applikationen, t.ex. i form av en environment-fil eller db-settings.json.
-- Användarnamn och lösenord för en användare med admin-rättigheter (om ni har ett admin-UX/backoffice).
-- Annat som kan vara viktigt att veta
+### Database setup
 
-## Dokumentation över:
+The project is connected to a database in MySQL. The database is made up of the following tables: `acl`, `booking`, `booking_seat`, `booking_status`, `movie`, `price`, `price_category`, `screen`, `seat`, `sessions`, `showtime`, `snack`,and `users`. It also contains views such as; `screenLayout`, `seat_availability`, and `upcoming_showtimes`.
+The backend does not includes code that automatically creates the tables and seed data whenever the web app is started, rather the tables and data were created once manually.
 
-- Teknisk skuld
-- Lösningsarkitektur
-- Planerat men ej genomfört arbete
+The database structure and connections/ relationship between tables can be view in the image file, Database-Structure.jpg.
 
----
+### Booking Flow Summary
 
-```
+**The booking flow works roughly like this:**
 
-```
+- User selects a film and showtime,
+- bookingLoader fetches movie data via and booking seat data separately,
+- BookingPage renders the seat layout and ticket selectors,
+- User moves to BookingSummaryPage,
+- The frontend sends showtime_id, email, seats, tickets, and total_price to `POST /api/booking`,
+- Backend validates the request, checks for double-booked seats, inserts into booking and booking_seat tables, and sends an email confirmation, and
+- BookingConfirmationPage displays the booking result to the user.
+
+### Cancellation Flow
+
+The cancellation page allows the user to cancel existing booking by manually entering email and booking reference.
+
+    - The frontend posts to `/api/cancel-booking`,
+    - The backend looks up the booking by email and booking reference number, deletes the booking, deletes related booking seats, and returns success,
+    - If the either or both the email and booking reference number is not found, error message is returned.
+
+### Register/ Login Flow
+
+Visitors are not required to register to be able to use the web application. However,to have access to additional functionalities like booking history, one has to be a registered member and be logged in.
+To register and become a member;
+
+- Enter your first name,
+- Enter your last name,
+- Enter your email address,
+- Enter a password,
+- Re-enter the same password again.
+
+To login;
+
+- Enter your email address, and
+- Enter your password.
+
+### Planned but not implemented work
+
+- Full completion of the “My Bookings” details navigation and booking history
+- AI chat agent
+- Admin functionality or role
+- Kalender page
